@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:mockito/mockito.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_test/flutter_test.dart';
@@ -13,11 +14,14 @@ import '../../read_json.dart';
 import '../../test_helper.mocks.dart';
 
 void main() {
+  TestWidgetsFlutterBinding.ensureInitialized();
+
   late AuthRemoteDataSourceImpl dataSourceImpl;
   late Session session;
   late MockHttpClient mockHttpClient;
 
   setUp(() {
+    FlutterSecureStorage.setMockInitialValues({});
     mockHttpClient = MockHttpClient();
     dataSourceImpl = AuthRemoteDataSourceImpl(mockHttpClient);
     session = Session();
@@ -73,6 +77,7 @@ void main() {
   group('Logout', () {
     test('should be return Logout success if user logout success', () async {
       // arrange
+
       when(
         mockHttpClient.delete(Uri.parse('$baseUrl/Auth/logout'),
             headers: session.headers),

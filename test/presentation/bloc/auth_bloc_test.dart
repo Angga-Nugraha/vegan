@@ -81,6 +81,17 @@ void main() {
         const Unauthenticated(message: "Logout success")
       ],
     );
+    blocTest<AuthBloc, AuthState>(
+      'emits LogoutError state when LogoutEvent is error.',
+      build: () {
+        when(mockLogout.execute()).thenAnswer(
+            (_) async => const Left(ServerFailure('Something went wrong')));
+        return authBloc;
+      },
+      act: (bloc) => bloc.add(LogoutEvent()),
+      wait: const Duration(seconds: 3),
+      expect: () => <AuthState>[AuthLoading(), LogoutError()],
+    );
 
     blocTest<AuthBloc, AuthState>(
       'emits Registered when RegisterEvent is added and success.',

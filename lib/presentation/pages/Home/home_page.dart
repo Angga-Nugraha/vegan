@@ -28,6 +28,8 @@ class HomePage extends StatelessWidget {
             child: BlocConsumer<AuthBloc, AuthState>(
               listener: (context, state) {
                 switch (state) {
+                  case LogoutError():
+                    Navigator.pushReplacementNamed(context, authPageRoutes);
                   case Unauthenticated():
                     Navigator.pushReplacementNamed(context, authPageRoutes);
                   default:

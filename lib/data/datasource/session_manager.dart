@@ -1,4 +1,7 @@
+import 'dart:convert';
+
 import 'package:http/http.dart' as http;
+import 'package:vegan/data/helpers/storage_helper.dart';
 
 class Session {
   static Session? _session;
@@ -10,6 +13,7 @@ class Session {
   factory Session() => _session ?? Session._instance();
 
   final Map<String, String> _headers = {};
+  final SecureStorageHelper storage = SecureStorageHelper();
 
   Map<String, String> get headers => _headers;
 
@@ -20,5 +24,6 @@ class Session {
       _headers['Cookie'] =
           (index == -1) ? rawCookie : rawCookie.substring(0, index);
     }
+    await storage.writeData('cookie', json.encode(headers));
   }
 }

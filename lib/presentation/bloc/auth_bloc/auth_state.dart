@@ -21,6 +21,8 @@ final class Authenticated extends AuthState {
   List<Object> get props => [id, token];
 }
 
+final class LogoutError extends AuthState {}
+
 final class Unauthenticated extends AuthState {
   final String message;
 

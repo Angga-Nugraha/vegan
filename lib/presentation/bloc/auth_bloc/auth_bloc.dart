@@ -36,7 +36,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       final result = await logout.execute();
 
       result.fold(
-        (failure) => null,
+        (failure) => emit(LogoutError()),
         (data) => emit(Unauthenticated(message: data)),
       );
     });
