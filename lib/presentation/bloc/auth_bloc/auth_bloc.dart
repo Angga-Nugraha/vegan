@@ -1,7 +1,10 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:vegan/domain/usecase/Auth/login.dart';
-import 'package:vegan/domain/usecase/Auth/logout.dart';
+
+import '../../../domain/entities/user.dart';
+import '../../../domain/usecase/Auth/login.dart';
+import '../../../domain/usecase/Auth/logout.dart';
+import '../../../domain/usecase/Auth/register.dart';
 
 part 'auth_event.dart';
 part 'auth_state.dart';
@@ -9,8 +12,13 @@ part 'auth_state.dart';
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
   final Login login;
   final Logout logout;
+  final Register register;
 
-  AuthBloc({required this.login, required this.logout}) : super(AuthInitial()) {
+  AuthBloc({
+    required this.login,
+    required this.logout,
+    required this.register,
+  }) : super(AuthInitial()) {
     on<LoginEvent>((event, emit) async {
       emit(AuthLoading());
       await Future.delayed(const Duration(seconds: 3));
@@ -30,6 +38,18 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       result.fold(
         (failure) => null,
         (data) => emit(Unauthenticated(message: data)),
+      );
+    });
+
+    on<RegisterEvent>((event, emit) async {
+      emit(AuthLoading());
+      await Future.delayed(const Duration(seconds: 3));
+
+      final result = await register.execute(event.user);
+
+      result.fold(
+        (failure) => emit(Unregistered(message: failure.message)),
+        (data) => emit(Registered(message: data)),
       );
     });
   }

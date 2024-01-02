@@ -18,3 +18,12 @@ final class LoginEvent extends AuthEvent {
 }
 
 final class LogoutEvent extends AuthEvent {}
+
+final class RegisterEvent extends AuthEvent {
+  final User user;
+
+  const RegisterEvent({required this.user});
+
+  @override
+  List<Object> get props => [user];
+}

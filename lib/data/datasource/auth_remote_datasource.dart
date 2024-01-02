@@ -35,12 +35,8 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
 
     if (response.statusCode == 200) {
       return AuthModel.fromJson(data);
-    } else if (response.statusCode == 404) {
-      throw ServerException(data['msg']);
-    } else if (response.statusCode == 400) {
-      throw ServerException(data['msg']);
     } else {
-      throw ServerException('Something went wrong');
+      throw ServerException(data['msg']);
     }
   }
 
@@ -62,20 +58,20 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
 
   @override
   Future<String> register(User user) async {
-    final body = UserModel.fromEntity(user);
+    final body = UserModel.fromEntity(user).toJson();
     final response = await client.post(
       Uri.parse('$baseUrl/Auth/register'),
-      headers: {'Content-Type': 'aplication/json'},
-      body: json.encode(body.toJson()),
+      headers: {'Content-Type': 'application/json'},
+      body: json.encode(body),
     );
+
     final Map<String, dynamic> data =
         Map<String, dynamic>.from(json.decode(response.body));
+
     if (response.statusCode == 200) {
       return data['msg'];
-    } else if (response.statusCode == 400) {
-      throw ServerException(data['msg']);
     } else {
-      throw ServerException('Something went wrong');
+      throw ServerException(data['msg']);
     }
   }
 }

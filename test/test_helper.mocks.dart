@@ -10,12 +10,12 @@ import 'dart:typed_data' as _i13;
 import 'package:dartz/dartz.dart' as _i2;
 import 'package:http/http.dart' as _i4;
 import 'package:mockito/mockito.dart' as _i1;
-import 'package:mockito/src/dummies.dart' as _i10;
-import 'package:vegan/data/datasource/auth_remote_datasource.dart' as _i9;
+import 'package:mockito/src/dummies.dart' as _i11;
+import 'package:vegan/data/datasource/auth_remote_datasource.dart' as _i10;
 import 'package:vegan/data/model/auth_model.dart' as _i3;
 import 'package:vegan/data/utils/failure.dart' as _i7;
 import 'package:vegan/domain/entities/auth.dart' as _i8;
-import 'package:vegan/domain/entities/user.dart' as _i11;
+import 'package:vegan/domain/entities/user.dart' as _i9;
 import 'package:vegan/domain/repositories/auth_repositories.dart' as _i5;
 
 // ignore_for_file: type=lint
@@ -121,13 +121,30 @@ class MockAuthRepository extends _i1.Mock implements _i5.AuthRepository {
           ),
         )),
       ) as _i6.Future<_i2.Either<_i7.Failure, String>>);
+
+  @override
+  _i6.Future<_i2.Either<_i7.Failure, String>> register(_i9.User? user) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #register,
+          [user],
+        ),
+        returnValue: _i6.Future<_i2.Either<_i7.Failure, String>>.value(
+            _FakeEither_0<_i7.Failure, String>(
+          this,
+          Invocation.method(
+            #register,
+            [user],
+          ),
+        )),
+      ) as _i6.Future<_i2.Either<_i7.Failure, String>>);
 }
 
 /// A class which mocks [AuthRemoteDataSource].
 ///
 /// See the documentation for Mockito's code generation for more information.
 class MockAuthRemoteDataSource extends _i1.Mock
-    implements _i9.AuthRemoteDataSource {
+    implements _i10.AuthRemoteDataSource {
   MockAuthRemoteDataSource() {
     _i1.throwOnMissingStub(this);
   }
@@ -163,7 +180,7 @@ class MockAuthRemoteDataSource extends _i1.Mock
           #logout,
           [],
         ),
-        returnValue: _i6.Future<String>.value(_i10.dummyValue<String>(
+        returnValue: _i6.Future<String>.value(_i11.dummyValue<String>(
           this,
           Invocation.method(
             #logout,
@@ -173,12 +190,12 @@ class MockAuthRemoteDataSource extends _i1.Mock
       ) as _i6.Future<String>);
 
   @override
-  _i6.Future<String> register(_i11.User? user) => (super.noSuchMethod(
+  _i6.Future<String> register(_i9.User? user) => (super.noSuchMethod(
         Invocation.method(
           #register,
           [user],
         ),
-        returnValue: _i6.Future<String>.value(_i10.dummyValue<String>(
+        returnValue: _i6.Future<String>.value(_i11.dummyValue<String>(
           this,
           Invocation.method(
             #register,
@@ -373,7 +390,7 @@ class MockHttpClient extends _i1.Mock implements _i4.Client {
           [url],
           {#headers: headers},
         ),
-        returnValue: _i6.Future<String>.value(_i10.dummyValue<String>(
+        returnValue: _i6.Future<String>.value(_i11.dummyValue<String>(
           this,
           Invocation.method(
             #read,

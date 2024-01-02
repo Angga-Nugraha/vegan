@@ -9,9 +9,11 @@ import 'package:dartz/dartz.dart' as _i3;
 import 'package:mockito/mockito.dart' as _i1;
 import 'package:vegan/data/utils/failure.dart' as _i6;
 import 'package:vegan/domain/entities/auth.dart' as _i7;
+import 'package:vegan/domain/entities/user.dart' as _i10;
 import 'package:vegan/domain/repositories/auth_repositories.dart' as _i2;
 import 'package:vegan/domain/usecase/Auth/login.dart' as _i4;
 import 'package:vegan/domain/usecase/Auth/logout.dart' as _i8;
+import 'package:vegan/domain/usecase/Auth/register.dart' as _i9;
 
 // ignore_for_file: type=lint
 // ignore_for_file: avoid_redundant_argument_values
@@ -120,6 +122,41 @@ class MockLogout extends _i1.Mock implements _i8.Logout {
           Invocation.method(
             #execute,
             [],
+          ),
+        )),
+      ) as _i5.Future<_i3.Either<_i6.Failure, String>>);
+}
+
+/// A class which mocks [Register].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockRegister extends _i1.Mock implements _i9.Register {
+  MockRegister() {
+    _i1.throwOnMissingStub(this);
+  }
+
+  @override
+  _i2.AuthRepository get authRepository => (super.noSuchMethod(
+        Invocation.getter(#authRepository),
+        returnValue: _FakeAuthRepository_0(
+          this,
+          Invocation.getter(#authRepository),
+        ),
+      ) as _i2.AuthRepository);
+
+  @override
+  _i5.Future<_i3.Either<_i6.Failure, String>> execute(_i10.User? user) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #execute,
+          [user],
+        ),
+        returnValue: _i5.Future<_i3.Either<_i6.Failure, String>>.value(
+            _FakeEither_1<_i6.Failure, String>(
+          this,
+          Invocation.method(
+            #execute,
+            [user],
           ),
         )),
       ) as _i5.Future<_i3.Either<_i6.Failure, String>>);

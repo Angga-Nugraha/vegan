@@ -21,24 +21,22 @@ Widget myTextfield(
         ),
       ],
     ),
-    child: Form(
-      child: TextField(
-        keyboardType: type,
-        controller: controller,
-        obscureText: obscure,
-        decoration: InputDecoration(
-          focusedBorder: InputBorder.none,
-          enabledBorder: InputBorder.none,
-          hintText: hintText,
-          hintStyle: const TextStyle(
-            fontSize: 14,
-          ),
-          prefixIcon: Icon(
-            icon,
-            size: 20,
-          ),
-          suffixIcon: suffixIcon,
+    child: TextFormField(
+      keyboardType: type,
+      controller: controller,
+      obscureText: obscure,
+      decoration: InputDecoration(
+        focusedBorder: InputBorder.none,
+        enabledBorder: InputBorder.none,
+        hintText: hintText,
+        hintStyle: const TextStyle(
+          fontSize: 10,
         ),
+        prefixIcon: Icon(
+          icon,
+          size: 20,
+        ),
+        suffixIcon: suffixIcon,
       ),
     ),
   );

@@ -44,10 +44,7 @@ class _LoginPageState extends State<LoginPage> {
       child: Center(
         child: ListView(
           physics: const BouncingScrollPhysics(),
-          padding: const EdgeInsets.symmetric(
-            horizontal: 20.0,
-            vertical: 20.0,
-          ),
+          padding: const EdgeInsets.fromLTRB(20, 20, 20, 40),
           children: [
             SizedBox(
               height: 250,
@@ -58,19 +55,15 @@ class _LoginPageState extends State<LoginPage> {
             const SizedBox(height: 50),
             FadeIn(
               duration: const Duration(seconds: 1),
-              child: const Column(
+              child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
                     'Welcome to Vegan',
-                    style: TextStyle(
-                        fontFamily: 'Firasans',
-                        fontSize: 25,
-                        // color: ,
-                        fontWeight: FontWeight.bold),
+                    style: titleStyle,
                   ),
-                  Text('Sign in to your account'),
+                  Text('Sign in to your account', style: subTitleStyle),
                 ],
               ),
             ),
@@ -129,7 +122,7 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                 ),
                 TextSpan(
-                  text: 'Register here !',
+                  text: 'Register here',
                   style: const TextStyle(
                     fontSize: 12,
                     color: Colors.blueAccent,
@@ -150,40 +143,39 @@ class _LoginPageState extends State<LoginPage> {
               duration: const Duration(seconds: 1),
               child: SizedBox(
                 height: 40,
-                child: ElevatedButton(
-                  onPressed: () {
-                    final email = _emailController.text;
-                    final password = _passwordController.text;
+                child: BlocBuilder<AuthBloc, AuthState>(
+                  builder: (context, state) {
+                    switch (state) {
+                      case AuthLoading():
+                        return const Center(
+                          child: CircularProgressIndicator(
+                            color: secondaryColor,
+                          ),
+                        );
+                      default:
+                        return ElevatedButton(
+                          onPressed: () {
+                            final email = _emailController.text;
+                            final password = _passwordController.text;
 
-                    if (email.isNotEmpty || password.isNotEmpty) {
-                      context
-                          .read<AuthBloc>()
-                          .add(LoginEvent(email: email, password: password));
-                    }
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: foregroundColor,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(15),
-                    ),
-                  ),
-                  child: BlocBuilder<AuthBloc, AuthState>(
-                    builder: (context, state) {
-                      switch (state) {
-                        case AuthLoading():
-                          return const Center(
-                            child: CircularProgressIndicator(
-                              color: backgroundColor,
+                            if (email.isNotEmpty || password.isNotEmpty) {
+                              context.read<AuthBloc>().add(
+                                  LoginEvent(email: email, password: password));
+                            }
+                          },
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: foregroundColor,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(15),
                             ),
-                          );
-                        default:
-                          return const Text(
+                          ),
+                          child: const Text(
                             'Login',
                             style: TextStyle(fontSize: 20),
-                          );
-                      }
-                    },
-                  ),
+                          ),
+                        );
+                    }
+                  },
                 ),
               ),
             ),

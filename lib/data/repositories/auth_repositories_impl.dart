@@ -3,6 +3,7 @@ import 'package:vegan/data/datasource/auth_remote_datasource.dart';
 import 'package:vegan/data/utils/exception.dart';
 import 'package:vegan/data/utils/failure.dart';
 import 'package:vegan/domain/entities/auth.dart';
+import 'package:vegan/domain/entities/user.dart';
 import 'package:vegan/domain/repositories/auth_repositories.dart';
 
 class AuthRepositoryImpl implements AuthRepository {
@@ -17,9 +18,9 @@ class AuthRepositoryImpl implements AuthRepository {
 
       return Right(result.toEntity());
     } on ServerException catch (e) {
-      return Left(ServerFailure(e.message!));
+      return Left(ServerFailure(e.message));
     } catch (e) {
-      return Left(ServerFailure(e.toString()));
+      return Left(CommonFailure(e.toString()));
     }
   }
 
@@ -29,10 +30,22 @@ class AuthRepositoryImpl implements AuthRepository {
       final result = await authRemoteDataSource.logout();
 
       return Right(result);
-    } on ServerException {
-      return const Left(ServerFailure(""));
+    } on ServerException catch (e) {
+      return Left(ServerFailure(e.message));
     } catch (e) {
-      return Left(ServerFailure(e.toString()));
+      return Left(CommonFailure(e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, String>> register(User user) async {
+    try {
+      final result = await authRemoteDataSource.register(user);
+      return Right(result);
+    } on ServerException catch (e) {
+      return Left(ServerFailure(e.message));
+    } catch (e) {
+      return Left(CommonFailure(e.toString()));
     }
   }
 }

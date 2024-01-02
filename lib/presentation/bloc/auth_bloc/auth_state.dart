@@ -29,3 +29,21 @@ final class Unauthenticated extends AuthState {
   @override
   List<Object> get props => [message];
 }
+
+final class Registered extends AuthState {
+  final String message;
+
+  const Registered({required this.message});
+
+  @override
+  List<Object> get props => [message];
+}
+
+final class Unregistered extends AuthState {
+  final String message;
+
+  const Unregistered({required this.message});
+
+  @override
+  List<Object> get props => [message];
+}

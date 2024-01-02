@@ -68,5 +68,16 @@ void main() {
       verify(mockAuthRemoteDataSource.login("email", "password"));
       expect(result, const Left(ServerFailure("Something went wrong")));
     });
+
+    test("should be register success if user register is approve ", () async {
+      // arrange
+      when(mockAuthRemoteDataSource.register(tUserRegister))
+          .thenAnswer((_) async => 'register success');
+      // act
+      final result = await authRepositoryImpl.register(tUserRegister);
+      // assert
+      verify(mockAuthRemoteDataSource.register(tUserRegister));
+      expect(result, const Right('register success'));
+    });
   });
 }

@@ -5,13 +5,13 @@ void mySnackbar(BuildContext context, {required String message}) {
     shape: RoundedRectangleBorder(
       borderRadius: BorderRadius.circular(15.0),
     ),
-    backgroundColor: secondaryColor,
+    backgroundColor: secondaryColor.withOpacity(0.7),
     behavior: SnackBarBehavior.floating,
-    width: MediaQuery.of(context).size.width / 2.5,
+    width: MediaQuery.of(context).size.width / 2,
     content: Text(
       message,
       textAlign: TextAlign.center,
     ),
-    duration: const Duration(seconds: 1),
+    duration: const Duration(seconds: 2),
   ));
 }

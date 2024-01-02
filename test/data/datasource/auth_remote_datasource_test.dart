@@ -103,7 +103,7 @@ void main() {
     test('should be register success if user register is success', () async {
       when(
         mockHttpClient.post(Uri.parse('$baseUrl/Auth/register'),
-            headers: {'Content-Type': 'aplication/json'},
+            headers: {'Content-Type': 'application/json'},
             body: json.encode(tUserRegisterModel.toJson())),
       ).thenAnswer((_) async =>
           http.Response(readJson('dummy_data/register.json'), 200));
@@ -117,7 +117,7 @@ void main() {
     test('should be error message if user register is failed', () async {
       when(
         mockHttpClient.post(Uri.parse('$baseUrl/Auth/register'),
-            headers: {'Content-Type': 'aplication/json'},
+            headers: {'Content-Type': 'application/json'},
             body: json.encode(tUserRegisterModel.toJson())),
       ).thenAnswer((_) async =>
           http.Response(readJson('dummy_data/response_failed.json'), 400));
@@ -131,7 +131,7 @@ void main() {
     test('should be throw server exception if server error', () async {
       when(
         mockHttpClient.post(Uri.parse('$baseUrl/Auth/register'),
-            headers: {'Content-Type': 'aplication/json'},
+            headers: {'Content-Type': 'application/json'},
             body: json.encode(tUserRegisterModel.toJson())),
       ).thenThrow(ServerException('Something went wrong'));
 

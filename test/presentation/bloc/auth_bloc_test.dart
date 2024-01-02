@@ -6,21 +6,28 @@ import 'package:mockito/mockito.dart';
 import 'package:vegan/data/utils/failure.dart';
 import 'package:vegan/domain/usecase/Auth/login.dart';
 import 'package:vegan/domain/usecase/Auth/logout.dart';
+import 'package:vegan/domain/usecase/Auth/register.dart';
 import 'package:vegan/presentation/bloc/auth_bloc/auth_bloc.dart';
 
 import '../../dummy_data/object_dummy.dart';
 import 'auth_bloc_test.mocks.dart';
 
-@GenerateMocks([Login, Logout])
+@GenerateMocks([Login, Logout, Register])
 void main() {
   late AuthBloc authBloc;
   late MockLogin mockLogin;
   late MockLogout mockLogout;
+  late MockRegister mockRegister;
 
   setUp(() {
     mockLogin = MockLogin();
     mockLogout = MockLogout();
-    authBloc = AuthBloc(login: mockLogin, logout: mockLogout);
+    mockRegister = MockRegister();
+    authBloc = AuthBloc(
+      login: mockLogin,
+      logout: mockLogout,
+      register: mockRegister,
+    );
   });
 
   group('AuthBloc', () {
@@ -48,7 +55,7 @@ void main() {
       'emits Unauthenticated state when LoginEvent has error.',
       build: () {
         when(mockLogin.execute("email", "password")).thenAnswer(
-            (_) async => const Left(CommonFailure("user not found")));
+            (_) async => const Left(ServerFailure("user not found")));
         return authBloc;
       },
       act: (bloc) =>
@@ -72,6 +79,35 @@ void main() {
       expect: () => <AuthState>[
         AuthLoading(),
         const Unauthenticated(message: "Logout success")
+      ],
+    );
+
+    blocTest<AuthBloc, AuthState>(
+      'emits Registered when RegisterEvent is added and success.',
+      build: () {
+        when(mockRegister.execute(tUserRegister)).thenAnswer(
+            (_) async => const Left(ServerFailure("message error")));
+        return authBloc;
+      },
+      wait: const Duration(seconds: 3),
+      act: (bloc) => bloc.add(const RegisterEvent(user: tUserRegister)),
+      expect: () => <AuthState>[
+        AuthLoading(),
+        const Unregistered(message: 'message error'),
+      ],
+    );
+    blocTest<AuthBloc, AuthState>(
+      'emits Unregistered when RegisterEvent is added and error.',
+      build: () {
+        when(mockRegister.execute(tUserRegister))
+            .thenAnswer((_) async => const Right('register success'));
+        return authBloc;
+      },
+      wait: const Duration(seconds: 3),
+      act: (bloc) => bloc.add(const RegisterEvent(user: tUserRegister)),
+      expect: () => <AuthState>[
+        AuthLoading(),
+        const Registered(message: 'register success'),
       ],
     );
   });

@@ -21,3 +21,9 @@ ThemeData myTheme = ThemeData(
     unselectedItemColor: primaryColor,
   ),
 );
+
+TextStyle titleStyle = const TextStyle(
+    fontSize: 25, color: foregroundColor, fontWeight: FontWeight.bold);
+TextStyle subTitleStyle = const TextStyle(
+    fontSize: 14, color: foregroundColor, fontWeight: FontWeight.bold);
+TextStyle bodyTextStyle = const TextStyle(fontSize: 12, color: primaryColor);
