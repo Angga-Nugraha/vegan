@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lottie/lottie.dart';
 import 'package:animate_do/animate_do.dart';
 
+import '../../../data/utils/constant.dart';
 import '../../../data/utils/routes.dart';
 import '../../../data/utils/styles.dart';
 import '../../bloc/auth_bloc/auth_bloc.dart';

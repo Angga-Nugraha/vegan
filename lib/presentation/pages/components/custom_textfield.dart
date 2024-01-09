@@ -6,6 +6,7 @@ Widget myTextfield(
     required IconData icon,
     Widget? suffixIcon,
     required TextInputType type,
+    enabled = true,
     obscure = false}) {
   return Container(
     height: 50,
@@ -22,6 +23,7 @@ Widget myTextfield(
       ],
     ),
     child: TextFormField(
+      enabled: enabled,
       keyboardType: type,
       controller: controller,
       obscureText: obscure,
@@ -34,7 +36,7 @@ Widget myTextfield(
         ),
         prefixIcon: Icon(
           icon,
-          size: 20,
+          size: 15,
         ),
         suffixIcon: suffixIcon,
       ),

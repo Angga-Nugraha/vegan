@@ -23,7 +23,14 @@ ThemeData myTheme = ThemeData(
 );
 
 TextStyle titleStyle = const TextStyle(
-    fontSize: 25, color: foregroundColor, fontWeight: FontWeight.bold);
+    fontFamily: 'Firasans',
+    fontSize: 25,
+    color: foregroundColor,
+    fontWeight: FontWeight.bold);
 TextStyle subTitleStyle = const TextStyle(
-    fontSize: 14, color: foregroundColor, fontWeight: FontWeight.bold);
-TextStyle bodyTextStyle = const TextStyle(fontSize: 12, color: primaryColor);
+    fontFamily: 'Firasans',
+    fontSize: 14,
+    color: foregroundColor,
+    fontWeight: FontWeight.bold);
+TextStyle bodyTextStyle =
+    const TextStyle(fontFamily: 'Firasans', fontSize: 12, color: primaryColor);

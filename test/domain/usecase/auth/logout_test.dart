@@ -3,7 +3,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:vegan/domain/usecase/Auth/logout.dart';
 
-import '../../test_helper.mocks.dart';
+import '../../../test_helper.mocks.dart';
 
 void main() {
   late Logout logout;

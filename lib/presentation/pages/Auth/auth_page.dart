@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../data/utils/routes.dart';
+import '../../../data/utils/constant.dart';
 
 class AuthPage extends StatelessWidget {
   final List<Widget> listPage;

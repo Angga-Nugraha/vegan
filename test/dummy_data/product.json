@@ -1,0 +1,22 @@
+{
+    "status": "success",
+    "data": [
+        {
+            "_id": "6598078eb523ef0e3393abce",
+            "userId": "658f9025e178b40826f858d4",
+            "title": "kol",
+            "description": "lorem ipsum dolor sit amet consectetur adipisicing elit. aperiam, esse maxime voluptatem deleniti quasi maiores suscipit ducimus nobis facilis assumenda quam aliquam temporibus molestias dolore?",
+            "price": 25000,
+            "ratting": 4.5,
+            "stock": 999,
+            "weight": 5,
+            "category": [
+                "sayur"
+            ],
+            "imageUrl": [],
+            "createdAt": "2024-01-05T13:43:44.683Z",
+            "updatedAt": "2024-01-05T13:43:44.683Z",
+            "__v": 0
+        }
+    ]
+}

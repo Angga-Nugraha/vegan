@@ -23,7 +23,7 @@ void main() {
   setUp(() {
     FlutterSecureStorage.setMockInitialValues({});
     mockHttpClient = MockHttpClient();
-    dataSourceImpl = AuthRemoteDataSourceImpl(mockHttpClient);
+    dataSourceImpl = AuthRemoteDataSourceImpl(client: mockHttpClient);
     session = Session();
   });
 

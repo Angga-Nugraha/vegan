@@ -20,7 +20,7 @@ abstract class AuthRemoteDataSource {
 class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   final http.Client client;
 
-  AuthRemoteDataSourceImpl(this.client);
+  AuthRemoteDataSourceImpl({required this.client});
 
   final Session session = Session();
   final SecureStorageHelper storage = SecureStorageHelper();
@@ -37,6 +37,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
         Map<String, dynamic>.from(json.decode(response.body));
 
     await session.updateCookie(response);
+    print(response.headers);
 
     if (response.statusCode == 200) {
       return AuthModel.fromJson(data);
@@ -64,7 +65,6 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
 
     if (response.statusCode == 200) {
       await storage.deleteSecureStorage();
-      await session.updateCookie(response);
       return data['msg'];
     } else {
       throw ServerException('Something went wrong');

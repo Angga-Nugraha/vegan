@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
-import 'package:vegan/data/helpers/storage_helper.dart';
+import 'package:vegan/presentation/pages/root_screen.dart';
 
+import '../../data/helpers/storage_helper.dart';
 import '../../data/utils/styles.dart';
 import 'Auth/auth_page.dart';
 import 'Auth/login_page.dart';
 import 'Auth/register_page.dart';
-import 'Home/home_page.dart';
 
 class Splash extends StatefulWidget {
   const Splash({super.key});
@@ -29,7 +29,7 @@ class _SplashState extends State<Splash> {
             return Center(
               child: TweenAnimationBuilder(
                 tween: Tween(begin: 0.0, end: 1.0),
-                duration: const Duration(milliseconds: 3000),
+                duration: const Duration(milliseconds: 2500),
                 builder: (context, value, child) {
                   return Column(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -61,8 +61,7 @@ class _SplashState extends State<Splash> {
               ),
             );
           } else if (snapshot.hasData) {
-            // print(json.decode(snapshot.data!)['accessToken']);
-            return const HomePage();
+            return const RootScreen();
           } else {
             return const AuthPage(
               listPage: [

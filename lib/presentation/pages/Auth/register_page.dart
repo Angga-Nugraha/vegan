@@ -6,7 +6,7 @@ import 'package:lottie/lottie.dart';
 import 'package:vegan/domain/entities/user.dart';
 import 'package:flutter/services.dart' show rootBundle;
 
-import '../../../data/utils/routes.dart';
+import '../../../data/utils/constant.dart';
 import '../../../data/utils/styles.dart';
 import '../../bloc/auth_bloc/auth_bloc.dart';
 import '../components/components_helper.dart';

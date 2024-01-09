@@ -3,8 +3,8 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:vegan/domain/usecase/Auth/login.dart';
 
-import '../../dummy_data/object_dummy.dart';
-import '../../test_helper.mocks.dart';
+import '../../../dummy_data/object_dummy.dart';
+import '../../../test_helper.mocks.dart';
 
 void main() {
   late Login login;

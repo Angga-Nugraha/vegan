@@ -4,19 +4,23 @@
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'dart:async' as _i6;
-import 'dart:convert' as _i12;
-import 'dart:typed_data' as _i13;
+import 'dart:convert' as _i16;
+import 'dart:typed_data' as _i17;
 
 import 'package:dartz/dartz.dart' as _i2;
 import 'package:http/http.dart' as _i4;
 import 'package:mockito/mockito.dart' as _i1;
 import 'package:mockito/src/dummies.dart' as _i11;
 import 'package:vegan/data/datasource/auth_remote_datasource.dart' as _i10;
+import 'package:vegan/data/datasource/product_remote_datasource.dart' as _i14;
 import 'package:vegan/data/model/auth_model.dart' as _i3;
+import 'package:vegan/data/model/product_model.dart' as _i15;
 import 'package:vegan/data/utils/failure.dart' as _i7;
 import 'package:vegan/domain/entities/auth.dart' as _i8;
+import 'package:vegan/domain/entities/product.dart' as _i13;
 import 'package:vegan/domain/entities/user.dart' as _i9;
 import 'package:vegan/domain/repositories/auth_repositories.dart' as _i5;
+import 'package:vegan/domain/repositories/product_repositories.dart' as _i12;
 
 // ignore_for_file: type=lint
 // ignore_for_file: avoid_redundant_argument_values
@@ -205,6 +209,53 @@ class MockAuthRemoteDataSource extends _i1.Mock
       ) as _i6.Future<String>);
 }
 
+/// A class which mocks [ProductRepository].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockProductRepository extends _i1.Mock implements _i12.ProductRepository {
+  MockProductRepository() {
+    _i1.throwOnMissingStub(this);
+  }
+
+  @override
+  _i6.Future<_i2.Either<_i7.Failure, List<_i13.Product>>> getAllproduct() =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #getAllproduct,
+          [],
+        ),
+        returnValue:
+            _i6.Future<_i2.Either<_i7.Failure, List<_i13.Product>>>.value(
+                _FakeEither_0<_i7.Failure, List<_i13.Product>>(
+          this,
+          Invocation.method(
+            #getAllproduct,
+            [],
+          ),
+        )),
+      ) as _i6.Future<_i2.Either<_i7.Failure, List<_i13.Product>>>);
+}
+
+/// A class which mocks [ProductRemoteDatasource].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockProductRemoteDatasource extends _i1.Mock
+    implements _i14.ProductRemoteDatasource {
+  MockProductRemoteDatasource() {
+    _i1.throwOnMissingStub(this);
+  }
+
+  @override
+  _i6.Future<List<_i15.ProductModel>> getAllProduct() => (super.noSuchMethod(
+        Invocation.method(
+          #getAllProduct,
+          [],
+        ),
+        returnValue:
+            _i6.Future<List<_i15.ProductModel>>.value(<_i15.ProductModel>[]),
+      ) as _i6.Future<List<_i15.ProductModel>>);
+}
+
 /// A class which mocks [Client].
 ///
 /// See the documentation for Mockito's code generation for more information.
@@ -260,7 +311,7 @@ class MockHttpClient extends _i1.Mock implements _i4.Client {
     Uri? url, {
     Map<String, String>? headers,
     Object? body,
-    _i12.Encoding? encoding,
+    _i16.Encoding? encoding,
   }) =>
       (super.noSuchMethod(
         Invocation.method(
@@ -291,7 +342,7 @@ class MockHttpClient extends _i1.Mock implements _i4.Client {
     Uri? url, {
     Map<String, String>? headers,
     Object? body,
-    _i12.Encoding? encoding,
+    _i16.Encoding? encoding,
   }) =>
       (super.noSuchMethod(
         Invocation.method(
@@ -322,7 +373,7 @@ class MockHttpClient extends _i1.Mock implements _i4.Client {
     Uri? url, {
     Map<String, String>? headers,
     Object? body,
-    _i12.Encoding? encoding,
+    _i16.Encoding? encoding,
   }) =>
       (super.noSuchMethod(
         Invocation.method(
@@ -353,7 +404,7 @@ class MockHttpClient extends _i1.Mock implements _i4.Client {
     Uri? url, {
     Map<String, String>? headers,
     Object? body,
-    _i12.Encoding? encoding,
+    _i16.Encoding? encoding,
   }) =>
       (super.noSuchMethod(
         Invocation.method(
@@ -401,7 +452,7 @@ class MockHttpClient extends _i1.Mock implements _i4.Client {
       ) as _i6.Future<String>);
 
   @override
-  _i6.Future<_i13.Uint8List> readBytes(
+  _i6.Future<_i17.Uint8List> readBytes(
     Uri? url, {
     Map<String, String>? headers,
   }) =>
@@ -411,8 +462,8 @@ class MockHttpClient extends _i1.Mock implements _i4.Client {
           [url],
           {#headers: headers},
         ),
-        returnValue: _i6.Future<_i13.Uint8List>.value(_i13.Uint8List(0)),
-      ) as _i6.Future<_i13.Uint8List>);
+        returnValue: _i6.Future<_i17.Uint8List>.value(_i17.Uint8List(0)),
+      ) as _i6.Future<_i17.Uint8List>);
 
   @override
   _i6.Future<_i4.StreamedResponse> send(_i4.BaseRequest? request) =>

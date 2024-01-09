@@ -21,6 +21,8 @@ class SecureStorageHelper {
   }
 
   Future<void> deleteSecureStorage() async {
+    await secureStorage.delete(key: 'auth');
+    await secureStorage.delete(key: 'cookie');
     await secureStorage.deleteAll();
   }
 }

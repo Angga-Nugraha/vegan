@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:vegan/presentation/bloc/product_bloc/product_bloc.dart';
+import 'package:vegan/presentation/pages/root_screen.dart';
 
-import 'data/utils/routes.dart';
 import 'injection.dart' as di;
+import 'data/utils/routes.dart';
 import 'data/utils/styles.dart';
 import 'presentation/bloc/auth_bloc/auth_bloc.dart';
 import 'presentation/pages/Auth/auth_page.dart';
 import 'presentation/pages/Auth/login_page.dart';
 import 'presentation/pages/Auth/register_page.dart';
-import 'presentation/pages/Home/home_page.dart';
 import 'presentation/pages/splash_screen.dart';
 
 void main() {
@@ -26,11 +27,12 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
       statusBarColor: Colors.transparent,
-      statusBarBrightness: Brightness.dark,
+      statusBarBrightness: Brightness.light,
     ));
     return MultiBlocProvider(
       providers: [
         BlocProvider(create: (context) => di.locator<AuthBloc>()),
+        BlocProvider(create: (context) => di.locator<ProductBloc>()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
@@ -46,7 +48,7 @@ class MyApp extends StatelessWidget {
               );
             case homePageRoute:
               return MaterialPageRoute(
-                builder: (_) => const HomePage(),
+                builder: (_) => const RootScreen(),
               );
             case authPageRoutes:
               return MaterialPageRoute(
