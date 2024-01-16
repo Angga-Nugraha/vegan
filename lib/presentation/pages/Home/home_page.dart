@@ -63,10 +63,21 @@ class MyHomePage extends StatelessWidget {
               ),
               actions: [
                 GestureDetector(
-                  child: const Icon(FontAwesomeIcons.message, color: backgroundColor,),
+                  child: const Icon(
+                    FontAwesomeIcons.message,
+                    color: backgroundColor,
+                    size: 16,
+                  ),
                 ),
-                IconButton(
-                    onPressed: () {}, icon: const Icon(FontAwesomeIcons.bell, color: backgroundColor,))
+                const SizedBox(width: 15.0),
+                GestureDetector(
+                    onTap: () {},
+                    child: const Icon(
+                      FontAwesomeIcons.bell,
+                      color: backgroundColor,
+                      size: 16,
+                    )),
+                const SizedBox(width: 20.0),
               ],
             ),
           ];
@@ -170,22 +181,21 @@ class MyHomePage extends StatelessWidget {
     );
   }
 
-  Widget _headers({String? title,String? trailingTitle, VoidCallback? onPressed}) {
+  Widget _headers(
+      {String? title, String? trailingTitle, VoidCallback? onPressed}) {
     return ListTile(
       titleTextStyle: titleStyle.copyWith(fontSize: 18),
       textColor: primaryColor,
       title: Text(
         title ?? '',
       ),
-      trailing: 
-          GestureDetector(
-            onTap: onPressed ?? () {},
-            child: Text(
-              trailingTitle ?? 'View all...',
-              style:
-                  subTitleStyle.copyWith(fontSize: 12),
-            ),
-          ),
+      trailing: GestureDetector(
+        onTap: onPressed ?? () {},
+        child: Text(
+          trailingTitle ?? 'View all...',
+          style: subTitleStyle.copyWith(fontSize: 12),
+        ),
+      ),
     );
   }
 }

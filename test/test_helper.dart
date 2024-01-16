@@ -5,9 +5,11 @@ import 'package:vegan/data/datasource/product_remote_datasource.dart';
 import 'package:vegan/data/datasource/user_remote_datasource.dart';
 import 'package:vegan/domain/repositories/auth_repositories.dart';
 import 'package:vegan/domain/repositories/product_repositories.dart';
+import 'package:vegan/domain/repositories/user_repository.dart';
 
 @GenerateMocks([
   UserRemoteDatasource,
+  UserRepository,
   AuthRepository,
   AuthRemoteDataSource,
   ProductRepository,

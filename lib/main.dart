@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:vegan/presentation/bloc/product_bloc/product_bloc.dart';
+import 'package:vegan/presentation/bloc/user_bloc/user_bloc.dart';
 import 'package:vegan/presentation/pages/root_screen.dart';
 
 import 'injection.dart' as di;
@@ -33,6 +34,7 @@ class MyApp extends StatelessWidget {
       providers: [
         BlocProvider(create: (context) => di.locator<AuthBloc>()),
         BlocProvider(create: (context) => di.locator<ProductBloc>()),
+        BlocProvider(create: (context) => di.locator<UserBloc>()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

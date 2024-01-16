@@ -62,7 +62,7 @@ class _SplashState extends State<Splash> {
                 },
               ),
             );
-          } else  {
+          } else if(snapshot.hasData) {
             final data = json.decode(snapshot.data!);
             if (data['status'] == 'success') {
               return const RootScreen();
@@ -74,6 +74,13 @@ class _SplashState extends State<Splash> {
                 ],
               );
             }
+          }else{
+              return const AuthPage(
+                listPage: [
+                  LoginPage(),
+                  RegisterPage(),
+                ],
+              );
           }
         },
       ),

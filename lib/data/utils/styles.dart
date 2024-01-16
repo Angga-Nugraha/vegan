@@ -14,6 +14,9 @@ ThemeData myTheme = ThemeData(
       ),
   scaffoldBackgroundColor: backgroundColor,
   visualDensity: VisualDensity.adaptivePlatformDensity,
+  appBarTheme: const AppBarTheme(
+    backgroundColor: foregroundColor,
+  ),
   iconTheme: const IconThemeData(color: secondaryColor, size: 20),
   bottomNavigationBarTheme: const BottomNavigationBarThemeData(
     selectedItemColor: foregroundColor,

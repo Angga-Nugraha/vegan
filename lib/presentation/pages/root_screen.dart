@@ -2,7 +2,9 @@ import 'package:animated_bottom_navigation_bar/animated_bottom_navigation_bar.da
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:vegan/data/utils/styles.dart';
+import 'package:vegan/presentation/bloc/user_bloc/user_bloc.dart';
 import 'package:vegan/presentation/pages/Home/home_page.dart';
+import 'package:vegan/presentation/pages/User/profile_page.dart';
 
 import '../bloc/product_bloc/product_bloc.dart';
 
@@ -33,16 +35,15 @@ class _RootScreenState extends State<RootScreen> {
           child: Icon(Icons.person),
         ),
       ),
-      const SizedBox(
-        child: Center(
-          child: Icon(Icons.account_circle_outlined),
-        ),
-      ),
+      const ProfilePage(),
     ];
 
-    Future.microtask(() => BlocProvider.of<ProductBloc>(context, listen: false)
-        .add(const FetchAllProduct()));
-    
+    Future.microtask(() => [
+      BlocProvider.of<ProductBloc>(context, listen: false)
+        .add(const FetchAllProduct()),
+      BlocProvider.of<UserBloc>(context, listen: false)
+        .add(const FetchCurrentUser()),
+    ]);
   }
 
   @override
@@ -50,8 +51,13 @@ class _RootScreenState extends State<RootScreen> {
     return Scaffold(
       body: _listPage[_initialIndex],
       floatingActionButton: FloatingActionButton(
-        shape: const CircleBorder(),
-          backgroundColor: Colors.amber,
+          shape: const CircleBorder(
+            side: BorderSide(
+              color: foregroundColor,
+              width: 3.0,
+            ),
+          ),
+          backgroundColor: backgroundColor,
           foregroundColor: primaryColor,
           onPressed: () {},
           child: const Icon(Icons.shopping_cart_outlined)),
@@ -70,8 +76,8 @@ class _RootScreenState extends State<RootScreen> {
         backgroundColor: foregroundColor,
         activeColor: backgroundColor,
         inactiveColor: primaryColor,
-        leftCornerRadius: 8.0,
-        rightCornerRadius: 8.0,
+        leftCornerRadius: 10.0,
+        rightCornerRadius: 10.0,
         onTap: (index) => setState(() {
           _initialIndex = index;
         }),

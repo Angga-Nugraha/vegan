@@ -2,11 +2,16 @@ import 'package:get_it/get_it.dart';
 import 'package:http/http.dart' as http;
 import 'package:vegan/data/datasource/product_remote_datasource.dart';
 import 'package:vegan/data/datasource/session_manager.dart';
+import 'package:vegan/data/datasource/user_remote_datasource.dart';
 import 'package:vegan/data/helpers/storage_helper.dart';
 import 'package:vegan/data/repositories/product_repositories_impl.dart';
+import 'package:vegan/data/repositories/user_repositories_impl.dart';
 import 'package:vegan/domain/repositories/product_repositories.dart';
+import 'package:vegan/domain/repositories/user_repository.dart';
 import 'package:vegan/domain/usecase/Product/get_product.dart';
+import 'package:vegan/domain/usecase/User/get_current_user.dart';
 import 'package:vegan/presentation/bloc/product_bloc/product_bloc.dart';
+import 'package:vegan/presentation/bloc/user_bloc/user_bloc.dart';
 
 import 'data/datasource/auth_remote_datasource.dart';
 import 'data/repositories/auth_repositories_impl.dart';
@@ -30,18 +35,27 @@ void init() {
     () => ProductBloc(getAllProduct: locator()),
   );
 
+  locator.registerFactory(
+    () => UserBloc(getCurrentUser: locator()),
+  );
+
   // USECASE
   locator.registerLazySingleton(() => Login(authRepository: locator()));
   locator.registerLazySingleton(() => Logout(authRepository: locator()));
   locator.registerLazySingleton(() => Register(authRepository: locator()));
   locator
       .registerLazySingleton(() => GetAllProduct(productRepository: locator()));
+  locator
+      .registerLazySingleton(() => GetCurrentUser(userRepository: locator()));
 
   // REPOSITORIES
   locator.registerLazySingleton<AuthRepository>(
       () => AuthRepositoryImpl(authRemoteDataSource: locator()));
   locator.registerLazySingleton<ProductRepository>(
       () => ProductRepositoryImpl(productRemoteDatasource: locator()));
+  locator.registerLazySingleton<UserRepository>(
+    () => UserRepositoryImpl(userRemoteDatasource: locator()),
+  );
 
   // DATASOURCE
   locator.registerLazySingleton<AuthRemoteDataSource>(
@@ -55,6 +69,12 @@ void init() {
             client: locator(),
             storage: locator(),
           ));
+  locator.registerLazySingleton<UserRemoteDatasource>(
+    () => UserRemoteDatasourceImpl(
+      client: locator(),
+      storage: locator(),
+    ),
+  );
 
   // HTTP
   locator.registerLazySingleton(() => http.Client());

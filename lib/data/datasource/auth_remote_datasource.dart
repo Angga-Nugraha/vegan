@@ -61,8 +61,8 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
     final Map<String, dynamic> data =
         Map<String, dynamic>.from(json.decode(response.body));
 
+    await storage.deleteSecureStorage();
     if (response.statusCode == 200) {
-      await storage.deleteSecureStorage();
       return data['msg'];
     } else {
       throw ServerException('Something went wrong');
