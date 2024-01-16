@@ -19,11 +19,11 @@ abstract class AuthRemoteDataSource {
 
 class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   final http.Client client;
+  final Session session;
+  final SecureStorageHelper storage;
 
-  AuthRemoteDataSourceImpl({required this.client});
-
-  final Session session = Session();
-  final SecureStorageHelper storage = SecureStorageHelper();
+  const AuthRemoteDataSourceImpl(
+      {required this.client, required this.session, required this.storage});
 
   @override
   Future<AuthModel> login(String email, String password) async {
@@ -36,10 +36,8 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
     final Map<String, dynamic> data =
         Map<String, dynamic>.from(json.decode(response.body));
 
-    await session.updateCookie(response);
-    print(response.headers);
-
     if (response.statusCode == 200) {
+      await session.updateCookie(response);
       return AuthModel.fromJson(data);
     } else {
       throw ServerException(data['msg']);

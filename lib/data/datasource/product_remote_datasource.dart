@@ -7,18 +7,16 @@ import 'package:http/http.dart' as http;
 import 'package:vegan/data/utils/constant.dart';
 import 'package:vegan/data/utils/exception.dart';
 
-import 'session_manager.dart';
-
 abstract class ProductRemoteDatasource {
   Future<List<ProductModel>> getAllProduct();
 }
 
 class ProductRemoteDatasourceImpl implements ProductRemoteDatasource {
   final http.Client client;
-  final Session session = Session();
-  final SecureStorageHelper storage = SecureStorageHelper();
+  final SecureStorageHelper storage;
 
-  ProductRemoteDatasourceImpl({required this.client});
+  const ProductRemoteDatasourceImpl(
+      {required this.client, required this.storage});
 
   @override
   Future<List<ProductModel>> getAllProduct() async {
@@ -35,8 +33,6 @@ class ProductRemoteDatasourceImpl implements ProductRemoteDatasource {
       Uri.parse('$baseUrl/api/product'),
       headers: headers,
     );
-
-    print(response.statusCode);
 
     final Map<String, dynamic> data =
         Map<String, dynamic>.from(json.decode(response.body));

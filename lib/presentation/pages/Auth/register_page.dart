@@ -295,9 +295,9 @@ class _RegisterPageState extends State<RegisterPage> {
                               borderRadius: BorderRadius.circular(15),
                             ),
                           ),
-                          child: const Text(
+                          child:  const Text(
                             'Register',
-                            style: TextStyle(fontSize: 20),
+                            style: TextStyle(color: Colors.white,fontSize: 20),
                           ),
                         );
                     }

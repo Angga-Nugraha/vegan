@@ -39,8 +39,10 @@ class _RootScreenState extends State<RootScreen> {
         ),
       ),
     ];
+
     Future.microtask(() => BlocProvider.of<ProductBloc>(context, listen: false)
         .add(const FetchAllProduct()));
+    
   }
 
   @override
@@ -48,6 +50,7 @@ class _RootScreenState extends State<RootScreen> {
     return Scaffold(
       body: _listPage[_initialIndex],
       floatingActionButton: FloatingActionButton(
+        shape: const CircleBorder(),
           backgroundColor: Colors.amber,
           foregroundColor: primaryColor,
           onPressed: () {},
@@ -60,14 +63,15 @@ class _RootScreenState extends State<RootScreen> {
           Icons.account_circle_outlined,
           Icons.account_circle_outlined
         ],
+        iconSize: 22,
         activeIndex: _initialIndex,
         gapLocation: GapLocation.center,
         notchSmoothness: NotchSmoothness.softEdge,
         backgroundColor: foregroundColor,
         activeColor: backgroundColor,
         inactiveColor: primaryColor,
-        leftCornerRadius: 32,
-        rightCornerRadius: 32,
+        leftCornerRadius: 8.0,
+        rightCornerRadius: 8.0,
         onTap: (index) => setState(() {
           _initialIndex = index;
         }),

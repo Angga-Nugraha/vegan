@@ -1,6 +1,8 @@
 import 'package:get_it/get_it.dart';
 import 'package:http/http.dart' as http;
 import 'package:vegan/data/datasource/product_remote_datasource.dart';
+import 'package:vegan/data/datasource/session_manager.dart';
+import 'package:vegan/data/helpers/storage_helper.dart';
 import 'package:vegan/data/repositories/product_repositories_impl.dart';
 import 'package:vegan/domain/repositories/product_repositories.dart';
 import 'package:vegan/domain/usecase/Product/get_product.dart';
@@ -43,10 +45,19 @@ void init() {
 
   // DATASOURCE
   locator.registerLazySingleton<AuthRemoteDataSource>(
-      () => AuthRemoteDataSourceImpl(client: locator()));
+      () => AuthRemoteDataSourceImpl(
+            client: locator(),
+            session: locator(),
+            storage: locator(),
+          ));
   locator.registerLazySingleton<ProductRemoteDatasource>(
-      () => ProductRemoteDatasourceImpl(client: locator()));
+      () => ProductRemoteDatasourceImpl(
+            client: locator(),
+            storage: locator(),
+          ));
 
   // HTTP
   locator.registerLazySingleton(() => http.Client());
+  locator.registerLazySingleton(() => SecureStorageHelper());
+  locator.registerLazySingleton(() => Session());
 }

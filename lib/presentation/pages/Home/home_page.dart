@@ -26,10 +26,7 @@ class MyHomePage extends StatelessWidget {
               pinned: true,
               expandedHeight: 120,
               floating: true,
-              shape: const RoundedRectangleBorder(
-                  borderRadius: BorderRadius.only(
-                      bottomLeft: Radius.circular(15.0),
-                      bottomRight: Radius.circular(15.0))),
+              backgroundColor: foregroundColor,
               systemOverlayStyle: SystemUiOverlayStyle.light,
               flexibleSpace: FlexibleSpaceBar(
                 background: Stack(
@@ -66,10 +63,10 @@ class MyHomePage extends StatelessWidget {
               ),
               actions: [
                 GestureDetector(
-                  child: const Icon(FontAwesomeIcons.message),
+                  child: const Icon(FontAwesomeIcons.message, color: backgroundColor,),
                 ),
                 IconButton(
-                    onPressed: () {}, icon: const Icon(FontAwesomeIcons.bell))
+                    onPressed: () {}, icon: const Icon(FontAwesomeIcons.bell, color: backgroundColor,))
               ],
             ),
           ];
@@ -83,8 +80,6 @@ class MyHomePage extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                _headers(title: 'Category', onPressed: () {}),
-                const Divider(),
                 const ListCategory(),
                 const DiscountCard(),
                 _headers(
@@ -105,20 +100,25 @@ class MyHomePage extends StatelessWidget {
                             .map((e) => e)
                             .where((element) => element.ratting > 4)
                             .toList();
-                        return SizedBox(
-                          height: 280,
-                          child: ListView.builder(
-                              physics: const BouncingScrollPhysics(),
-                              itemCount: toprated.length,
-                              padding: const EdgeInsets.all(8.0),
-                              scrollDirection: Axis.horizontal,
-                              itemBuilder: (context, index) {
-                                final product = toprated[index];
-                                return ProductCardItem(
-                                  product: product,
-                                );
-                              }),
-                        );
+                        return toprated.isEmpty
+                            ? const Center(
+                                child: Text('Product is empty'),
+                              )
+                            : SizedBox(
+                                height: 280,
+                                child: ListView.builder(
+                                    physics: const BouncingScrollPhysics(),
+                                    itemCount: toprated.length,
+                                    padding: const EdgeInsets.all(8.0),
+                                    scrollDirection: Axis.horizontal,
+                                    itemBuilder: (context, index) {
+                                      final product = toprated[index];
+
+                                      return ProductCardItem(
+                                        product: product,
+                                      );
+                                    }),
+                              );
                       case ProductError():
                         return Text(state.message);
                       default:
@@ -136,20 +136,25 @@ class MyHomePage extends StatelessWidget {
                           child: CircularProgressIndicator(),
                         );
                       case ProductLoaded():
-                        return SizedBox(
-                          height: 280,
-                          child: ListView.builder(
-                              physics: const BouncingScrollPhysics(),
-                              itemCount: state.result.length,
-                              padding: const EdgeInsets.all(8.0),
-                              scrollDirection: Axis.horizontal,
-                              itemBuilder: (context, index) {
-                                final product = state.result[index];
-                                return ProductCardItem(
-                                  product: product,
-                                );
-                              }),
-                        );
+                        final allProduct = state.result;
+                        return allProduct.isEmpty
+                            ? const Center(
+                                child: Text('Product is empty'),
+                              )
+                            : SizedBox(
+                                height: 280,
+                                child: ListView.builder(
+                                    physics: const BouncingScrollPhysics(),
+                                    itemCount: allProduct.length,
+                                    padding: const EdgeInsets.all(8.0),
+                                    scrollDirection: Axis.horizontal,
+                                    itemBuilder: (context, index) {
+                                      final product = allProduct[index];
+                                      return ProductCardItem(
+                                        product: product,
+                                      );
+                                    }),
+                              );
                       case ProductError():
                         return Text(state.message);
                       default:
@@ -165,20 +170,22 @@ class MyHomePage extends StatelessWidget {
     );
   }
 
-  Widget _headers({required String title, required VoidCallback onPressed}) {
+  Widget _headers({String? title,String? trailingTitle, VoidCallback? onPressed}) {
     return ListTile(
       titleTextStyle: titleStyle.copyWith(fontSize: 18),
       textColor: primaryColor,
       title: Text(
-        title,
+        title ?? '',
       ),
-      trailing: TextButton(
-        onPressed: () {},
-        child: Text(
-          'See more >',
-          style: subTitleStyle.copyWith(decoration: TextDecoration.underline),
-        ),
-      ),
+      trailing: 
+          GestureDetector(
+            onTap: onPressed ?? () {},
+            child: Text(
+              trailingTitle ?? 'View all...',
+              style:
+                  subTitleStyle.copyWith(fontSize: 12),
+            ),
+          ),
     );
   }
 }

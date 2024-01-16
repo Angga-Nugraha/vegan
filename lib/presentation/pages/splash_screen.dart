@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:vegan/presentation/pages/root_screen.dart';
@@ -60,15 +62,18 @@ class _SplashState extends State<Splash> {
                 },
               ),
             );
-          } else if (snapshot.hasData) {
-            return const RootScreen();
-          } else {
-            return const AuthPage(
-              listPage: [
-                LoginPage(),
-                RegisterPage(),
-              ],
-            );
+          } else  {
+            final data = json.decode(snapshot.data!);
+            if (data['status'] == 'success') {
+              return const RootScreen();
+            } else {
+              return const AuthPage(
+                listPage: [
+                  LoginPage(),
+                  RegisterPage(),
+                ],
+              );
+            }
           }
         },
       ),

@@ -6,31 +6,31 @@ import 'package:vegan/domain/entities/product.dart';
 import 'package:vegan/domain/entities/user.dart';
 
 final tUserModel = UserModel(
-  id: "id",
-  name: "name",
-  email: "email",
-  phone: "phone",
-  password: "password",
-  address: "address",
-  role: "role",
-  token: "token",
-  image: "image",
-  createdAt: DateTime.parse("2023-12-30 00:18:05.095080"),
-  updatedAt: DateTime.parse("2023-12-30 00:18:05.095080"),
+  id: "65a615e0ee0e998fa8b32068",
+  name: "admin",
+  email: "admin@gmail.com",
+  phone: "081389042140",
+  password: "\$2b\$10\$qKBGlQ6klNZFrikJ/w4psuoyIDz7PO4GUB36kFGmhzDQqNucHWXcm",
+  address: "garut, jawa barat",
+  image: null,
+  role: "user",
+  token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1YTYxNWUwZWUwZTk5OGZhOGIzMjA2OCIsIm5hbWUiOiJhZG1pbiIsImVtYWlsIjoiYWRtaW5AZ21haWwuY29tIiwiaWF0IjoxNzA1MzkyMDc4LCJleHAiOjE3MDU0Nzg0Nzh9.95zULvaQD3y5FezxyDw6czml0qcWHaeApSDktd6iyhY",
+  createdAt: DateTime.parse("2024-01-16T05:36:32.561Z"),
+  updatedAt: DateTime.parse("2024-01-16T08:01:18.571Z"),
 );
 
 final tUser = User(
-  id: "id",
-  name: "name",
-  email: "email",
-  phone: "phone",
-  password: "password",
-  address: "address",
-  role: "role",
-  token: "token",
-  image: "image",
-  createdAt: DateTime.parse("2023-12-30 00:18:05.095080"),
-  updatedAt: DateTime.parse("2023-12-30 00:18:05.095080"),
+  id: "65a615e0ee0e998fa8b32068",
+  name: "admin",
+  email: "admin@gmail.com",
+  phone: "081389042140",
+  password: "\$2b\$10\$qKBGlQ6klNZFrikJ/w4psuoyIDz7PO4GUB36kFGmhzDQqNucHWXcm",
+  address: "garut, jawa barat",
+  role: "user",
+  token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1YTYxNWUwZWUwZTk5OGZhOGIzMjA2OCIsIm5hbWUiOiJhZG1pbiIsImVtYWlsIjoiYWRtaW5AZ21haWwuY29tIiwiaWF0IjoxNzA1MzkyMDc4LCJleHAiOjE3MDU0Nzg0Nzh9.95zULvaQD3y5FezxyDw6czml0qcWHaeApSDktd6iyhY",
+  image: null,
+  createdAt: DateTime.parse("2024-01-16T05:36:32.561Z"),
+  updatedAt: DateTime.parse("2024-01-16T08:01:18.571Z"),
 );
 
 const tUserRegisterModel = UserModel(

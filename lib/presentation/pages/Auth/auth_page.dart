@@ -8,11 +8,13 @@ class AuthPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: PageView(
-        physics: const NeverScrollableScrollPhysics(),
-        controller: controller,
-        children: [...listPage],
+    return SafeArea(
+      child: Scaffold(
+        body: PageView(
+          physics: const NeverScrollableScrollPhysics(),
+          controller: controller,
+          children: [...listPage],
+        ),
       ),
     );
   }

@@ -6,6 +6,7 @@ import 'package:http/http.dart' as http;
 import 'package:flutter_test/flutter_test.dart';
 import 'package:vegan/data/datasource/auth_remote_datasource.dart';
 import 'package:vegan/data/datasource/session_manager.dart';
+import 'package:vegan/data/helpers/storage_helper.dart';
 import 'package:vegan/data/utils/constant.dart';
 import 'package:vegan/data/utils/exception.dart';
 
@@ -18,13 +19,19 @@ void main() {
 
   late AuthRemoteDataSourceImpl dataSourceImpl;
   late Session session;
+  late SecureStorageHelper storage;
   late MockHttpClient mockHttpClient;
 
   setUp(() {
     FlutterSecureStorage.setMockInitialValues({});
     mockHttpClient = MockHttpClient();
-    dataSourceImpl = AuthRemoteDataSourceImpl(client: mockHttpClient);
     session = Session();
+    storage = SecureStorageHelper();
+    dataSourceImpl = AuthRemoteDataSourceImpl(
+      client: mockHttpClient,
+      session: session,
+      storage: storage,
+    );
   });
 
   group("Login", () {

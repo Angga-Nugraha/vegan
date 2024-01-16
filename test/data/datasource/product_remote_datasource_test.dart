@@ -3,6 +3,7 @@ import 'package:http/http.dart' as http;
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:vegan/data/datasource/product_remote_datasource.dart';
+import 'package:vegan/data/helpers/storage_helper.dart';
 import 'package:vegan/data/utils/constant.dart';
 import 'package:vegan/data/utils/exception.dart';
 
@@ -14,13 +15,19 @@ void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
   late ProductRemoteDatasourceImpl productRemoteDatasourceImpl;
+
+  late SecureStorageHelper storage;
   late MockHttpClient mockHttpClient;
 
   setUp(() {
     FlutterSecureStorage.setMockInitialValues({});
     mockHttpClient = MockHttpClient();
-    productRemoteDatasourceImpl =
-        ProductRemoteDatasourceImpl(client: mockHttpClient);
+
+    storage = SecureStorageHelper();
+    productRemoteDatasourceImpl = ProductRemoteDatasourceImpl(
+      client: mockHttpClient,
+      storage: storage,
+    );
   });
 
   group('Product', () {
