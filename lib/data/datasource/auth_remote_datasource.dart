@@ -8,14 +8,13 @@ import 'package:vegan/data/helpers/storage_helper.dart';
 import 'package:vegan/data/model/auth_model.dart';
 import 'package:vegan/data/model/user_model.dart';
 import 'package:vegan/data/utils/exception.dart';
-import 'package:vegan/domain/entities/user.dart';
 
 import '../utils/constant.dart';
 
 abstract class AuthRemoteDataSource {
   Future<AuthModel> login(String email, String password);
   Future<String> logout();
-  Future<String> register(User user);
+  Future<String> register(UserModel user);
 }
 
 class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
@@ -70,8 +69,8 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   }
 
   @override
-  Future<String> register(User user) async {
-    final body = UserModel.fromEntity(user).toJson();
+  Future<String> register(UserModel user) async {
+    final body = user.toJson();
     final response = await client.post(
       Uri.parse('$baseUrl/Auth/register'),
       headers: {'Content-Type': 'application/json'},

@@ -6,10 +6,10 @@ import 'package:lottie/lottie.dart';
 import 'package:vegan/domain/entities/user.dart';
 import 'package:flutter/services.dart' show rootBundle;
 
-import '../../../data/utils/constant.dart';
-import '../../../data/utils/styles.dart';
-import '../../bloc/auth_bloc/auth_bloc.dart';
-import '../components/components_helper.dart';
+import '../../../../data/utils/constant.dart';
+import '../../../../data/utils/styles.dart';
+import '../../../bloc/auth_bloc/auth_bloc.dart';
+import '../../components/components_helper.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});
@@ -50,22 +50,23 @@ class _RegisterPageState extends State<RegisterPage> {
       listener: (context, state) {
         switch (state) {
           case Registered():
-            mySnackbar(context, message: state.message);
+            mySnackbar(context, message: state.message.toTitleCase());
             Future.delayed(const Duration(seconds: 2), () {
               controller.animateToPage(0,
                   duration: const Duration(milliseconds: 500),
                   curve: Curves.easeOut);
             });
           case Unregistered():
-            mySnackbar(context, message: state.message.toTitleCase());
+            mySnackbar(context,
+                message: state.message.toTitleCase(), color: Colors.red);
           default:
             break;
         }
       },
       child: Center(
         child: ListView(
-          physics: const BouncingScrollPhysics(),
-          padding: const EdgeInsets.fromLTRB(20, 20, 20, 40),
+          physics: const ClampingScrollPhysics(),
+          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
           children: [
             SizedBox(
               height: 150,
@@ -295,9 +296,9 @@ class _RegisterPageState extends State<RegisterPage> {
                               borderRadius: BorderRadius.circular(15),
                             ),
                           ),
-                          child:  const Text(
+                          child: const Text(
                             'Register',
-                            style: TextStyle(color: Colors.white,fontSize: 20),
+                            style: TextStyle(color: Colors.white, fontSize: 20),
                           ),
                         );
                     }

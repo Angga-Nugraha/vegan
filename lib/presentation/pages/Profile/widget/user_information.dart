@@ -2,6 +2,8 @@ import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:vegan/data/utils/constant.dart';
+import 'package:vegan/domain/entities/user.dart';
+import 'package:vegan/presentation/pages/components/components_helper.dart';
 
 import '../../../../data/utils/styles.dart';
 import '../../../bloc/user_bloc/user_bloc.dart';
@@ -21,44 +23,72 @@ class _UserInfoState extends State<UserInfo> {
 
   bool readOnly = true;
   TextStyle style = subTitleStyle.copyWith(
-    // color: Colors.black,
     fontWeight: FontWeight.bold,
   );
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Account'),
-        actions: [
-          IconButton(
-            disabledColor: backgroundColor.withOpacity(0.5),
-            onPressed: readOnly
-                ? null
-                : () {
-                    setState(() {
-                      readOnly = true;
-                    });
-                  },
-            icon: const Icon(Icons.save),
+    return BlocConsumer<UserBloc, UserState>(
+      listener: (context, state) {
+        switch (state) {
+          case UserLoaded():
+            mySnackbar(context, message: 'User updated');
+            readOnly = true;
+          case UserError():
+            mySnackbar(
+              context,
+              message: state.message.toTitleCase(),
+              color: Colors.red,
+            );
+          default:
+            break;
+        }
+      },
+      builder: (context, state) {
+        switch (state) {
+          case UserLoaded():
+            final user = state.result;
+            nameC = TextEditingController(text: user.name!.toTitleCase());
+            emailC = TextEditingController(text: user.email!.toTitleCase());
+            phoneC = TextEditingController(text: user.phone);
+            adressC = TextEditingController(text: user.address!.toTitleCase());
+          default:
+            break;
+        }
+        return Scaffold(
+          appBar: AppBar(
+            automaticallyImplyLeading: false,
+            title: Text(
+              'User Information',
+              style: titleStyle.copyWith(color: backgroundColor),
+            ),
+            actions: [
+              IconButton(
+                disabledColor: backgroundColor.withOpacity(0.5),
+                onPressed: readOnly
+                    ? null
+                    : () {
+                        context.read<UserBloc>().add(UpdateUserEvent(
+                              user: User(
+                                name: nameC.text,
+                                email: emailC.text,
+                                phone: phoneC.text,
+                                address: adressC.text,
+                              ),
+                            ));
+                      },
+                icon: const Icon(Icons.save),
+              ),
+            ],
           ),
-        ],
-      ),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.symmetric(horizontal: 10.0),
-        child: BlocBuilder<UserBloc, UserState>(
-          builder: (context, state) {
-            switch (state) {
-              case UserLoaded():
-                final user = state.result;
-                nameC = TextEditingController(text: user.name.toTitleCase());
-                emailC = TextEditingController(text: user.email.toTitleCase());
-                phoneC = TextEditingController(text: user.phone);
-                adressC =
-                    TextEditingController(text: user.address.toTitleCase());
-              default:
-                break;
-            }
-            return FadeIn(
+          body: SingleChildScrollView(
+            padding: const EdgeInsets.all(10.0),
+            child: FadeIn(
               duration: const Duration(milliseconds: 1000),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -70,16 +100,13 @@ class _UserInfoState extends State<UserInfo> {
                         'User Info',
                         style: style,
                       ),
-                      TextButton(
-                        onPressed: () {
-                          setState(() {
-                            readOnly = false;
-                          });
-                        },
-                        child: Text(
-                          'Edit',
-                          style: bodyTextStyle.copyWith(
-                              decoration: TextDecoration.underline),
+                      GestureDetector(
+                        onTap: () => setState(() {
+                          readOnly = false;
+                        }),
+                        child: const Icon(
+                          Icons.edit_outlined,
+                          color: primaryColor,
                         ),
                       ),
                     ],
@@ -129,10 +156,10 @@ class _UserInfoState extends State<UserInfo> {
                   ),
                 ],
               ),
-            );
-          },
-        ),
-      ),
+            ),
+          ),
+        );
+      },
     );
   }
 

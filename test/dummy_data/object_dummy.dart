@@ -14,7 +14,8 @@ final tUserModel = UserModel(
   address: "garut, jawa barat",
   image: null,
   role: "user",
-  token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1YTYxNWUwZWUwZTk5OGZhOGIzMjA2OCIsIm5hbWUiOiJhZG1pbiIsImVtYWlsIjoiYWRtaW5AZ21haWwuY29tIiwiaWF0IjoxNzA1MzkyMDc4LCJleHAiOjE3MDU0Nzg0Nzh9.95zULvaQD3y5FezxyDw6czml0qcWHaeApSDktd6iyhY",
+  token:
+      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1YTYxNWUwZWUwZTk5OGZhOGIzMjA2OCIsIm5hbWUiOiJhZG1pbiIsImVtYWlsIjoiYWRtaW5AZ21haWwuY29tIiwiaWF0IjoxNzA1MzkyMDc4LCJleHAiOjE3MDU0Nzg0Nzh9.95zULvaQD3y5FezxyDw6czml0qcWHaeApSDktd6iyhY",
   createdAt: DateTime.parse("2024-01-16T05:36:32.561Z"),
   updatedAt: DateTime.parse("2024-01-16T08:01:18.571Z"),
 );
@@ -27,7 +28,8 @@ final tUser = User(
   password: "\$2b\$10\$qKBGlQ6klNZFrikJ/w4psuoyIDz7PO4GUB36kFGmhzDQqNucHWXcm",
   address: "garut, jawa barat",
   role: "user",
-  token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1YTYxNWUwZWUwZTk5OGZhOGIzMjA2OCIsIm5hbWUiOiJhZG1pbiIsImVtYWlsIjoiYWRtaW5AZ21haWwuY29tIiwiaWF0IjoxNzA1MzkyMDc4LCJleHAiOjE3MDU0Nzg0Nzh9.95zULvaQD3y5FezxyDw6czml0qcWHaeApSDktd6iyhY",
+  token:
+      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1YTYxNWUwZWUwZTk5OGZhOGIzMjA2OCIsIm5hbWUiOiJhZG1pbiIsImVtYWlsIjoiYWRtaW5AZ21haWwuY29tIiwiaWF0IjoxNzA1MzkyMDc4LCJleHAiOjE3MDU0Nzg0Nzh9.95zULvaQD3y5FezxyDw6czml0qcWHaeApSDktd6iyhY",
   image: null,
   createdAt: DateTime.parse("2024-01-16T05:36:32.561Z"),
   updatedAt: DateTime.parse("2024-01-16T08:01:18.571Z"),
@@ -95,3 +97,5 @@ final tProduct = Product(
   createdAt: DateTime.parse('2024-01-05T13:43:44.683Z'),
   updatedAt: DateTime.parse('2024-01-05T13:43:44.683Z'),
 );
+
+final userModel = UserModel.fromEntity(tUserRegister);

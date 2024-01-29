@@ -71,12 +71,12 @@ void main() {
 
     test("should be register success if user register is approve ", () async {
       // arrange
-      when(mockAuthRemoteDataSource.register(tUserRegister))
+      when(mockAuthRemoteDataSource.register(userModel))
           .thenAnswer((_) async => 'register success');
       // act
       final result = await authRepositoryImpl.register(tUserRegister);
       // assert
-      verify(mockAuthRemoteDataSource.register(tUserRegister));
+      verify(mockAuthRemoteDataSource.register(userModel));
       expect(result, const Right('register success'));
     });
   });

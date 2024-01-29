@@ -10,12 +10,12 @@ String userModelToJson(UserModel data) => json.encode(data.toJson());
 
 class UserModel extends Equatable {
   final String? id;
-  final String name;
-  final String email;
-  final String phone;
-  final String password;
+  final String? name;
+  final String? email;
+  final String? phone;
+  final String? password;
   final String? confPassword;
-  final String address;
+  final String? address;
   final String? role;
   final String? image;
   final String? token;
@@ -24,12 +24,12 @@ class UserModel extends Equatable {
 
   const UserModel({
     this.id,
-    required this.name,
-    required this.email,
-    required this.phone,
-    required this.password,
+    this.name,
+    this.email,
+    this.phone,
+    this.password,
     this.confPassword,
-    required this.address,
+    this.address,
     this.role,
     this.image,
     this.token,

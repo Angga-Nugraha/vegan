@@ -58,6 +58,7 @@ class ProfilePage extends StatelessWidget {
                 ),
                 child: ListView(
                   padding: const EdgeInsets.only(bottom: 50.0),
+                  physics: const ClampingScrollPhysics(),
                   children: [
                     SizedBox(
                       child: BlocBuilder<UserBloc, UserState>(

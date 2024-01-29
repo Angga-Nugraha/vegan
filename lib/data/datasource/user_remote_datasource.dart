@@ -9,6 +9,7 @@ import 'package:vegan/data/utils/exception.dart';
 
 abstract class UserRemoteDatasource {
   Future<UserModel> getCurrentUser();
+  Future<UserModel> updateUser(UserModel user);
 }
 
 class UserRemoteDatasourceImpl implements UserRemoteDatasource {
@@ -33,6 +34,40 @@ class UserRemoteDatasourceImpl implements UserRemoteDatasource {
 
     final response = await client.get(Uri.parse('$baseUrl/api/user/$userId'),
         headers: headers);
+    final data = json.decode(response.body);
+
+    if (response.statusCode == 200) {
+      return UserModel.fromJson(data['data']);
+    } else {
+      throw ServerException(data['msg']);
+    }
+  }
+
+  @override
+  Future<UserModel> updateUser(UserModel user) async {
+    final auth = await storage.readData('auth');
+    String? userId;
+    Map<String, String> headers = {};
+
+    final body = user.toJson();
+
+    if (!Platform.environment.containsKey('FLUTTER_TEST')) {
+      final data = json.decode(auth!);
+      userId = data['id'];
+      headers = {
+        'Content-Type': 'application/json',
+        'authorization': 'Bearer ${data['accessToken']}'
+      };
+    } else {
+      userId = '65a615e0ee0e998fa8b32068';
+    }
+
+    final response = await client.patch(
+      Uri.parse('$baseUrl/api/user/$userId'),
+      headers: headers,
+      body: json.encode(body),
+    );
+
     final data = json.decode(response.body);
 
     if (response.statusCode == 200) {

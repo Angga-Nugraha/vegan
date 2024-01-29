@@ -1,5 +1,6 @@
 import 'package:dartz/dartz.dart';
 import 'package:vegan/data/datasource/user_remote_datasource.dart';
+import 'package:vegan/data/model/user_model.dart';
 import 'package:vegan/data/utils/exception.dart';
 import 'package:vegan/data/utils/failure.dart';
 import 'package:vegan/domain/entities/user.dart';
@@ -13,6 +14,21 @@ class UserRepositoryImpl implements UserRepository {
   Future<Either<Failure, User>> getCurrentUser() async {
     try {
       final result = await userRemoteDatasource.getCurrentUser();
+
+      return Right(result.toEntity());
+    } on ServerException catch (e) {
+      return Left(ServerFailure(e.message));
+    } catch (e) {
+      return Left(CommonFailure(e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, User>> updateUser(User user) async {
+    final userModel = UserModel.fromEntity(user);
+
+    try {
+      final result = await userRemoteDatasource.updateUser(userModel);
 
       return Right(result.toEntity());
     } on ServerException catch (e) {

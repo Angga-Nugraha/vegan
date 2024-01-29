@@ -28,5 +28,16 @@ void main() {
       verify(mockUserRemoteDatasource.getCurrentUser());
       expect(result, equals(Right(tUser)));
     });
+    test('Return Right of new User when update completed', () async {
+      // arrange
+      when(mockUserRemoteDatasource.updateUser(userModel))
+          .thenAnswer((_) async => tUserModel);
+      // act
+      final result = await userRepositoryImpl.updateUser(tUserRegister);
+
+      // assert
+      verify(mockUserRemoteDatasource.updateUser(userModel));
+      expect(result, equals(Right(tUser)));
+    });
   });
 }

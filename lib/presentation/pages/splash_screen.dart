@@ -7,8 +7,8 @@ import 'package:vegan/presentation/pages/root_screen.dart';
 import '../../data/helpers/storage_helper.dart';
 import '../../data/utils/styles.dart';
 import 'Auth/auth_page.dart';
-import 'Auth/login_page.dart';
-import 'Auth/register_page.dart';
+import 'Auth/widgets/login_page.dart';
+import 'Auth/widgets/register_page.dart';
 
 class Splash extends StatefulWidget {
   const Splash({super.key});
@@ -62,7 +62,7 @@ class _SplashState extends State<Splash> {
                 },
               ),
             );
-          } else if(snapshot.hasData) {
+          } else if (snapshot.hasData) {
             final data = json.decode(snapshot.data!);
             if (data['status'] == 'success') {
               return const RootScreen();
@@ -74,13 +74,13 @@ class _SplashState extends State<Splash> {
                 ],
               );
             }
-          }else{
-              return const AuthPage(
-                listPage: [
-                  LoginPage(),
-                  RegisterPage(),
-                ],
-              );
+          } else {
+            return const AuthPage(
+              listPage: [
+                LoginPage(),
+                RegisterPage(),
+              ],
+            );
           }
         },
       ),

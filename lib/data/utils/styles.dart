@@ -27,7 +27,7 @@ ThemeData myTheme = ThemeData(
 );
 
 TextStyle titleStyle = const TextStyle(
-    fontFamily: 'Firasans',
+    fontFamily: 'PTSerif',
     fontSize: 25,
     color: foregroundColor,
     fontWeight: FontWeight.bold);

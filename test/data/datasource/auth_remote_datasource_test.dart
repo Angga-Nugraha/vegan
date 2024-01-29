@@ -121,7 +121,8 @@ void main() {
           http.Response(readJson('dummy_data/register.json'), 200));
 
       // act
-      final result = await dataSourceImpl.register(tUserRegister);
+
+      final result = await dataSourceImpl.register(userModel);
 
       // assert
       expect(result, equals('register success'));
@@ -135,7 +136,7 @@ void main() {
           http.Response(readJson('dummy_data/response_failed.json'), 400));
 
       // act
-      final result = dataSourceImpl.register(tUserRegister);
+      final result = dataSourceImpl.register(userModel);
 
       // assert
       expect(result, throwsA(isA<ServerException>()));
@@ -148,7 +149,7 @@ void main() {
       ).thenThrow(ServerException('Something went wrong'));
 
       // act
-      final result = dataSourceImpl.register(tUserRegister);
+      final result = dataSourceImpl.register(userModel);
 
       // assert
       expect(result, throwsA(isA<ServerException>()));

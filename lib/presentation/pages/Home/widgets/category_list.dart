@@ -11,36 +11,44 @@ class ListCategory extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: 100,
-      child: Wrap(
-        spacing: 10,
-        runSpacing: 10,
-        children: List.generate(
-          category.length,
-          (index) => FadeInLeft(
-            duration: const Duration(seconds: 1),
-            child: Column(
-              children: [
-                Container(
-                  margin: const EdgeInsets.symmetric(horizontal: 10.0),
-                  height: 50,
-                  width: 50,
-                  decoration: BoxDecoration(
-                    image: DecorationImage(
-                      image: AssetImage('assets/img/${category[index]}.png'),
+    return Container(
+        alignment: Alignment.center,
+        height: 100,
+        child: ListView.builder(
+          scrollDirection: Axis.horizontal,
+          physics: const ClampingScrollPhysics(),
+          padding: EdgeInsets.zero,
+          itemBuilder: (context, index) {
+            return Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8),
+              child: Column(
+                children: [
+                  FadeIn(
+                    duration: const Duration(seconds: 1),
+                    child: Container(
+                      margin: const EdgeInsets.symmetric(horizontal: 10.0),
+                      height: 50,
+                      width: 50,
+                      decoration: BoxDecoration(
+                        image: DecorationImage(
+                          image:
+                              AssetImage('assets/img/${category[index]}.png'),
+                        ),
+                      ),
                     ),
                   ),
-                ),
-                Text(
-                  category[index],
-                  style: bodyTextStyle,
-                )
-              ],
-            ),
-          ),
-        ),
-      ),
-    );
+                  FadeIn(
+                    duration: const Duration(seconds: 1),
+                    child: Text(
+                      category[index],
+                      style: bodyTextStyle,
+                    ),
+                  )
+                ],
+              ),
+            );
+          },
+          itemCount: category.length,
+        ));
   }
 }

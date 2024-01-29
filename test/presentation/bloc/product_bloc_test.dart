@@ -29,6 +29,7 @@ void main() {
           return productBloc;
         },
         act: (bloc) => bloc.add(const FetchAllProduct()),
+        wait: const Duration(seconds: 3),
         expect: () => <ProductState>[
               ProductLoading(),
               ProductLoaded(result: [tProduct]),
@@ -40,6 +41,7 @@ void main() {
               .thenAnswer((_) async => const Left(ServerFailure('Error')));
           return productBloc;
         },
+        wait: const Duration(seconds: 3),
         act: (bloc) => bloc.add(const FetchAllProduct()),
         expect: () => <ProductState>[
               ProductLoading(),

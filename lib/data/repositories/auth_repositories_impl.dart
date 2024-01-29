@@ -6,6 +6,8 @@ import 'package:vegan/domain/entities/auth.dart';
 import 'package:vegan/domain/entities/user.dart';
 import 'package:vegan/domain/repositories/auth_repositories.dart';
 
+import '../model/user_model.dart';
+
 class AuthRepositoryImpl implements AuthRepository {
   final AuthRemoteDataSource authRemoteDataSource;
 
@@ -39,8 +41,9 @@ class AuthRepositoryImpl implements AuthRepository {
 
   @override
   Future<Either<Failure, String>> register(User user) async {
+    final userModel = UserModel.fromEntity(user);
     try {
-      final result = await authRemoteDataSource.register(user);
+      final result = await authRemoteDataSource.register(userModel);
       return Right(result);
     } on ServerException catch (e) {
       return Left(ServerFailure(e.message));

@@ -20,6 +20,16 @@ final class UserLoaded extends UserState {
   List<Object> get props => [result];
 }
 
+final class UserUpdated extends UserState {
+  final User result;
+  final String message;
+
+  const UserUpdated({required this.result, required this.message});
+
+  @override
+  List<Object> get props => [result, message];
+}
+
 final class UserError extends UserState {
   final String message;
 

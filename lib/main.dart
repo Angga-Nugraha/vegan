@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:vegan/presentation/bloc/product_bloc/product_bloc.dart';
 import 'package:vegan/presentation/bloc/upload_bloc/upload_bloc.dart';
 import 'package:vegan/presentation/bloc/user_bloc/user_bloc.dart';
-import 'package:vegan/presentation/pages/User/widget/user_information.dart';
+import 'package:vegan/presentation/pages/Profile/widget/user_information.dart';
 import 'package:vegan/presentation/pages/root_screen.dart';
 
 import 'injection.dart' as di;
@@ -12,8 +12,8 @@ import 'data/utils/routes.dart';
 import 'data/utils/styles.dart';
 import 'presentation/bloc/auth_bloc/auth_bloc.dart';
 import 'presentation/pages/Auth/auth_page.dart';
-import 'presentation/pages/Auth/login_page.dart';
-import 'presentation/pages/Auth/register_page.dart';
+import 'presentation/pages/Auth/widgets/login_page.dart';
+import 'presentation/pages/Auth/widgets/register_page.dart';
 import 'presentation/pages/splash_screen.dart';
 
 void main() {

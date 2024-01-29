@@ -66,8 +66,8 @@ class _UserHeaderState extends State<UserHeader> {
                           return Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: CircleAvatar(
-                              backgroundImage: NetworkImage(
-                                  convertUrl(widget.user.image!)),
+                              backgroundImage:
+                                  NetworkImage(convertUrl(widget.user.image!)),
                               radius: 50,
                             ),
                           );
@@ -98,7 +98,7 @@ class _UserHeaderState extends State<UserHeader> {
                   context: context,
                   builder: (context) {
                     return SizedBox(
-                    height: MediaQuery.of(context).size.width / 2,
+                      height: MediaQuery.of(context).size.width / 2,
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
@@ -166,11 +166,11 @@ class _UserHeaderState extends State<UserHeader> {
           ],
         ),
         Text(
-          widget.user.name.toTitleCase(),
+          widget.user.name!.toTitleCase(),
           style: subTitleStyle.copyWith(color: Colors.black87),
         ),
         Text(
-          widget.user.email.toTitleCase(),
+          widget.user.email!.toTitleCase(),
           style: bodyTextStyle,
         ),
       ],

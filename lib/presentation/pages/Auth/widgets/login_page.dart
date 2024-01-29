@@ -5,10 +5,10 @@ import 'package:lottie/lottie.dart';
 import 'package:animate_do/animate_do.dart';
 import 'package:vegan/data/utils/routes.dart';
 
-import '../../../data/utils/constant.dart';
-import '../../../data/utils/styles.dart';
-import '../../bloc/auth_bloc/auth_bloc.dart';
-import '../components/components_helper.dart';
+import '../../../../data/utils/constant.dart';
+import '../../../../data/utils/styles.dart';
+import '../../../bloc/auth_bloc/auth_bloc.dart';
+import '../../components/components_helper.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -33,11 +33,11 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     return Center(
       child: ListView(
-        physics: const BouncingScrollPhysics(),
-        padding: const EdgeInsets.fromLTRB(20, 20, 20, 40),
+        physics: const ClampingScrollPhysics(),
+        padding: const EdgeInsets.symmetric(horizontal: 20),
         children: [
           SizedBox(
-            height: 250,
+            height: 180,
             child: Lottie.asset(
               'assets/lottie/login.json',
             ),
@@ -65,6 +65,7 @@ class _LoginPageState extends State<LoginPage> {
                   Navigator.pushNamedAndRemoveUntil(
                       context, homePageRoute, (route) => false);
                 default:
+                  break;
               }
             },
             builder: (context, state) {
@@ -75,11 +76,10 @@ class _LoginPageState extends State<LoginPage> {
                     style: bodyTextStyle.copyWith(color: Colors.red),
                   );
                 default:
-                  return Container();
+                  return const SizedBox();
               }
             },
           ),
-          
           const SizedBox(height: 10),
           FadeInLeft(
             duration: const Duration(seconds: 1),

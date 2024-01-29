@@ -39,9 +39,11 @@ void main() {
 
       expect(result, equals([tProductModel]));
     });
-    test('Should be ServerException if request failed', () async {
+
+    test('Should be ServerException if response status code 500', () async {
       when(mockHttpClient.get(Uri.parse('$baseUrl/api/product'), headers: {}))
-          .thenThrow(ServerException('Not Found'));
+          .thenAnswer((_) async =>
+              http.Response(readJson('dummy_data/response_failed.json'), 500));
       final result = productRemoteDatasourceImpl.getAllProduct();
 
       expect(result, throwsA(isA<ServerException>()));

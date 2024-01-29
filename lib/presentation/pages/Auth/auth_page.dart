@@ -11,16 +11,16 @@ class AuthPage extends StatefulWidget {
 }
 
 class _AuthPageState extends State<AuthPage> {
-@override
+  @override
   void dispose() {
     super.dispose();
   }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
         body: PageView(
-          physics: const NeverScrollableScrollPhysics(),
           controller: controller,
           children: [...widget.listPage],
         ),

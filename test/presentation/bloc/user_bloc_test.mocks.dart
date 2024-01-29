@@ -11,6 +11,7 @@ import 'package:vegan/data/utils/failure.dart' as _i6;
 import 'package:vegan/domain/entities/user.dart' as _i7;
 import 'package:vegan/domain/repositories/user_repository.dart' as _i2;
 import 'package:vegan/domain/usecase/User/get_current_user.dart' as _i4;
+import 'package:vegan/domain/usecase/User/update_user.dart' as _i8;
 
 // ignore_for_file: type=lint
 // ignore_for_file: avoid_redundant_argument_values
@@ -76,6 +77,41 @@ class MockGetCurrentUser extends _i1.Mock implements _i4.GetCurrentUser {
           Invocation.method(
             #execute,
             [],
+          ),
+        )),
+      ) as _i5.Future<_i3.Either<_i6.Failure, _i7.User>>);
+}
+
+/// A class which mocks [UpdateUser].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockUpdateUser extends _i1.Mock implements _i8.UpdateUser {
+  MockUpdateUser() {
+    _i1.throwOnMissingStub(this);
+  }
+
+  @override
+  _i2.UserRepository get userRepository => (super.noSuchMethod(
+        Invocation.getter(#userRepository),
+        returnValue: _FakeUserRepository_0(
+          this,
+          Invocation.getter(#userRepository),
+        ),
+      ) as _i2.UserRepository);
+
+  @override
+  _i5.Future<_i3.Either<_i6.Failure, _i7.User>> execute(_i7.User? user) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #execute,
+          [user],
+        ),
+        returnValue: _i5.Future<_i3.Either<_i6.Failure, _i7.User>>.value(
+            _FakeEither_1<_i6.Failure, _i7.User>(
+          this,
+          Invocation.method(
+            #execute,
+            [user],
           ),
         )),
       ) as _i5.Future<_i3.Either<_i6.Failure, _i7.User>>);

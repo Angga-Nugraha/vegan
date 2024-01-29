@@ -1,11 +1,13 @@
+import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:vegan/data/utils/routes.dart';
+import 'package:vegan/data/utils/constant.dart';
 import 'package:vegan/presentation/bloc/product_bloc/product_bloc.dart';
 
 import '../../../data/utils/styles.dart';
+import '../../bloc/user_bloc/user_bloc.dart';
 import '../components/components_helper.dart';
 import 'widgets/category_list.dart';
 import 'widgets/discount_card.dart';
@@ -38,12 +40,46 @@ class MyHomePage extends StatelessWidget {
                             fit: BoxFit.cover),
                       ),
                     ),
+                    Container(
+                      decoration: const BoxDecoration(
+                        gradient: RadialGradient(colors: [
+                          Colors.transparent,
+                          Colors.black26,
+                        ], radius: 1),
+                      ),
+                    ),
                     Positioned(
-                      top: 40,
-                      left: 20,
-                      child: Text(
-                        'Welcome to Vegan',
-                        style: titleStyle.copyWith(color: Colors.white),
+                      top: 25,
+                      left: 10,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Welcome to Vegan,',
+                            style: titleStyle.copyWith(color: Colors.white),
+                          ),
+                          BlocBuilder<UserBloc, UserState>(
+                            builder: (context, state) {
+                              switch (state) {
+                                case UserLoaded():
+                                  String? user =
+                                      state.result.name?.toTitleCase();
+                                  return FadeIn(
+                                    duration: const Duration(milliseconds: 500),
+                                    child: Text(
+                                      user ?? '',
+                                      style: subTitleStyle.copyWith(
+                                          color: Colors.white),
+                                    ),
+                                  );
+                                case UserError():
+                                  return Text(state.message);
+                                default:
+                                  return const SizedBox();
+                              }
+                            },
+                          )
+                        ],
                       ),
                     ),
                   ],
@@ -93,11 +129,7 @@ class MyHomePage extends StatelessWidget {
               children: [
                 const ListCategory(),
                 const DiscountCard(),
-                _headers(
-                    title: 'Top Rated',
-                    onPressed: () {
-                      Navigator.pushReplacementNamed(context, authPageRoutes);
-                    }),
+                _headers(title: 'Top Rated', onPressed: () {}),
                 const Divider(),
                 BlocBuilder<ProductBloc, ProductState>(
                   builder: (context, state) {
@@ -116,7 +148,7 @@ class MyHomePage extends StatelessWidget {
                             : SizedBox(
                                 height: 280,
                                 child: ListView.builder(
-                                    physics: const BouncingScrollPhysics(),
+                                    physics: const ClampingScrollPhysics(),
                                     itemCount: toprated.length,
                                     padding: const EdgeInsets.all(8.0),
                                     scrollDirection: Axis.horizontal,
@@ -151,7 +183,7 @@ class MyHomePage extends StatelessWidget {
                             : SizedBox(
                                 height: 280,
                                 child: ListView.builder(
-                                    physics: const BouncingScrollPhysics(),
+                                    physics: const ClampingScrollPhysics(),
                                     itemCount: allProduct.length,
                                     padding: const EdgeInsets.all(8.0),
                                     scrollDirection: Axis.horizontal,

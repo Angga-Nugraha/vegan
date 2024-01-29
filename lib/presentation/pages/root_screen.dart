@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:vegan/data/utils/styles.dart';
 import 'package:vegan/presentation/bloc/user_bloc/user_bloc.dart';
 import 'package:vegan/presentation/pages/Home/home_page.dart';
-import 'package:vegan/presentation/pages/User/profile_page.dart';
+import 'package:vegan/presentation/pages/Profile/profile_page.dart';
 
 import '../bloc/product_bloc/product_bloc.dart';
 
@@ -39,11 +39,11 @@ class _RootScreenState extends State<RootScreen> {
     ];
 
     Future.microtask(() => [
-      BlocProvider.of<ProductBloc>(context, listen: false)
-        .add(const FetchAllProduct()),
-      BlocProvider.of<UserBloc>(context, listen: false)
-        .add(const FetchCurrentUser()),
-    ]);
+          BlocProvider.of<ProductBloc>(context, listen: false)
+              .add(const FetchAllProduct()),
+          BlocProvider.of<UserBloc>(context, listen: false)
+              .add(const FetchCurrentUser()),
+        ]);
   }
 
   @override

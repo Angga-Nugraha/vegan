@@ -112,6 +112,22 @@ class MockUserRemoteDatasource extends _i1.Mock
           ),
         )),
       ) as _i7.Future<_i2.UserModel>);
+
+  @override
+  _i7.Future<_i2.UserModel> updateUser(_i2.UserModel? user) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #updateUser,
+          [user],
+        ),
+        returnValue: _i7.Future<_i2.UserModel>.value(_FakeUserModel_0(
+          this,
+          Invocation.method(
+            #updateUser,
+            [user],
+          ),
+        )),
+      ) as _i7.Future<_i2.UserModel>);
 }
 
 /// A class which mocks [UserRepository].
@@ -135,6 +151,23 @@ class MockUserRepository extends _i1.Mock implements _i8.UserRepository {
           Invocation.method(
             #getCurrentUser,
             [],
+          ),
+        )),
+      ) as _i7.Future<_i3.Either<_i9.Failure, _i10.User>>);
+
+  @override
+  _i7.Future<_i3.Either<_i9.Failure, _i10.User>> updateUser(_i10.User? user) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #updateUser,
+          [user],
+        ),
+        returnValue: _i7.Future<_i3.Either<_i9.Failure, _i10.User>>.value(
+            _FakeEither_1<_i9.Failure, _i10.User>(
+          this,
+          Invocation.method(
+            #updateUser,
+            [user],
           ),
         )),
       ) as _i7.Future<_i3.Either<_i9.Failure, _i10.User>>);
@@ -258,7 +291,7 @@ class MockAuthRemoteDataSource extends _i1.Mock
       ) as _i7.Future<String>);
 
   @override
-  _i7.Future<String> register(_i10.User? user) => (super.noSuchMethod(
+  _i7.Future<String> register(_i2.UserModel? user) => (super.noSuchMethod(
         Invocation.method(
           #register,
           [user],
