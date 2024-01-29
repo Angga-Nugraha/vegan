@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:vegan/presentation/bloc/product_bloc/product_bloc.dart';
+import 'package:vegan/presentation/bloc/upload_bloc/upload_bloc.dart';
 import 'package:vegan/presentation/bloc/user_bloc/user_bloc.dart';
+import 'package:vegan/presentation/pages/User/widget/user_information.dart';
 import 'package:vegan/presentation/pages/root_screen.dart';
 
 import 'injection.dart' as di;
@@ -35,6 +37,7 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (context) => di.locator<AuthBloc>()),
         BlocProvider(create: (context) => di.locator<ProductBloc>()),
         BlocProvider(create: (context) => di.locator<UserBloc>()),
+        BlocProvider(create: (context) => di.locator<UploadBloc>()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
@@ -47,6 +50,10 @@ class MyApp extends StatelessWidget {
             case splashScreenRoute:
               return MaterialPageRoute(
                 builder: (_) => const Splash(),
+              );
+            case userInfoRoutes:
+              return MaterialPageRoute(
+                builder: (_) => const UserInfo(),
               );
             case homePageRoute:
               return MaterialPageRoute(

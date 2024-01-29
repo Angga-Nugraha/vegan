@@ -103,9 +103,7 @@ class MyHomePage extends StatelessWidget {
                   builder: (context, state) {
                     switch (state) {
                       case ProductLoading():
-                        return const Center(
-                          child: CircularProgressIndicator(),
-                        );
+                        return listShimmer();
                       case ProductLoaded():
                         final toprated = state.result
                             .map((e) => e)
@@ -143,9 +141,7 @@ class MyHomePage extends StatelessWidget {
                   builder: (context, state) {
                     switch (state) {
                       case ProductLoading():
-                        return const Center(
-                          child: CircularProgressIndicator(),
-                        );
+                        return listShimmer();
                       case ProductLoaded():
                         final allProduct = state.result;
                         return allProduct.isEmpty

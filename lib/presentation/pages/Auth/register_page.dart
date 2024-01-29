@@ -57,7 +57,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   curve: Curves.easeOut);
             });
           case Unregistered():
-            mySnackbar(context, message: state.message);
+            mySnackbar(context, message: state.message.toTitleCase());
           default:
             break;
         }

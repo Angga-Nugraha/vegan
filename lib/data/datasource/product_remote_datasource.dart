@@ -26,9 +26,11 @@ class ProductRemoteDatasourceImpl implements ProductRemoteDatasource {
     //only runs when you are NOT testing
     if (!Platform.environment.containsKey('FLUTTER_TEST')) {
       final String token = json.decode(auth!)["accessToken"];
-      headers = {'authorization': 'Bearer $token'};
+      headers = {
+        'authorization': 'Bearer $token',
+      };
     }
-
+  
     final response = await client.get(
       Uri.parse('$baseUrl/api/product'),
       headers: headers,

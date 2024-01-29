@@ -12,6 +12,7 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
   ProductBloc({required this.getAllProduct}) : super(ProductInitial()) {
     on<FetchAllProduct>((event, emit) async {
       emit(ProductLoading());
+      await Future.delayed(const Duration(seconds: 3));
 
       final result = await getAllProduct.execute();
 

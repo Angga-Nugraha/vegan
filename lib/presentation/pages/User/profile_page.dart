@@ -1,29 +1,33 @@
+import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:vegan/data/utils/constant.dart';
 import 'package:vegan/data/utils/routes.dart';
 import 'package:vegan/data/utils/styles.dart';
-import 'package:vegan/domain/entities/user.dart';
 import 'package:vegan/presentation/bloc/auth_bloc/auth_bloc.dart';
 import 'package:vegan/presentation/bloc/user_bloc/user_bloc.dart';
+
+import '../../../domain/entities/user.dart';
+import '../../bloc/upload_bloc/upload_bloc.dart';
+import '../components/components_helper.dart';
+import 'widget/user_header.dart';
 
 class ProfilePage extends StatelessWidget {
   const ProfilePage({super.key});
 
+  static User? user;
+
   @override
   Widget build(BuildContext context) {
-    return BlocListener<AuthBloc, AuthState>(
+    return BlocListener<UploadBloc, UploadState>(
       listener: (context, state) {
         switch (state) {
-          case AuthLoading():
-            break;
-          case LogoutError():
-            debugPrint('Error');
-            Navigator.pushReplacementNamed(context, authPageRoutes);
-          case Unauthenticated():
-            Navigator.pushReplacementNamed(context, authPageRoutes);
+          case UploadSuccess():
+            mySnackbar(context, message: state.message.toTitleCase());
+          case UploadError():
+            mySnackbar(context, message: state.message);
           default:
-            Navigator.pushReplacementNamed(context, authPageRoutes);
+            break;
         }
       },
       child: Scaffold(
@@ -42,19 +46,6 @@ class ProfilePage extends StatelessWidget {
               ),
             ),
             Positioned(
-              top: 40,
-              right: 10,
-              child: GestureDetector(
-                onTap: () {
-                  context.read<AuthBloc>().add(LogoutEvent());
-                },
-                child: const Icon(
-                  Icons.logout_rounded,
-                  color: backgroundColor,
-                ),
-              ),
-            ),
-            Positioned(
               top: 70,
               child: Container(
                 height: MediaQuery.of(context).size.height,
@@ -66,6 +57,7 @@ class ProfilePage extends StatelessWidget {
                       BorderRadius.vertical(top: Radius.circular(30.0)),
                 ),
                 child: ListView(
+                  padding: const EdgeInsets.only(bottom: 50.0),
                   children: [
                     SizedBox(
                       child: BlocBuilder<UserBloc, UserState>(
@@ -76,8 +68,10 @@ class ProfilePage extends StatelessWidget {
                                 child: CircularProgressIndicator(),
                               );
                             case UserLoaded():
-                              final user = state.result;
-                              return _builUserHeader(user);
+                              user = state.result;
+                              return FadeIn(
+                                  duration: const Duration(milliseconds: 500),
+                                  child: UserHeader(user: user!));
                             case UserError():
                               return Text(state.message);
                             default:
@@ -87,15 +81,102 @@ class ProfilePage extends StatelessWidget {
                       ),
                     ),
                     const Divider(),
-                    _buildSubMenu(
-                        icon: Icons.person, title: 'Acount Information'),
-                    _buildSubMenu(
-                        icon: Icons.location_on_outlined,
-                        title: 'Delivery Adrress'),
-                    _buildSubMenu(
-                        icon: Icons.payment_outlined, title: 'Payment Method'),
-                    _buildSubMenu(
-                        icon: Icons.lock_outlined, title: 'Changed Password'),
+                    FadeInLeft(
+                      duration: const Duration(milliseconds: 500),
+                      child: _buildSubMenu(
+                          onTap: () {
+                            Navigator.pushNamed(context, userInfoRoutes);
+                          },
+                          icon: Icons.person,
+                          title: 'Acount Information'),
+                    ),
+                    FadeInRight(
+                      duration: const Duration(milliseconds: 500),
+                      child: _buildSubMenu(
+                          onTap: () {},
+                          icon: Icons.payment_outlined,
+                          title: 'Payment Method'),
+                    ),
+                    FadeInLeft(
+                      duration: const Duration(milliseconds: 500),
+                      child: _buildSubMenu(
+                          onTap: () {},
+                          icon: Icons.lock_outlined,
+                          title: 'Changed Password'),
+                    ),
+                    FadeInRight(
+                      duration: const Duration(milliseconds: 500),
+                      child: _buildSubMenu(
+                          onTap: () {
+                            showDialog(
+                              context: context,
+                              builder: (context) => AlertDialog(
+                                titleTextStyle: subTitleStyle,
+                                contentTextStyle: bodyTextStyle,
+                                title: const Text(
+                                  'Logout',
+                                ),
+                                content: BlocConsumer<AuthBloc, AuthState>(
+                                  listener: (context, state) {
+                                    switch (state) {
+                                      case Unauthenticated():
+                                        Navigator.pushReplacementNamed(
+                                            context, authPageRoutes);
+                                      case LogoutError():
+                                        Navigator.pushReplacementNamed(
+                                            context, authPageRoutes);
+                                      default:
+                                        Navigator.pushReplacementNamed(
+                                            context, authPageRoutes);
+                                    }
+                                  },
+                                  builder: (context, state) {
+                                    switch (state) {
+                                      case AuthLoading():
+                                        return const SizedBox(
+                                          height: 50,
+                                          width: 50,
+                                          child: Center(
+                                              child:
+                                                  CircularProgressIndicator()),
+                                        );
+                                      default:
+                                        return const Text(
+                                          'Are you sure want to logout?',
+                                        );
+                                    }
+                                  },
+                                ),
+                                actions: <Widget>[
+                                  TextButton(
+                                    onPressed: () {
+                                      Navigator.pop(context);
+                                    },
+                                    child: Text(
+                                      'No',
+                                      style:
+                                          subTitleStyle.copyWith(fontSize: 12),
+                                    ),
+                                  ),
+                                  TextButton(
+                                    onPressed: () {
+                                      context
+                                          .read<AuthBloc>()
+                                          .add(LogoutEvent());
+                                    },
+                                    child: Text(
+                                      'Yes',
+                                      style:
+                                          subTitleStyle.copyWith(fontSize: 12),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            );
+                          },
+                          icon: Icons.logout_rounded,
+                          title: 'Logout'),
+                    ),
                   ],
                 ),
               ),
@@ -106,53 +187,18 @@ class ProfilePage extends StatelessWidget {
     );
   }
 
-  Widget _buildSubMenu({required IconData icon, required String title}) {
+  Widget _buildSubMenu({
+    required IconData icon,
+    required String title,
+    VoidCallback? onTap,
+  }) {
     return ListTile(
+      onTap: onTap,
       iconColor: foregroundColor,
       titleTextStyle: subTitleStyle.copyWith(color: Colors.black87),
       leading: Icon(icon),
       title: Text(title),
       trailing: const Icon(Icons.arrow_forward_ios),
-    );
-  }
-
-  Widget _builUserHeader(User user) {
-    return Column(
-      children: [
-        Stack(
-          children: [
-            Container(
-              height: 100,
-              width: 100,
-              decoration: BoxDecoration(
-                border: Border.all(color: Colors.grey),
-                image: DecorationImage(
-                  image: user.image == null
-                      ? const AssetImage('assets/img/no_profile.jpg')
-                      : NetworkImage(convertUrl(user.image!)) as ImageProvider,
-                  fit: BoxFit.cover,
-                ),
-                shape: BoxShape.circle,
-              ),
-            ),
-            GestureDetector(
-              child: const Icon(
-                Icons.add_a_photo_rounded,
-                color: Colors.black87,
-                size: 24,
-              ),
-            )
-          ],
-        ),
-        Text(
-          user.name.toTitleCase(),
-          style: subTitleStyle.copyWith(color: Colors.black87),
-        ),
-        Text(
-          user.email.toTitleCase(),
-          style: bodyTextStyle,
-        ),
-      ],
     );
   }
 }

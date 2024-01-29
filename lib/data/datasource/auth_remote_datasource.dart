@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:vegan/data/datasource/session_manager.dart';
 import 'package:vegan/data/helpers/storage_helper.dart';
@@ -48,7 +49,6 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   Future<String> logout() async {
     final cookie = await storage.readData('cookie');
     Map<String, String> headers = {};
-
     //only runs when you are NOT testing
     if (!Platform.environment.containsKey('FLUTTER_TEST')) {
       final String token = json.decode(cookie!)["Cookie"];
@@ -60,7 +60,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
 
     final Map<String, dynamic> data =
         Map<String, dynamic>.from(json.decode(response.body));
-
+    debugPrint(response.statusCode.toString());
     await storage.deleteSecureStorage();
     if (response.statusCode == 200) {
       return data['msg'];

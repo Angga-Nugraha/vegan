@@ -16,6 +16,7 @@ ThemeData myTheme = ThemeData(
   visualDensity: VisualDensity.adaptivePlatformDensity,
   appBarTheme: const AppBarTheme(
     backgroundColor: foregroundColor,
+    foregroundColor: backgroundColor,
   ),
   iconTheme: const IconThemeData(color: secondaryColor, size: 20),
   bottomNavigationBarTheme: const BottomNavigationBarThemeData(

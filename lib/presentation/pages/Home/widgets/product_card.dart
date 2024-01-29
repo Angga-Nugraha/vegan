@@ -8,12 +8,11 @@ import '../../../../domain/entities/product.dart';
 class ProductCardItem extends StatelessWidget {
   final Product product;
 
-  ProductCardItem({
+  const ProductCardItem({
     super.key,
     required this.product,
   });
 
-  final GlobalKey widgetKey = GlobalKey();
   @override
   Widget build(BuildContext context) {
     return Column(

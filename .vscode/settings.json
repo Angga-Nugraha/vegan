@@ -2,6 +2,7 @@
     "editor.codeActionsOnSave": {
         "source.fixAll": "always"
     },
+    "editor.formatOnSave": true,
     "workbench.colorTheme": "Atom One Dark",
     "workbench.iconTheme": "material-icon-theme",
 }
