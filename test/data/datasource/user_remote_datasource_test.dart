@@ -74,5 +74,36 @@ void main() {
 
       expect(result, throwsA(isA<ServerException>()));
     });
+    test('show password change when status code 200', () async {
+      when(mockHttpClient.patch(
+        Uri.parse('$baseUrl/api/user/change-password/$userId'),
+        headers: {},
+        body: json.encode({
+          "currentPassword": "curentPass",
+          "newPassword": "newPass",
+        }),
+      )).thenAnswer((_) async =>
+          http.Response(readJson('dummy_data/change_pass.json'), 200));
+
+      final result =
+          await dataSourceImpl.changePassword("curentPass", "newPass");
+
+      expect(result, equals("password changed"));
+    });
+    test('show message error when status code 400', () async {
+      when(mockHttpClient.patch(
+        Uri.parse('$baseUrl/api/user/change-password/$userId'),
+        headers: {},
+        body: json.encode({
+          "currentPassword": "curentPass",
+          "newPassword": "newPass",
+        }),
+      )).thenAnswer((_) async =>
+          http.Response(readJson('dummy_data/response_failed.json'), 404));
+
+      final result = dataSourceImpl.changePassword("curentPass", "newPass");
+
+      expect(result, throwsA(isA<ServerException>()));
+    });
   });
 }

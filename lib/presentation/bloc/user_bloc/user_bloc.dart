@@ -1,6 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:vegan/domain/entities/user.dart';
+import 'package:vegan/domain/usecase/User/change_password.dart';
 import 'package:vegan/domain/usecase/User/get_current_user.dart';
 import 'package:vegan/domain/usecase/User/update_user.dart';
 
@@ -10,8 +11,12 @@ part 'user_state.dart';
 class UserBloc extends Bloc<UserEvent, UserState> {
   final GetCurrentUser getCurrentUser;
   final UpdateUser updateUser;
+  final ChangePassword changePassword;
 
-  UserBloc({required this.getCurrentUser, required this.updateUser})
+  UserBloc(
+      {required this.getCurrentUser,
+      required this.changePassword,
+      required this.updateUser})
       : super(UserInitial()) {
     on<FetchCurrentUser>((event, emit) async {
       emit(UserLoading());
@@ -32,6 +37,19 @@ class UserBloc extends Bloc<UserEvent, UserState> {
         (failure) => emit(UserError(message: failure.message)),
         (data) => emit(UserLoaded(result: data)),
       );
+    });
+    on<ChangePassEvent>((event, emit) async {
+      emit(UserLoading());
+
+      final result = await changePassword.execute(
+          event.currentPassword, event.newPassword);
+
+      result.fold(
+        (failure) => emit(UserError(message: failure.message)),
+        (data) => emit(UserUpdated(message: data)),
+      );
+
+      // add(const FetchCurrentUser());
     });
   }
 }

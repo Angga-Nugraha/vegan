@@ -61,102 +61,126 @@ class _UserInfoState extends State<UserInfo> {
             break;
         }
         return Scaffold(
-          appBar: AppBar(
-            automaticallyImplyLeading: false,
-            title: Text(
-              'User Information',
-              style: titleStyle.copyWith(color: backgroundColor),
-            ),
-            actions: [
-              IconButton(
-                disabledColor: backgroundColor.withOpacity(0.5),
-                onPressed: readOnly
-                    ? null
-                    : () {
-                        context.read<UserBloc>().add(UpdateUserEvent(
-                              user: User(
-                                name: nameC.text,
-                                email: emailC.text,
-                                phone: phoneC.text,
-                                address: adressC.text,
-                              ),
-                            ));
-                      },
-                icon: const Icon(Icons.save),
+          body: Stack(
+            children: [
+              Container(
+                height: MediaQuery.of(context).size.height,
+                width: MediaQuery.of(context).size.width,
+                padding: const EdgeInsets.only(top: 30.0),
+                color: foregroundColor,
+                child: Text(
+                  'User Information',
+                  textAlign: TextAlign.center,
+                  style: titleStyle.copyWith(color: backgroundColor),
+                ),
               ),
-            ],
-          ),
-          body: SingleChildScrollView(
-            padding: const EdgeInsets.all(10.0),
-            child: FadeIn(
-              duration: const Duration(milliseconds: 1000),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        'User Info',
-                        style: style,
-                      ),
-                      GestureDetector(
-                        onTap: () => setState(() {
-                          readOnly = false;
-                        }),
-                        child: const Icon(
-                          Icons.edit_outlined,
-                          color: primaryColor,
-                        ),
-                      ),
-                    ],
+              Positioned(
+                top: 70,
+                child: Container(
+                  height: MediaQuery.of(context).size.height,
+                  width: MediaQuery.of(context).size.width,
+                  padding: const EdgeInsets.all(10.0),
+                  decoration: const BoxDecoration(
+                    color: backgroundColor,
+                    borderRadius:
+                        BorderRadius.vertical(top: Radius.circular(30.0)),
                   ),
-                  Card(
-                    elevation: 2,
-                    shape: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10.0)),
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                  child: SingleChildScrollView(
+                    padding: const EdgeInsets.all(10.0),
+                    child: FadeIn(
+                      duration: const Duration(milliseconds: 1000),
                       child: Column(
-                        mainAxisSize: MainAxisSize.min,
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          _buildTile(context, title: 'Name', controller: nameC),
-                          _buildTile(context,
-                              title: 'Email', controller: emailC),
-                          _buildTile(context,
-                              title: 'Phone', controller: phoneC),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                'User Info',
+                                style: style,
+                              ),
+                              GestureDetector(
+                                onTap: () => setState(() {
+                                  readOnly = false;
+                                }),
+                                child: const Icon(
+                                  Icons.edit_outlined,
+                                  color: primaryColor,
+                                ),
+                              ),
+                            ],
+                          ),
+                          Card(
+                            elevation: 2,
+                            shape: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(10.0)),
+                            child: Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 8.0),
+                              child: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  _buildTile(context,
+                                      title: 'Name', controller: nameC),
+                                  _buildTile(context,
+                                      title: 'Email', controller: emailC),
+                                  _buildTile(context,
+                                      title: 'Phone', controller: phoneC),
+                                ],
+                              ),
+                            ),
+                          ),
+                          const SizedBox(height: 5),
+                          Text(
+                            'Delivery Address',
+                            style: style,
+                          ),
+                          const SizedBox(height: 10),
+                          Card(
+                            elevation: 2,
+                            shape: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(10.0)),
+                            child: Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 8.0),
+                              child: TextField(
+                                style: bodyTextStyle,
+                                readOnly: readOnly,
+                                maxLines: 3,
+                                keyboardType: TextInputType.multiline,
+                                textAlign: TextAlign.justify,
+                                controller: adressC,
+                                decoration: const InputDecoration(
+                                  border: InputBorder.none,
+                                ),
+                              ),
+                            ),
+                          ),
                         ],
                       ),
                     ),
                   ),
-                  const SizedBox(height: 5),
-                  Text(
-                    'Delivery Address',
-                    style: style,
-                  ),
-                  const SizedBox(height: 10),
-                  Card(
-                    elevation: 2,
-                    shape: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10.0)),
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                      child: TextField(
-                        style: bodyTextStyle,
-                        readOnly: readOnly,
-                        maxLines: 3,
-                        keyboardType: TextInputType.multiline,
-                        textAlign: TextAlign.justify,
-                        controller: adressC,
-                        decoration: const InputDecoration(
-                          border: InputBorder.none,
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
+                ),
               ),
-            ),
+              Align(
+                alignment: Alignment.bottomCenter,
+                heightFactor: 10,
+                child: myButton(
+                    onPressed: readOnly
+                        ? null
+                        : () {
+                            context.read<UserBloc>().add(UpdateUserEvent(
+                                  user: User(
+                                    name: nameC.text,
+                                    email: emailC.text,
+                                    phone: phoneC.text,
+                                    address: adressC.text,
+                                  ),
+                                ));
+                          },
+                    text: 'Save'),
+              ),
+            ],
           ),
         );
       },

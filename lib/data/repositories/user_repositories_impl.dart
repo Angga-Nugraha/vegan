@@ -37,4 +37,18 @@ class UserRepositoryImpl implements UserRepository {
       return Left(CommonFailure(e.toString()));
     }
   }
+
+  @override
+  Future<Either<Failure, String>> changePassword(
+      String currentPassword, String newPassword) async {
+    try {
+      final result = await userRemoteDatasource.changePassword(
+          currentPassword, newPassword);
+      return Right(result);
+    } on ServerException catch (e) {
+      return Left(ServerFailure(e.message));
+    } catch (e) {
+      return Left(CommonFailure(e.toString()));
+    }
+  }
 }

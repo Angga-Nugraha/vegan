@@ -2,6 +2,8 @@ import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:vegan/data/repositories/user_repositories_impl.dart';
+import 'package:vegan/data/utils/exception.dart';
+import 'package:vegan/data/utils/failure.dart';
 
 import '../../dummy_data/object_dummy.dart';
 import '../../test_helper.mocks.dart';
@@ -28,6 +30,17 @@ void main() {
       verify(mockUserRemoteDatasource.getCurrentUser());
       expect(result, equals(Right(tUser)));
     });
+    test('Return Left of message', () async {
+      // arrange
+      when(mockUserRemoteDatasource.getCurrentUser())
+          .thenThrow(ServerException("message"));
+      // act
+      final result = await userRepositoryImpl.getCurrentUser();
+
+      // assert
+      verify(mockUserRemoteDatasource.getCurrentUser());
+      expect(result, const Left(ServerFailure("message")));
+    });
     test('Return Right of new User when update completed', () async {
       // arrange
       when(mockUserRemoteDatasource.updateUser(userModel))
@@ -38,6 +51,59 @@ void main() {
       // assert
       verify(mockUserRemoteDatasource.updateUser(userModel));
       expect(result, equals(Right(tUser)));
+    });
+    test('Return Left message when update failed', () async {
+      // arrange
+      when(mockUserRemoteDatasource.updateUser(userModel))
+          .thenThrow(ServerException("message"));
+      // act
+      final result = await userRepositoryImpl.updateUser(tUserRegister);
+
+      // assert
+      verify(mockUserRemoteDatasource.updateUser(userModel));
+      expect(result, const Left(ServerFailure("message")));
+    });
+    test('Return Right of String when changePassword completed', () async {
+      // arrange
+      when(mockUserRemoteDatasource.changePassword(
+              "currentPassword", "newPassword"))
+          .thenAnswer((_) async => "password changed");
+      // act
+      final result = await userRepositoryImpl.changePassword(
+          "currentPassword", "newPassword");
+
+      // assert
+      verify(mockUserRemoteDatasource.changePassword(
+          "currentPassword", "newPassword"));
+      expect(result, equals(const Right("password changed")));
+    });
+    test('Return Left of String when changePassword error', () async {
+      // arrange
+      when(mockUserRemoteDatasource.changePassword(
+              "currentPassword", "newPassword"))
+          .thenThrow(ServerException('message'));
+      // act
+      final result = await userRepositoryImpl.changePassword(
+          "currentPassword", "newPassword");
+
+      // assert
+      verify(mockUserRemoteDatasource.changePassword(
+          "currentPassword", "newPassword"));
+      expect(result, const Left(ServerFailure("message")));
+    });
+    test('Return Left when changePassword error', () async {
+      // arrange
+      when(mockUserRemoteDatasource.changePassword(
+              "currentPassword", "newPassword"))
+          .thenThrow('message');
+      // act
+      final result = await userRepositoryImpl.changePassword(
+          "currentPassword", "newPassword");
+
+      // assert
+      verify(mockUserRemoteDatasource.changePassword(
+          "currentPassword", "newPassword"));
+      expect(result, const Left(CommonFailure("message")));
     });
   });
 }

@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:vegan/presentation/bloc/product_bloc/product_bloc.dart';
 import 'package:vegan/presentation/bloc/upload_bloc/upload_bloc.dart';
 import 'package:vegan/presentation/bloc/user_bloc/user_bloc.dart';
+import 'package:vegan/presentation/pages/Profile/widget/change_password.dart';
 import 'package:vegan/presentation/pages/Profile/widget/user_information.dart';
 import 'package:vegan/presentation/pages/root_screen.dart';
 
@@ -54,6 +55,10 @@ class MyApp extends StatelessWidget {
             case userInfoRoutes:
               return MaterialPageRoute(
                 builder: (_) => const UserInfo(),
+              );
+            case changePassRoutes:
+              return MaterialPageRoute(
+                builder: (_) => ChangePassword(),
               );
             case homePageRoute:
               return MaterialPageRoute(

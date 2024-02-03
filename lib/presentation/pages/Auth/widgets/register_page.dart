@@ -261,46 +261,76 @@ class _RegisterPageState extends State<RegisterPage> {
                           ),
                         );
                       default:
-                        return ElevatedButton(
-                          onPressed: !selected
-                              ? null
-                              : () {
-                                  final name = _nameController.text;
-                                  final email = _emailController.text;
-                                  final phone = _phoneController.text;
-                                  final password = _passwordController.text;
-                                  final confPassword =
-                                      _confPasswordController.text;
-                                  final address = _addressController.text;
+                        return myButton(
+                            onPressed: !selected
+                                ? null
+                                : () {
+                                    final name = _nameController.text;
+                                    final email = _emailController.text;
+                                    final phone = _phoneController.text;
+                                    final password = _passwordController.text;
+                                    final confPassword =
+                                        _confPasswordController.text;
+                                    final address = _addressController.text;
 
-                                  if (email.isNotEmpty ||
-                                      password.isNotEmpty ||
-                                      name.isNotEmpty ||
-                                      phone.isNotEmpty) {
-                                    context.read<AuthBloc>().add(
-                                          RegisterEvent(
-                                            user: User(
-                                                name: name,
-                                                email: email,
-                                                phone: phone,
-                                                password: password,
-                                                confPassword: confPassword,
-                                                address: address),
-                                          ),
-                                        );
-                                  }
-                                },
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: foregroundColor,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(15),
-                            ),
-                          ),
-                          child: const Text(
-                            'Register',
-                            style: TextStyle(color: Colors.white, fontSize: 20),
-                          ),
-                        );
+                                    if (email.isNotEmpty ||
+                                        password.isNotEmpty ||
+                                        name.isNotEmpty ||
+                                        phone.isNotEmpty) {
+                                      context.read<AuthBloc>().add(
+                                            RegisterEvent(
+                                              user: User(
+                                                  name: name,
+                                                  email: email,
+                                                  phone: phone,
+                                                  password: password,
+                                                  confPassword: confPassword,
+                                                  address: address),
+                                            ),
+                                          );
+                                    }
+                                  },
+                            text: 'Register');
+                      // ElevatedButton(
+                      //   onPressed: !selected
+                      //       ? null
+                      //       : () {
+                      //           final name = _nameController.text;
+                      //           final email = _emailController.text;
+                      //           final phone = _phoneController.text;
+                      //           final password = _passwordController.text;
+                      //           final confPassword =
+                      //               _confPasswordController.text;
+                      //           final address = _addressController.text;
+
+                      //           if (email.isNotEmpty ||
+                      //               password.isNotEmpty ||
+                      //               name.isNotEmpty ||
+                      //               phone.isNotEmpty) {
+                      //             context.read<AuthBloc>().add(
+                      //                   RegisterEvent(
+                      //                     user: User(
+                      //                         name: name,
+                      //                         email: email,
+                      //                         phone: phone,
+                      //                         password: password,
+                      //                         confPassword: confPassword,
+                      //                         address: address),
+                      //                   ),
+                      //                 );
+                      //           }
+                      //         },
+                      //   style: ElevatedButton.styleFrom(
+                      //     backgroundColor: foregroundColor,
+                      //     shape: RoundedRectangleBorder(
+                      //       borderRadius: BorderRadius.circular(15),
+                      //     ),
+                      //   ),
+                      //   child: const Text(
+                      //     'Register',
+                      //     style: TextStyle(color: Colors.white, fontSize: 20),
+                      //   ),
+                      // );
                     }
                   },
                 ),

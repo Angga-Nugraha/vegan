@@ -11,6 +11,7 @@ import 'package:vegan/domain/entities/upload.dart';
 import 'package:vegan/domain/repositories/product_repositories.dart';
 import 'package:vegan/domain/repositories/user_repository.dart';
 import 'package:vegan/domain/usecase/Product/get_product.dart';
+import 'package:vegan/domain/usecase/User/change_password.dart';
 import 'package:vegan/domain/usecase/User/get_current_user.dart';
 import 'package:vegan/domain/usecase/User/update_user.dart';
 import 'package:vegan/presentation/bloc/product_bloc/product_bloc.dart';
@@ -42,7 +43,11 @@ void init() {
   );
 
   locator.registerFactory(
-    () => UserBloc(getCurrentUser: locator(), updateUser: locator()),
+    () => UserBloc(
+      getCurrentUser: locator(),
+      updateUser: locator(),
+      changePassword: locator(),
+    ),
   );
 
   locator.registerFactory(
@@ -63,6 +68,8 @@ void init() {
   locator
       .registerLazySingleton(() => GetCurrentUser(userRepository: locator()));
   locator.registerLazySingleton(() => UpdateUser(userRepository: locator()));
+  locator
+      .registerLazySingleton(() => ChangePassword(userRepository: locator()));
 
   // upload
   locator.registerLazySingleton(() => Upload(uploadRepository: locator()));

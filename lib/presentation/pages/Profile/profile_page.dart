@@ -101,7 +101,9 @@ class ProfilePage extends StatelessWidget {
                     FadeInLeft(
                       duration: const Duration(milliseconds: 500),
                       child: _buildSubMenu(
-                          onTap: () {},
+                          onTap: () {
+                            Navigator.pushNamed(context, changePassRoutes);
+                          },
                           icon: Icons.lock_outlined,
                           title: 'Changed Password'),
                     ),

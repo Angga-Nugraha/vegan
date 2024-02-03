@@ -44,6 +44,7 @@ flutter:
     - assets/img/
     - assets/lottie/splash.json
     - assets/lottie/login.json
+    - assets/lottie/password.json
     - assets/doc/privacy_policy.txt
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

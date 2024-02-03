@@ -10,6 +10,7 @@ import 'package:mockito/mockito.dart' as _i1;
 import 'package:vegan/data/utils/failure.dart' as _i6;
 import 'package:vegan/domain/entities/user.dart' as _i7;
 import 'package:vegan/domain/repositories/user_repository.dart' as _i2;
+import 'package:vegan/domain/usecase/User/change_password.dart' as _i9;
 import 'package:vegan/domain/usecase/User/get_current_user.dart' as _i4;
 import 'package:vegan/domain/usecase/User/update_user.dart' as _i8;
 
@@ -115,4 +116,48 @@ class MockUpdateUser extends _i1.Mock implements _i8.UpdateUser {
           ),
         )),
       ) as _i5.Future<_i3.Either<_i6.Failure, _i7.User>>);
+}
+
+/// A class which mocks [ChangePassword].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockChangePassword extends _i1.Mock implements _i9.ChangePassword {
+  MockChangePassword() {
+    _i1.throwOnMissingStub(this);
+  }
+
+  @override
+  _i2.UserRepository get userRepository => (super.noSuchMethod(
+        Invocation.getter(#userRepository),
+        returnValue: _FakeUserRepository_0(
+          this,
+          Invocation.getter(#userRepository),
+        ),
+      ) as _i2.UserRepository);
+
+  @override
+  _i5.Future<_i3.Either<_i6.Failure, String>> execute(
+    String? currentPassword,
+    String? newPassword,
+  ) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #execute,
+          [
+            currentPassword,
+            newPassword,
+          ],
+        ),
+        returnValue: _i5.Future<_i3.Either<_i6.Failure, String>>.value(
+            _FakeEither_1<_i6.Failure, String>(
+          this,
+          Invocation.method(
+            #execute,
+            [
+              currentPassword,
+              newPassword,
+            ],
+          ),
+        )),
+      ) as _i5.Future<_i3.Either<_i6.Failure, String>>);
 }

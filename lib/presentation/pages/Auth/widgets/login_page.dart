@@ -166,27 +166,38 @@ class _LoginPageState extends State<LoginPage> {
                         ),
                       );
                     default:
-                      return ElevatedButton(
-                        onPressed: () {
-                          final email = _emailController.text;
-                          final password = _passwordController.text;
+                      return myButton(
+                          onPressed: () {
+                            final email = _emailController.text;
+                            final password = _passwordController.text;
 
-                          if (email.isNotEmpty || password.isNotEmpty) {
-                            context.read<AuthBloc>().add(
-                                LoginEvent(email: email, password: password));
-                          }
-                        },
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: foregroundColor,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(15),
-                          ),
-                        ),
-                        child: const Text(
-                          'Login',
-                          style: TextStyle(color: Colors.white, fontSize: 20),
-                        ),
-                      );
+                            if (email.isNotEmpty || password.isNotEmpty) {
+                              context.read<AuthBloc>().add(
+                                  LoginEvent(email: email, password: password));
+                            }
+                          },
+                          text: 'Login');
+                    //  ElevatedButton(
+                    //   onPressed: () {
+                    //     final email = _emailController.text;
+                    //     final password = _passwordController.text;
+
+                    //     if (email.isNotEmpty || password.isNotEmpty) {
+                    //       context.read<AuthBloc>().add(
+                    //           LoginEvent(email: email, password: password));
+                    //     }
+                    //   },
+                    //   style: ElevatedButton.styleFrom(
+                    //     backgroundColor: foregroundColor,
+                    //     shape: RoundedRectangleBorder(
+                    //       borderRadius: BorderRadius.circular(15),
+                    //     ),
+                    //   ),
+                    //   child: const Text(
+                    //     'Login',
+                    //     style: TextStyle(color: Colors.white, fontSize: 20),
+                    //   ),
+                    // );
                   }
                 },
               ),

@@ -27,6 +27,7 @@ Widget myTextfield(
       keyboardType: type,
       controller: controller,
       obscureText: obscure,
+      style: bodyTextStyle,
       decoration: InputDecoration(
         focusedBorder: InputBorder.none,
         enabledBorder: InputBorder.none,

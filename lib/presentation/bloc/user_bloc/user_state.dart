@@ -21,13 +21,12 @@ final class UserLoaded extends UserState {
 }
 
 final class UserUpdated extends UserState {
-  final User result;
   final String message;
 
-  const UserUpdated({required this.result, required this.message});
+  const UserUpdated({required this.message});
 
   @override
-  List<Object> get props => [result, message];
+  List<Object> get props => [message];
 }
 
 final class UserError extends UserState {
