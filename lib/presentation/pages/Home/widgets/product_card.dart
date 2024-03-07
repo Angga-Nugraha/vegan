@@ -22,13 +22,14 @@ class ProductCardItem extends StatelessWidget {
           onTap: () {},
           child: Card(
             shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10),
-                side: const BorderSide()),
+              borderRadius: BorderRadius.circular(10),
+            ),
             margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-            elevation: 2,
+            elevation: 5,
             child: Stack(
               children: [
                 Container(
+                  color: backgroundColor,
                   height: 200,
                   width: 150,
                   padding: const EdgeInsets.all(8.0),
@@ -43,12 +44,10 @@ class ProductCardItem extends StatelessWidget {
                         child: product.imageUrl.isEmpty
                             ? Image.asset(
                                 'assets/img/nopic.png',
-                                width: 100,
-                                height: 120,
+                                width: 80,
                               )
                             : CachedNetworkImage(
-                                height: 120,
-                                width: 100,
+                                height: 80,
                                 fit: BoxFit.contain,
                                 imageUrl: convertUrl(product.imageUrl[0]),
                                 placeholder: (context, url) => const Center(
@@ -89,8 +88,8 @@ class ProductCardItem extends StatelessWidget {
                   ),
                 ),
                 Positioned(
-                  right: -1,
-                  top: -1,
+                  right: 0,
+                  top: 0,
                   child: Container(
                       padding: const EdgeInsets.symmetric(horizontal: 5.0),
                       height: 20,
@@ -118,15 +117,17 @@ class ProductCardItem extends StatelessWidget {
             ),
           ),
         ),
-        ElevatedButton(
-          onPressed: () {},
-          style: ElevatedButton.styleFrom(
-            backgroundColor: secondaryColor,
-            maximumSize: const Size(150, 50),
-            minimumSize: const Size(150, 20),
-          ),
-          child: const Text('Add To Cart'),
-        )
+        // ElevatedButton(
+        //   onPressed: () {},
+        //   style: ElevatedButton.styleFrom(
+        //     padding: const EdgeInsets.all(5.0),
+        //     backgroundColor: processColor,
+        //     foregroundColor: backgroundColor,
+        //     maximumSize: const Size(150, 50),
+        //     minimumSize: const Size(150, 20),
+        //   ),
+        //   child: const Text('Add To Cart'),
+        // )
       ],
     );
   }

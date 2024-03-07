@@ -7,40 +7,25 @@ Widget myTextfield(
     Widget? suffixIcon,
     required TextInputType type,
     enabled = true,
+    String? label,
     obscure = false}) {
-  return Container(
-    height: 50,
-    decoration: BoxDecoration(
-      color: Colors.white,
-      borderRadius: BorderRadius.circular(15),
-      boxShadow: const [
-        BoxShadow(
-          color: Colors.black38,
-          spreadRadius: 2,
-          blurRadius: 2,
-          offset: Offset(1, 2), // changes position of shadow
-        ),
-      ],
-    ),
-    child: TextFormField(
-      enabled: enabled,
-      keyboardType: type,
-      controller: controller,
-      obscureText: obscure,
-      style: bodyTextStyle,
-      decoration: InputDecoration(
-        focusedBorder: InputBorder.none,
-        enabledBorder: InputBorder.none,
-        hintText: hintText,
-        hintStyle: const TextStyle(
-          fontSize: 10,
-        ),
-        prefixIcon: Icon(
-          icon,
-          size: 15,
-        ),
-        suffixIcon: suffixIcon,
+  return TextFormField(
+    enabled: enabled,
+    keyboardType: type,
+    controller: controller,
+    obscureText: obscure,
+    style: bodyTextStyle,
+    decoration: InputDecoration(
+      label: label == null ? null : Text(label),
+      hintText: hintText,
+      hintStyle: const TextStyle(
+        fontSize: 10,
       ),
+      prefixIcon: Icon(
+        icon,
+        size: 15,
+      ),
+      suffixIcon: suffixIcon,
     ),
   );
 }

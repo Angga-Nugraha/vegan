@@ -11,7 +11,7 @@ String productModelToJson(List<ProductModel> data) =>
 
 class ProductModel extends Equatable {
   final String id;
-  final String userId;
+  // final String userId;
   final String title;
   final String description;
   final int price;
@@ -25,7 +25,7 @@ class ProductModel extends Equatable {
 
   const ProductModel({
     required this.id,
-    required this.userId,
+    // required this.userId,
     required this.title,
     required this.description,
     required this.price,
@@ -40,7 +40,7 @@ class ProductModel extends Equatable {
 
   factory ProductModel.fromJson(Map<String, dynamic> json) => ProductModel(
         id: json["_id"],
-        userId: json["userId"],
+        // userId: json["userId"],
         title: json["title"],
         description: json["description"],
         price: json["price"],
@@ -55,7 +55,7 @@ class ProductModel extends Equatable {
 
   Map<String, dynamic> toJson() => {
         "_id": id,
-        "userId": userId,
+        // "userId": userId,
         "title": title,
         "description": description,
         "price": price,
@@ -68,7 +68,7 @@ class ProductModel extends Equatable {
 
   Product toEntity() => Product(
         id: id,
-        userId: userId,
+        // userId: userId,
         title: title,
         description: description,
         price: price,
@@ -84,7 +84,7 @@ class ProductModel extends Equatable {
   @override
   List<Object?> get props => [
         id,
-        userId,
+        // userId,
         title,
         description,
         price,

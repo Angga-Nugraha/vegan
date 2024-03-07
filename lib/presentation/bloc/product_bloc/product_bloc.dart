@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:vegan/data/utils/constant.dart';
 import 'package:vegan/domain/entities/product.dart';
 import 'package:vegan/domain/usecase/Product/get_product.dart';
 
@@ -12,7 +13,6 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
   ProductBloc({required this.getAllProduct}) : super(ProductInitial()) {
     on<FetchAllProduct>((event, emit) async {
       emit(ProductLoading());
-      await Future.delayed(const Duration(seconds: 3));
 
       final result = await getAllProduct.execute();
 
@@ -20,6 +20,6 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
         (failure) => emit(ProductError(message: failure.message)),
         (data) => emit(ProductLoaded(result: data)),
       );
-    });
+    }, transformer: delay(const Duration(seconds: 3)));
   }
 }

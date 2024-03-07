@@ -6,7 +6,17 @@
         "email": "admin@gmail.com",
         "phone": "081389042140",
         "password": "$2b$10$qKBGlQ6klNZFrikJ/w4psuoyIDz7PO4GUB36kFGmhzDQqNucHWXcm",
-        "address": "garut, jawa barat",
+        "address": {
+            "geo": {
+                "lat": null,
+                "long": null
+            },
+            "detail_address": null,
+            "provinsi": null,
+            "kota": null,
+            "kecamatan": null,
+            "postal_code": null
+        },
         "role": "user",
         "image": null,
         "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1YTYxNWUwZWUwZTk5OGZhOGIzMjA2OCIsIm5hbWUiOiJhZG1pbiIsImVtYWlsIjoiYWRtaW5AZ21haWwuY29tIiwiaWF0IjoxNzA1MzkyMDc4LCJleHAiOjE3MDU0Nzg0Nzh9.95zULvaQD3y5FezxyDw6czml0qcWHaeApSDktd6iyhY",

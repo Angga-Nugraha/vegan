@@ -15,7 +15,7 @@ class UserModel extends Equatable {
   final String? phone;
   final String? password;
   final String? confPassword;
-  final String? address;
+  final AddressModel? address;
   final String? role;
   final String? image;
   final String? token;
@@ -43,7 +43,7 @@ class UserModel extends Equatable {
         email: json["email"],
         phone: json["phone"],
         password: json["password"],
-        address: json["address"],
+        address: AddressModel.fromJson(json["address"]),
         role: json["role"],
         image: json["image"],
         token: json["token"],
@@ -57,7 +57,6 @@ class UserModel extends Equatable {
         phone: user.phone,
         password: user.password,
         confPassword: user.confPassword,
-        address: user.address,
       );
 
   Map<String, dynamic> toJson() => {
@@ -76,7 +75,7 @@ class UserModel extends Equatable {
       phone: phone,
       password: password,
       confPassword: confPassword,
-      address: address,
+      address: address!.toEntity(),
       role: role,
       token: token,
       image: image,
@@ -97,5 +96,88 @@ class UserModel extends Equatable {
         token,
         createdAt,
         updatedAt,
+      ];
+}
+
+class AddressModel extends Equatable {
+  final String? detailAddress;
+  final String? provinsi;
+  final String? kota;
+  final String? kecamatan;
+  final GeoModel? geoModel;
+  final int? postalCode;
+
+  const AddressModel({
+    this.detailAddress,
+    this.provinsi,
+    this.kota,
+    this.kecamatan,
+    this.geoModel,
+    this.postalCode,
+  });
+
+  factory AddressModel.fromJson(Map<String, dynamic> json) => AddressModel(
+        detailAddress: json["detail_address"],
+        provinsi: json["provinsi"],
+        kota: json["kota"],
+        kecamatan: json["kecamatan"],
+        postalCode: json["postal_code"],
+        geoModel: GeoModel.fromJson(json["geo"]),
+      );
+
+  Map<String, dynamic> toJson() => {
+        "detail_address": detailAddress,
+        "provinsi": provinsi,
+        "kota": kota,
+        "kecamatan": kecamatan,
+        "postal_code": postalCode,
+        "geo": geoModel!.toJson()
+      };
+  Address toEntity() => Address(
+      detailAddress: detailAddress,
+      provinsi: provinsi,
+      kota: kota,
+      kecamatan: kecamatan,
+      postalCode: postalCode,
+      geo: geoModel!.toEntity());
+  @override
+  List<Object?> get props => [
+        detailAddress,
+        provinsi,
+        kota,
+        kecamatan,
+        postalCode,
+        geoModel,
+      ];
+}
+
+class GeoModel extends Equatable {
+  final String? lat;
+  final String? long;
+
+  const GeoModel({
+    this.lat,
+    this.long,
+  });
+
+  factory GeoModel.fromJson(Map<String, dynamic> json) => GeoModel(
+        lat: json["lat"],
+        long: json["long"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "lat": lat,
+        "long": long,
+      };
+
+  Geo toEntity() => Geo(
+        lat: lat,
+        long: long,
+      );
+
+  @override
+  List<Object?> get props => [
+        lat,
+        long,
       ];
 }

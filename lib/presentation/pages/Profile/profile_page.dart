@@ -86,7 +86,8 @@ class ProfilePage extends StatelessWidget {
                       duration: const Duration(milliseconds: 500),
                       child: _buildSubMenu(
                           onTap: () {
-                            Navigator.pushNamed(context, userInfoRoutes);
+                            Navigator.pushNamed(context, userInfoRoutes,
+                                arguments: user);
                           },
                           icon: Icons.person,
                           title: 'Acount Information'),
@@ -94,11 +95,21 @@ class ProfilePage extends StatelessWidget {
                     FadeInRight(
                       duration: const Duration(milliseconds: 500),
                       child: _buildSubMenu(
+                          onTap: () {
+                            Navigator.pushNamed(context, shippingAddressRoutes,
+                                arguments: user);
+                          },
+                          icon: Icons.location_city_rounded,
+                          title: 'Shipping Address'),
+                    ),
+                    FadeInLeft(
+                      duration: const Duration(milliseconds: 500),
+                      child: _buildSubMenu(
                           onTap: () {},
                           icon: Icons.payment_outlined,
                           title: 'Payment Method'),
                     ),
-                    FadeInLeft(
+                    FadeInRight(
                       duration: const Duration(milliseconds: 500),
                       child: _buildSubMenu(
                           onTap: () {
@@ -107,7 +118,7 @@ class ProfilePage extends StatelessWidget {
                           icon: Icons.lock_outlined,
                           title: 'Changed Password'),
                     ),
-                    FadeInRight(
+                    FadeInLeft(
                       duration: const Duration(milliseconds: 500),
                       child: _buildSubMenu(
                           onTap: () {

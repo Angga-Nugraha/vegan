@@ -7,3 +7,4 @@ const homePageRoute = './home';
 const authPageRoutes = './auth';
 const userInfoRoutes = './user_info';
 const changePassRoutes = './change_pass';
+const shippingAddressRoutes = './address';

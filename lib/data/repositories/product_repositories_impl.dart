@@ -21,4 +21,17 @@ class ProductRepositoryImpl implements ProductRepository {
       return Left(CommonFailure(e.toString()));
     }
   }
+
+  @override
+  Future<Either<Failure, Product>> getProductDetail(String id) async {
+    try {
+      final result = await productRemoteDatasource.getProductDetail(id);
+
+      return Right(result.toEntity());
+    } on ServerException catch (e) {
+      return Left(ServerFailure(e.message));
+    } catch (e) {
+      return Left(CommonFailure(e.toString()));
+    }
+  }
 }

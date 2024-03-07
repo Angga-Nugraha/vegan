@@ -2,6 +2,7 @@ import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:vegan/data/utils/constant.dart';
+import 'package:vegan/data/utils/routes.dart';
 import 'package:vegan/domain/entities/user.dart';
 import 'package:vegan/presentation/pages/components/components_helper.dart';
 
@@ -9,7 +10,9 @@ import '../../../../data/utils/styles.dart';
 import '../../../bloc/user_bloc/user_bloc.dart';
 
 class UserInfo extends StatefulWidget {
-  const UserInfo({super.key});
+  final User user;
+
+  const UserInfo({required this.user, super.key});
 
   @override
   State<UserInfo> createState() => _UserInfoState();
@@ -19,204 +22,184 @@ class _UserInfoState extends State<UserInfo> {
   late TextEditingController nameC;
   late TextEditingController emailC;
   late TextEditingController phoneC;
-  late TextEditingController adressC;
 
-  bool readOnly = true;
-  TextStyle style = subTitleStyle.copyWith(
-    fontWeight: FontWeight.bold,
-  );
+  String? address;
+
+  @override
+  void dispose() {
+    nameC.dispose();
+    emailC.dispose();
+    phoneC.dispose();
+    super.dispose();
+  }
 
   @override
   void initState() {
+    nameC = TextEditingController(text: widget.user.name!.toTitleCase());
+    emailC = TextEditingController(text: widget.user.email!.toTitleCase());
+    phoneC = TextEditingController(text: widget.user.phone);
+
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<UserBloc, UserState>(
-      listener: (context, state) {
-        switch (state) {
-          case UserLoaded():
-            mySnackbar(context, message: 'User updated');
-            readOnly = true;
-          case UserError():
-            mySnackbar(
-              context,
-              message: state.message.toTitleCase(),
-              color: Colors.red,
-            );
-          default:
-            break;
-        }
-      },
-      builder: (context, state) {
-        switch (state) {
-          case UserLoaded():
-            final user = state.result;
-            nameC = TextEditingController(text: user.name!.toTitleCase());
-            emailC = TextEditingController(text: user.email!.toTitleCase());
-            phoneC = TextEditingController(text: user.phone);
-            adressC = TextEditingController(text: user.address!.toTitleCase());
-          default:
-            break;
-        }
-        return Scaffold(
-          body: Stack(
-            children: [
-              Container(
-                height: MediaQuery.of(context).size.height,
-                width: MediaQuery.of(context).size.width,
-                padding: const EdgeInsets.only(top: 30.0),
-                color: foregroundColor,
-                child: Text(
+    return Scaffold(
+      body: Stack(
+        children: [
+          Container(
+              height: MediaQuery.of(context).size.height,
+              width: MediaQuery.of(context).size.width,
+              padding: const EdgeInsets.only(top: 15.0),
+              color: foregroundColor,
+              child: ListTile(
+                minVerticalPadding: 10.0,
+                minLeadingWidth: 0,
+                leading: GestureDetector(
+                  onTap: () {
+                    Navigator.pop(context);
+                  },
+                  child: const Icon(
+                    Icons.arrow_back_ios,
+                    color: Colors.white,
+                  ),
+                ),
+                title: Text(
                   'User Information',
                   textAlign: TextAlign.center,
                   style: titleStyle.copyWith(color: backgroundColor),
                 ),
+              )),
+          Positioned(
+            top: 70,
+            child: Container(
+              height: MediaQuery.of(context).size.height - 70,
+              width: MediaQuery.of(context).size.width,
+              padding: const EdgeInsets.all(10.0),
+              decoration: const BoxDecoration(
+                color: backgroundColor,
+                borderRadius: BorderRadius.vertical(top: Radius.circular(30.0)),
               ),
-              Positioned(
-                top: 70,
-                child: Container(
-                  height: MediaQuery.of(context).size.height,
-                  width: MediaQuery.of(context).size.width,
+              child: FadeIn(
+                duration: const Duration(milliseconds: 1000),
+                child: SingleChildScrollView(
                   padding: const EdgeInsets.all(10.0),
-                  decoration: const BoxDecoration(
-                    color: backgroundColor,
-                    borderRadius:
-                        BorderRadius.vertical(top: Radius.circular(30.0)),
-                  ),
-                  child: SingleChildScrollView(
-                    padding: const EdgeInsets.all(10.0),
-                    child: FadeIn(
-                      duration: const Duration(milliseconds: 1000),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      const SizedBox(height: 20.0),
+                      const Text(
+                        'User Info',
+                      ),
+                      const SizedBox(height: 10.0),
+                      FadeInRight(
+                        duration: const Duration(seconds: 1),
+                        child: myTextfield(
+                          controller: nameC,
+                          hintText: 'Name',
+                          label: "Nama Lengkap",
+                          icon: Icons.person_2_outlined,
+                          type: TextInputType.name,
+                        ),
+                      ),
+                      const SizedBox(height: 20),
+                      FadeInLeft(
+                        duration: const Duration(seconds: 1),
+                        child: myTextfield(
+                          controller: emailC,
+                          label: "Email",
+                          hintText: 'Email',
+                          icon: Icons.email_outlined,
+                          type: TextInputType.name,
+                        ),
+                      ),
+                      const SizedBox(height: 20),
+                      FadeInRight(
+                        duration: const Duration(seconds: 1),
+                        child: myTextfield(
+                          controller: phoneC,
+                          label: "Phone Number",
+                          hintText: 'Phone',
+                          icon: Icons.phone_android_rounded,
+                          type: TextInputType.name,
+                        ),
+                      ),
+                      const SizedBox(height: 20),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                'User Info',
-                                style: style,
-                              ),
-                              GestureDetector(
-                                onTap: () => setState(() {
-                                  readOnly = false;
-                                }),
-                                child: const Icon(
-                                  Icons.edit_outlined,
-                                  color: primaryColor,
-                                ),
-                              ),
-                            ],
+                          const Text(
+                            'Address',
                           ),
-                          Card(
-                            elevation: 2,
-                            shape: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(10.0)),
-                            child: Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 8.0),
-                              child: Column(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  _buildTile(context,
-                                      title: 'Name', controller: nameC),
-                                  _buildTile(context,
-                                      title: 'Email', controller: emailC),
-                                  _buildTile(context,
-                                      title: 'Phone', controller: phoneC),
-                                ],
-                              ),
-                            ),
-                          ),
-                          const SizedBox(height: 5),
-                          Text(
-                            'Delivery Address',
-                            style: style,
-                          ),
-                          const SizedBox(height: 10),
-                          Card(
-                            elevation: 2,
-                            shape: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(10.0)),
-                            child: Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 8.0),
-                              child: TextField(
-                                style: bodyTextStyle,
-                                readOnly: readOnly,
-                                maxLines: 3,
-                                keyboardType: TextInputType.multiline,
-                                textAlign: TextAlign.justify,
-                                controller: adressC,
-                                decoration: const InputDecoration(
-                                  border: InputBorder.none,
-                                ),
-                              ),
+                          GestureDetector(
+                            onTap: () {
+                              Navigator.pushNamed(
+                                  context, shippingAddressRoutes,
+                                  arguments: widget.user);
+                            },
+                            child: Text(
+                              "Change Address",
+                              style: subTitleStyle.copyWith(fontSize: 12),
                             ),
                           ),
                         ],
                       ),
-                    ),
+                      BlocBuilder<UserBloc, UserState>(
+                        builder: (context, state) {
+                          if (state is UserLoaded) {
+                            if (state.result.address!.provinsi != null) {
+                              address =
+                                  "${state.result.address!.detailAddress}, ${state.result.address!.kecamatan}, ${state.result.address!.kota}, ${state.result.address!.provinsi}";
+                            } else {
+                              address = "Alamat belum ditetapkan";
+                            }
+                          }
+                          return Container(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Text(
+                              address!.toTitleCase(),
+                              textAlign: TextAlign.justify,
+                            ),
+                          );
+                        },
+                      ),
+                    ],
                   ),
                 ),
               ),
-              Align(
-                alignment: Alignment.bottomCenter,
-                heightFactor: 10,
-                child: myButton(
-                    onPressed: readOnly
-                        ? null
-                        : () {
-                            context.read<UserBloc>().add(UpdateUserEvent(
-                                  user: User(
-                                    name: nameC.text,
-                                    email: emailC.text,
-                                    phone: phoneC.text,
-                                    address: adressC.text,
-                                  ),
-                                ));
-                          },
-                    text: 'Save'),
-              ),
-            ],
-          ),
-        );
-      },
-    );
-  }
-
-  Widget _buildTile(
-    BuildContext context, {
-    required String title,
-    required TextEditingController controller,
-    int? maxline,
-  }) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      children: [
-        Expanded(
-          child: Text(
-            title,
-            style: bodyTextStyle,
-          ),
-        ),
-        Expanded(
-          flex: 3,
-          child: TextField(
-            style: bodyTextStyle,
-            readOnly: readOnly,
-            maxLines: maxline ?? 1,
-            keyboardType: TextInputType.text,
-            textAlign: TextAlign.right,
-            controller: controller,
-            decoration: const InputDecoration(
-              border: InputBorder.none,
             ),
           ),
-        ),
-      ],
+        ],
+      ),
+      bottomNavigationBar: BlocListener<UserBloc, UserState>(
+        listener: (context, state) {
+          switch (state) {
+            case UserLoaded():
+              mySnackbar(context, message: 'User updated');
+            case UserError():
+              mySnackbar(
+                context,
+                message: state.message.toTitleCase(),
+                color: Colors.red,
+              );
+            default:
+              break;
+          }
+        },
+        child: TextButton(
+            onPressed: () {
+              context.read<UserBloc>().add(
+                    UpdateUserEvent(
+                      user: User(
+                        name: nameC.text,
+                        email: emailC.text,
+                        phone: phoneC.text,
+                      ),
+                    ),
+                  );
+            },
+            child: const Text('Save')),
+      ),
     );
   }
 }

@@ -11,7 +11,14 @@ final tUserModel = UserModel(
   email: "admin@gmail.com",
   phone: "081389042140",
   password: "\$2b\$10\$qKBGlQ6klNZFrikJ/w4psuoyIDz7PO4GUB36kFGmhzDQqNucHWXcm",
-  address: "garut, jawa barat",
+  address: const AddressModel(
+    geoModel: GeoModel(lat: null, long: null),
+    detailAddress: null,
+    provinsi: null,
+    kota: null,
+    kecamatan: null,
+    postalCode: null,
+  ),
   image: null,
   role: "user",
   token:
@@ -26,7 +33,14 @@ final tUser = User(
   email: "admin@gmail.com",
   phone: "081389042140",
   password: "\$2b\$10\$qKBGlQ6klNZFrikJ/w4psuoyIDz7PO4GUB36kFGmhzDQqNucHWXcm",
-  address: "garut, jawa barat",
+  address: const Address(
+    geo: Geo(lat: null, long: null),
+    detailAddress: null,
+    provinsi: null,
+    kota: null,
+    kecamatan: null,
+    postalCode: null,
+  ),
   role: "user",
   token:
       "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1YTYxNWUwZWUwZTk5OGZhOGIzMjA2OCIsIm5hbWUiOiJhZG1pbiIsImVtYWlsIjoiYWRtaW5AZ21haWwuY29tIiwiaWF0IjoxNzA1MzkyMDc4LCJleHAiOjE3MDU0Nzg0Nzh9.95zULvaQD3y5FezxyDw6czml0qcWHaeApSDktd6iyhY",
@@ -41,7 +55,6 @@ const tUserRegisterModel = UserModel(
   phone: "phone",
   password: "password",
   confPassword: "confPassword",
-  address: "address",
 );
 
 const tUserRegister = User(
@@ -50,7 +63,6 @@ const tUserRegister = User(
   phone: "phone",
   password: "password",
   confPassword: "confPassword",
-  address: "address",
 );
 
 const tLoginModel = AuthModel(
@@ -68,7 +80,7 @@ const tLogin = Auth(
 
 final tProductModel = ProductModel(
   id: "6598078eb523ef0e3393abce",
-  userId: "658f9025e178b40826f858d4",
+  // userId: "658f9025e178b40826f858d4",
   title: "kol",
   description:
       "lorem ipsum dolor sit amet consectetur adipisicing elit. aperiam, esse maxime voluptatem deleniti quasi maiores suscipit ducimus nobis facilis assumenda quam aliquam temporibus molestias dolore?",
@@ -84,7 +96,7 @@ final tProductModel = ProductModel(
 
 final tProduct = Product(
   id: "6598078eb523ef0e3393abce",
-  userId: "658f9025e178b40826f858d4",
+  // userId: "658f9025e178b40826f858d4",
   title: "kol",
   description:
       "lorem ipsum dolor sit amet consectetur adipisicing elit. aperiam, esse maxime voluptatem deleniti quasi maiores suscipit ducimus nobis facilis assumenda quam aliquam temporibus molestias dolore?",

@@ -31,22 +31,49 @@ void main() {
   });
 
   group('Product', () {
-    test('Should be get list product if request success', () async {
-      when(mockHttpClient.get(Uri.parse('$baseUrl/api/product'), headers: {}))
-          .thenAnswer((_) async =>
-              http.Response(readJson('dummy_data/product.json'), 200));
-      final result = await productRemoteDatasourceImpl.getAllProduct();
+    group('Get All Product', () {
+      test('Should be get list product if request success', () async {
+        when(mockHttpClient.get(Uri.parse('$baseUrl/api/product'), headers: {}))
+            .thenAnswer((_) async =>
+                http.Response(readJson('dummy_data/product.json'), 200));
+        final result = await productRemoteDatasourceImpl.getAllProduct();
 
-      expect(result, equals([tProductModel]));
+        expect(result, equals([tProductModel]));
+      });
+
+      test('Should be ServerException if response status code 500', () async {
+        when(mockHttpClient.get(Uri.parse('$baseUrl/api/product'), headers: {}))
+            .thenAnswer((_) async => http.Response(
+                readJson('dummy_data/response_failed.json'), 500));
+        final result = productRemoteDatasourceImpl.getAllProduct();
+
+        expect(result, throwsA(isA<ServerException>()));
+      });
     });
 
-    test('Should be ServerException if response status code 500', () async {
-      when(mockHttpClient.get(Uri.parse('$baseUrl/api/product'), headers: {}))
-          .thenAnswer((_) async =>
-              http.Response(readJson('dummy_data/response_failed.json'), 500));
-      final result = productRemoteDatasourceImpl.getAllProduct();
+    group('Get Product Detail By Id', () {
+      String id = "6598078eb523ef0e3393abce";
+      test('Should be get product detail if request success', () async {
+        when(mockHttpClient
+                .get(Uri.parse('$baseUrl/api/product/$id'), headers: {}))
+            .thenAnswer((_) async =>
+                http.Response(readJson('dummy_data/product_detail.json'), 200));
+        final result = await productRemoteDatasourceImpl.getProductDetail(id);
 
-      expect(result, throwsA(isA<ServerException>()));
+        expect(result, equals(tProductModel));
+      });
+
+      test(
+          'Should be ServerException if getDetailProduct response status code 500',
+          () async {
+        when(mockHttpClient
+            .get(Uri.parse('$baseUrl/api/product/$id'),
+                headers: {})).thenAnswer((_) async =>
+            http.Response(readJson('dummy_data/response_failed.json'), 500));
+        final result = productRemoteDatasourceImpl.getProductDetail(id);
+
+        expect(result, throwsA(isA<ServerException>()));
+      });
     });
   });
 }

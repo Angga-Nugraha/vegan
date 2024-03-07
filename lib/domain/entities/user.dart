@@ -7,7 +7,7 @@ class User extends Equatable {
   final String? phone;
   final String? password;
   final String? confPassword;
-  final String? address;
+  final Address? address;
   final String? role;
   final String? image;
   final String? token;
@@ -43,5 +43,49 @@ class User extends Equatable {
         token,
         createdAt,
         updatedAt,
+      ];
+}
+
+class Address extends Equatable {
+  final String? detailAddress;
+  final String? provinsi;
+  final String? kota;
+  final String? kecamatan;
+  final int? postalCode;
+  final Geo? geo;
+
+  const Address({
+    this.detailAddress,
+    this.provinsi,
+    this.kota,
+    this.kecamatan,
+    this.postalCode,
+    this.geo,
+  });
+
+  @override
+  List<Object?> get props => [
+        detailAddress,
+        provinsi,
+        kota,
+        kecamatan,
+        postalCode,
+        geo,
+      ];
+}
+
+class Geo extends Equatable {
+  final String? lat;
+  final String? long;
+
+  const Geo({
+    this.lat,
+    this.long,
+  });
+
+  @override
+  List<Object?> get props => [
+        lat,
+        long,
       ];
 }

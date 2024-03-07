@@ -24,7 +24,6 @@ class _RegisterPageState extends State<RegisterPage> {
   final TextEditingController _phoneController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _confPasswordController = TextEditingController();
-  final TextEditingController _addressController = TextEditingController();
 
   bool vissible = true;
   bool selected = false;
@@ -40,7 +39,6 @@ class _RegisterPageState extends State<RegisterPage> {
     _phoneController.dispose();
     _passwordController.dispose();
     _confPasswordController.dispose();
-    _addressController.dispose();
     super.dispose();
   }
 
@@ -158,16 +156,6 @@ class _RegisterPageState extends State<RegisterPage> {
                 type: TextInputType.visiblePassword,
               ),
             ),
-            const SizedBox(height: 20),
-            FadeInLeft(
-              duration: const Duration(seconds: 1),
-              child: myTextfield(
-                controller: _addressController,
-                hintText: 'Address',
-                icon: Icons.location_on_outlined,
-                type: TextInputType.streetAddress,
-              ),
-            ),
             Row(
               children: [
                 Checkbox(
@@ -221,8 +209,13 @@ class _RegisterPageState extends State<RegisterPage> {
                                             Text(
                                               snapshot.data!,
                                               style: bodyTextStyle,
+                                              textAlign: TextAlign.justify,
                                             ),
+                                            const SizedBox(height: 20.0),
                                             OutlinedButton(
+                                                style: OutlinedButton.styleFrom(
+                                                    minimumSize:
+                                                        const Size(150, 30)),
                                                 onPressed: () {
                                                   setState(() {
                                                     selected = true;
@@ -271,7 +264,6 @@ class _RegisterPageState extends State<RegisterPage> {
                                     final password = _passwordController.text;
                                     final confPassword =
                                         _confPasswordController.text;
-                                    final address = _addressController.text;
 
                                     if (email.isNotEmpty ||
                                         password.isNotEmpty ||
@@ -280,12 +272,12 @@ class _RegisterPageState extends State<RegisterPage> {
                                       context.read<AuthBloc>().add(
                                             RegisterEvent(
                                               user: User(
-                                                  name: name,
-                                                  email: email,
-                                                  phone: phone,
-                                                  password: password,
-                                                  confPassword: confPassword,
-                                                  address: address),
+                                                name: name,
+                                                email: email,
+                                                phone: phone,
+                                                password: password,
+                                                confPassword: confPassword,
+                                              ),
                                             ),
                                           );
                                     }

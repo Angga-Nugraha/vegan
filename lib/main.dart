@@ -5,9 +5,11 @@ import 'package:vegan/presentation/bloc/product_bloc/product_bloc.dart';
 import 'package:vegan/presentation/bloc/upload_bloc/upload_bloc.dart';
 import 'package:vegan/presentation/bloc/user_bloc/user_bloc.dart';
 import 'package:vegan/presentation/pages/Profile/widget/change_password.dart';
+import 'package:vegan/presentation/pages/Profile/widget/shipping_address.dart';
 import 'package:vegan/presentation/pages/Profile/widget/user_information.dart';
 import 'package:vegan/presentation/pages/root_screen.dart';
 
+import 'domain/entities/user.dart';
 import 'injection.dart' as di;
 import 'data/utils/routes.dart';
 import 'data/utils/styles.dart';
@@ -53,12 +55,18 @@ class MyApp extends StatelessWidget {
                 builder: (_) => const Splash(),
               );
             case userInfoRoutes:
+              User user = settings.arguments as User;
               return MaterialPageRoute(
-                builder: (_) => const UserInfo(),
+                builder: (_) => UserInfo(user: user),
+              );
+            case shippingAddressRoutes:
+              User user = settings.arguments as User;
+              return MaterialPageRoute(
+                builder: (_) => ShippingAddress(user: user),
               );
             case changePassRoutes:
               return MaterialPageRoute(
-                builder: (_) => ChangePassword(),
+                builder: (_) => const ChangePassword(),
               );
             case homePageRoute:
               return MaterialPageRoute(

@@ -11,7 +11,7 @@ Widget myButton({required VoidCallback? onPressed, required String text}) {
     ),
     child: Text(
       text,
-      style: const TextStyle(color: Colors.white, fontSize: 20),
+      style: subTitleStyle.copyWith(color: Colors.white, fontSize: 14),
     ),
   );
 }
