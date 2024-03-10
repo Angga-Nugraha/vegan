@@ -17,7 +17,7 @@ import 'package:vegan/data/datasource/user_remote_datasource.dart' as _i7;
 import 'package:vegan/data/model/auth_model.dart' as _i4;
 import 'package:vegan/data/model/product_model.dart' as _i5;
 import 'package:vegan/data/model/user_model.dart' as _i2;
-import 'package:vegan/data/utils/failure.dart' as _i11;
+import 'package:vegan/core/failure.dart' as _i11;
 import 'package:vegan/domain/entities/auth.dart' as _i14;
 import 'package:vegan/domain/entities/product.dart' as _i17;
 import 'package:vegan/domain/entities/user.dart' as _i12;
@@ -163,6 +163,22 @@ class MockUserRemoteDatasource extends _i1.Mock
           ),
         )),
       ) as _i8.Future<String>);
+
+  @override
+  _i8.Future<_i2.UserModel> changeAddress(_i2.AddressModel? address) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #changeAddress,
+          [address],
+        ),
+        returnValue: _i8.Future<_i2.UserModel>.value(_FakeUserModel_0(
+          this,
+          Invocation.method(
+            #changeAddress,
+            [address],
+          ),
+        )),
+      ) as _i8.Future<_i2.UserModel>);
 }
 
 /// A class which mocks [UserRepository].
@@ -203,6 +219,24 @@ class MockUserRepository extends _i1.Mock implements _i10.UserRepository {
           Invocation.method(
             #updateUser,
             [user],
+          ),
+        )),
+      ) as _i8.Future<_i3.Either<_i11.Failure, _i12.User>>);
+
+  @override
+  _i8.Future<_i3.Either<_i11.Failure, _i12.User>> changeAddress(
+          _i12.Address? address) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #changeAddress,
+          [address],
+        ),
+        returnValue: _i8.Future<_i3.Either<_i11.Failure, _i12.User>>.value(
+            _FakeEither_1<_i11.Failure, _i12.User>(
+          this,
+          Invocation.method(
+            #changeAddress,
+            [address],
           ),
         )),
       ) as _i8.Future<_i3.Either<_i11.Failure, _i12.User>>);

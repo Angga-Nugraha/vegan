@@ -3,7 +3,7 @@ import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
-import 'package:vegan/data/utils/failure.dart';
+import 'package:vegan/core/failure.dart';
 import 'package:vegan/domain/usecase/Product/get_product.dart';
 import 'package:vegan/presentation/bloc/product_bloc/product_bloc.dart';
 

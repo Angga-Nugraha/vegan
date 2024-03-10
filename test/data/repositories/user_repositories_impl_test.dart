@@ -2,8 +2,8 @@ import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:vegan/data/repositories/user_repositories_impl.dart';
-import 'package:vegan/data/utils/exception.dart';
-import 'package:vegan/data/utils/failure.dart';
+import 'package:vegan/core/exception.dart';
+import 'package:vegan/core/failure.dart';
 
 import '../../dummy_data/object_dummy.dart';
 import '../../test_helper.mocks.dart';
@@ -104,6 +104,29 @@ void main() {
       verify(mockUserRemoteDatasource.changePassword(
           "currentPassword", "newPassword"));
       expect(result, const Left(CommonFailure("message")));
+    });
+
+    test('Return Right of new User when update address completed', () async {
+      // arrange
+      when(mockUserRemoteDatasource.changeAddress(addressModel))
+          .thenAnswer((_) async => tUserModel);
+      // act
+      final result = await userRepositoryImpl.changeAddress(address);
+
+      // assert
+      verify(mockUserRemoteDatasource.changeAddress(addressModel));
+      expect(result, equals(Right(tUser)));
+    });
+    test('Return Left message when update failed', () async {
+      // arrange
+      when(mockUserRemoteDatasource.changeAddress(addressModel))
+          .thenThrow(ServerException("message"));
+      // act
+      final result = await userRepositoryImpl.changeAddress(address);
+
+      // assert
+      verify(mockUserRemoteDatasource.changeAddress(addressModel));
+      expect(result, const Left(ServerFailure("message")));
     });
   });
 }

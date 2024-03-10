@@ -1,10 +1,10 @@
 import 'dart:io';
 
 import 'package:dartz/dartz.dart';
-import 'package:vegan/data/utils/failure.dart';
+import 'package:vegan/core/failure.dart';
 import 'package:vegan/domain/repositories/upload_repositories.dart';
 
-class Upload{
+class Upload {
   final UploadRepository uploadRepository;
 
   const Upload({required this.uploadRepository});

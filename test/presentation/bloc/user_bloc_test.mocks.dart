@@ -7,9 +7,10 @@ import 'dart:async' as _i5;
 
 import 'package:dartz/dartz.dart' as _i3;
 import 'package:mockito/mockito.dart' as _i1;
-import 'package:vegan/data/utils/failure.dart' as _i6;
+import 'package:vegan/core/failure.dart' as _i6;
 import 'package:vegan/domain/entities/user.dart' as _i7;
 import 'package:vegan/domain/repositories/user_repository.dart' as _i2;
+import 'package:vegan/domain/usecase/User/change_address.dart' as _i10;
 import 'package:vegan/domain/usecase/User/change_password.dart' as _i9;
 import 'package:vegan/domain/usecase/User/get_current_user.dart' as _i4;
 import 'package:vegan/domain/usecase/User/update_user.dart' as _i8;
@@ -160,4 +161,39 @@ class MockChangePassword extends _i1.Mock implements _i9.ChangePassword {
           ),
         )),
       ) as _i5.Future<_i3.Either<_i6.Failure, String>>);
+}
+
+/// A class which mocks [ChangeAddress].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockChangeAddress extends _i1.Mock implements _i10.ChangeAddress {
+  MockChangeAddress() {
+    _i1.throwOnMissingStub(this);
+  }
+
+  @override
+  _i2.UserRepository get userRepository => (super.noSuchMethod(
+        Invocation.getter(#userRepository),
+        returnValue: _FakeUserRepository_0(
+          this,
+          Invocation.getter(#userRepository),
+        ),
+      ) as _i2.UserRepository);
+
+  @override
+  _i5.Future<_i3.Either<_i6.Failure, _i7.User>> execute(_i7.Address? address) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #execute,
+          [address],
+        ),
+        returnValue: _i5.Future<_i3.Either<_i6.Failure, _i7.User>>.value(
+            _FakeEither_1<_i6.Failure, _i7.User>(
+          this,
+          Invocation.method(
+            #execute,
+            [address],
+          ),
+        )),
+      ) as _i5.Future<_i3.Either<_i6.Failure, _i7.User>>);
 }

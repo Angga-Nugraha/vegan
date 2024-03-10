@@ -1,7 +1,7 @@
 import 'package:dartz/dartz.dart';
 import 'package:vegan/data/datasource/auth_remote_datasource.dart';
-import 'package:vegan/data/utils/exception.dart';
-import 'package:vegan/data/utils/failure.dart';
+import 'package:vegan/core/exception.dart';
+import 'package:vegan/core/failure.dart';
 import 'package:vegan/domain/entities/auth.dart';
 import 'package:vegan/domain/entities/user.dart';
 import 'package:vegan/domain/repositories/auth_repositories.dart';

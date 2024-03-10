@@ -3,7 +3,8 @@ import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
-import 'package:vegan/data/utils/failure.dart';
+import 'package:vegan/core/failure.dart';
+import 'package:vegan/domain/usecase/User/change_address.dart';
 import 'package:vegan/domain/usecase/User/change_password.dart';
 import 'package:vegan/domain/usecase/User/get_current_user.dart';
 import 'package:vegan/domain/usecase/User/update_user.dart';
@@ -12,21 +13,24 @@ import 'package:vegan/presentation/bloc/user_bloc/user_bloc.dart';
 import '../../dummy_data/object_dummy.dart';
 import 'user_bloc_test.mocks.dart';
 
-@GenerateMocks([GetCurrentUser, UpdateUser, ChangePassword])
+@GenerateMocks([GetCurrentUser, UpdateUser, ChangePassword, ChangeAddress])
 void main() {
   late UserBloc userBloc;
   late MockGetCurrentUser mockGetCurrentUser;
   late MockUpdateUser mockUpdateUser;
   late MockChangePassword mockChangePassword;
+  late MockChangeAddress mockChangeAddress;
 
   setUp(() {
     mockGetCurrentUser = MockGetCurrentUser();
     mockUpdateUser = MockUpdateUser();
     mockChangePassword = MockChangePassword();
+    mockChangeAddress = MockChangeAddress();
     userBloc = UserBloc(
       getCurrentUser: mockGetCurrentUser,
       updateUser: mockUpdateUser,
       changePassword: mockChangePassword,
+      changeAddress: mockChangeAddress,
     );
   });
 
@@ -65,10 +69,11 @@ void main() {
             .thenAnswer((_) async => Right(tUser));
         return userBloc;
       },
+      wait: const Duration(seconds: 3),
       act: (bloc) => bloc.add(const UpdateUserEvent(user: tUserRegister)),
       expect: () => <UserState>[
         UserLoading(),
-        UserLoaded(result: tUser),
+        const UserUpdated(message: "User Updated"),
       ],
     );
     blocTest<UserBloc, UserState>(
@@ -79,6 +84,7 @@ void main() {
         return userBloc;
       },
       act: (bloc) => bloc.add(const UpdateUserEvent(user: tUserRegister)),
+      wait: const Duration(seconds: 3),
       expect: () => <UserState>[
         UserLoading(),
         const UserError(message: 'Error'),
@@ -94,9 +100,38 @@ void main() {
       },
       act: (bloc) => bloc.add(const ChangePassEvent(
           currentPassword: "currentPassword", newPassword: "newPassword")),
+      wait: const Duration(seconds: 3),
       expect: () => <UserState>[
         UserLoading(),
         const UserUpdated(message: "password changed"),
+      ],
+    );
+    blocTest<UserBloc, UserState>(
+      'emits UserLoaded when ChangeAddressEvent is added.',
+      build: () {
+        when(mockChangeAddress.execute(address))
+            .thenAnswer((_) async => Right(tUser));
+        return userBloc;
+      },
+      act: (bloc) => bloc.add(const ChangeAddressEvent(address: address)),
+      wait: const Duration(seconds: 3),
+      expect: () => <UserState>[
+        UserLoading(),
+        UserLoaded(result: tUser),
+      ],
+    );
+    blocTest<UserBloc, UserState>(
+      'emits UserError when ChangeAddressEvent is added.',
+      build: () {
+        when(mockChangeAddress.execute(address))
+            .thenAnswer((_) async => const Left(ServerFailure("Error")));
+        return userBloc;
+      },
+      act: (bloc) => bloc.add(const ChangeAddressEvent(address: address)),
+      wait: const Duration(seconds: 3),
+      expect: () => <UserState>[
+        UserLoading(),
+        const UserError(message: "Error"),
       ],
     );
   });

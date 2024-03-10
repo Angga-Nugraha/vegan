@@ -1,7 +1,7 @@
 import 'package:dartz/dartz.dart';
 import 'package:vegan/domain/repositories/product_repositories.dart';
 
-import '../../../data/utils/failure.dart';
+import '../../../core/failure.dart';
 import '../../entities/product.dart';
 
 class GetProductDetail {

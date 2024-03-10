@@ -1,15 +1,15 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:vegan/data/utils/constant.dart';
-import 'package:vegan/data/utils/routes.dart';
-import 'package:vegan/data/utils/styles.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:vegan/core/constant.dart';
+import 'package:vegan/core/routes.dart';
+import 'package:vegan/core/styles.dart';
 import 'package:vegan/presentation/bloc/auth_bloc/auth_bloc.dart';
 import 'package:vegan/presentation/bloc/user_bloc/user_bloc.dart';
 
 import '../../../domain/entities/user.dart';
 import '../../bloc/upload_bloc/upload_bloc.dart';
-import '../components/components_helper.dart';
 import 'widget/user_header.dart';
 
 class ProfilePage extends StatelessWidget {
@@ -21,11 +21,14 @@ class ProfilePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocListener<UploadBloc, UploadState>(
       listener: (context, state) {
+        EasyLoading.dismiss();
         switch (state) {
+          case UploadLoading():
+            EasyLoading.show(status: "Uploading...");
           case UploadSuccess():
-            mySnackbar(context, message: state.message.toTitleCase());
+            EasyLoading.showToast(state.message.toTitleCase());
           case UploadError():
-            mySnackbar(context, message: state.message);
+            EasyLoading.showToast(state.message.toTitleCase());
           default:
             break;
         }
@@ -64,17 +67,11 @@ class ProfilePage extends StatelessWidget {
                       child: BlocBuilder<UserBloc, UserState>(
                         builder: (context, state) {
                           switch (state) {
-                            case UserLoading():
-                              return const Center(
-                                child: CircularProgressIndicator(),
-                              );
                             case UserLoaded():
                               user = state.result;
                               return FadeIn(
                                   duration: const Duration(milliseconds: 500),
                                   child: UserHeader(user: user!));
-                            case UserError():
-                              return Text(state.message);
                             default:
                               return const SizedBox();
                           }
@@ -130,9 +127,12 @@ class ProfilePage extends StatelessWidget {
                                 title: const Text(
                                   'Logout',
                                 ),
-                                content: BlocConsumer<AuthBloc, AuthState>(
+                                content: BlocListener<AuthBloc, AuthState>(
                                   listener: (context, state) {
+                                    EasyLoading.dismiss();
                                     switch (state) {
+                                      case AuthLoading():
+                                        EasyLoading.show(status: "Logout...");
                                       case Unauthenticated():
                                         Navigator.pushReplacementNamed(
                                             context, authPageRoutes);
@@ -144,22 +144,9 @@ class ProfilePage extends StatelessWidget {
                                             context, authPageRoutes);
                                     }
                                   },
-                                  builder: (context, state) {
-                                    switch (state) {
-                                      case AuthLoading():
-                                        return const SizedBox(
-                                          height: 50,
-                                          width: 50,
-                                          child: Center(
-                                              child:
-                                                  CircularProgressIndicator()),
-                                        );
-                                      default:
-                                        return const Text(
-                                          'Are you sure want to logout?',
-                                        );
-                                    }
-                                  },
+                                  child: const Text(
+                                    'Are you sure want to logout?',
+                                  ),
                                 ),
                                 actions: <Widget>[
                                   TextButton(

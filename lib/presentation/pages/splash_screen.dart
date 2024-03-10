@@ -5,7 +5,7 @@ import 'package:lottie/lottie.dart';
 import 'package:vegan/presentation/pages/root_screen.dart';
 
 import '../../data/helpers/storage_helper.dart';
-import '../../data/utils/styles.dart';
+import '../../core/styles.dart';
 import 'Auth/auth_page.dart';
 import 'Auth/widgets/login_page.dart';
 import 'Auth/widgets/register_page.dart';

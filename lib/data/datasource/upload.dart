@@ -4,9 +4,9 @@ import 'package:async/async.dart';
 import 'package:path/path.dart' as path;
 import 'package:http/http.dart' as http;
 import 'package:vegan/data/helpers/storage_helper.dart';
-import 'package:vegan/data/utils/constant.dart';
+import 'package:vegan/core/constant.dart';
 
-import '../utils/exception.dart';
+import '../../core/exception.dart';
 
 abstract class UploadImage {
   Future<String> uploadUserImg(File image);
@@ -28,7 +28,7 @@ class UploadImageImpl implements UploadImage {
       userId = authData['id'];
       token = authData['accessToken'];
     }
-    
+
     final stream = http.ByteStream(DelegatingStream(image.openRead()));
     final length = await image.length();
     final request = http.MultipartRequest(

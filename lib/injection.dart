@@ -26,6 +26,7 @@ import 'domain/repositories/upload_repositories.dart';
 import 'domain/usecase/Auth/login.dart';
 import 'domain/usecase/Auth/logout.dart';
 import 'domain/usecase/Auth/register.dart';
+import 'domain/usecase/User/change_address.dart';
 import 'presentation/bloc/auth_bloc/auth_bloc.dart';
 
 final locator = GetIt.instance;
@@ -44,6 +45,7 @@ void init() {
 
   locator.registerFactory(
     () => UserBloc(
+      changeAddress: locator(),
       getCurrentUser: locator(),
       updateUser: locator(),
       changePassword: locator(),
@@ -70,6 +72,7 @@ void init() {
   locator.registerLazySingleton(() => UpdateUser(userRepository: locator()));
   locator
       .registerLazySingleton(() => ChangePassword(userRepository: locator()));
+  locator.registerLazySingleton(() => ChangeAddress(userRepository: locator()));
 
   // upload
   locator.registerLazySingleton(() => Upload(uploadRepository: locator()));

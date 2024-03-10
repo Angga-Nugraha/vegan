@@ -13,7 +13,7 @@ class UploadBloc extends Bloc<UploadEvent, UploadState> {
   UploadBloc({required this.upload}) : super(UploadInitial()) {
     on<Uploaded>((event, emit) async {
       emit(UploadLoading());
-
+      await Future.delayed(const Duration(seconds: 3));
       final result = await upload.execute(event.image);
 
       result.fold(

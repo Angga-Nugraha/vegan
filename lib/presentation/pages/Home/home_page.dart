@@ -3,16 +3,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:vegan/data/utils/constant.dart';
-import 'package:vegan/data/utils/routes.dart';
+import 'package:vegan/core/constant.dart';
+import 'package:vegan/core/routes.dart';
 import 'package:vegan/presentation/bloc/product_bloc/product_bloc.dart';
 
-import '../../../data/utils/styles.dart';
+import '../../../core/styles.dart';
 import '../../bloc/user_bloc/user_bloc.dart';
-import '../components/components_helper.dart';
 import 'widgets/category_list.dart';
 import 'widgets/discount_card.dart';
-import 'widgets/product_card.dart';
+import '../Product/product_card.dart';
 
 class MyHomePage extends StatelessWidget {
   const MyHomePage({super.key});
@@ -61,20 +60,39 @@ class MyHomePage extends StatelessWidget {
                             listener: (context, state) {
                               if (state is UserError) {
                                 showDialog(
+                                  barrierDismissible: false,
                                   context: context,
                                   builder: (context) {
                                     return AlertDialog(
+                                      titleTextStyle: subTitleStyle,
+                                      contentTextStyle: bodyTextStyle,
+                                      shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(10.0)),
+                                      contentPadding: const EdgeInsets.all(8.0),
+                                      titlePadding: const EdgeInsets.all(8.0),
+                                      actionsPadding: EdgeInsets.zero,
+                                      title: const Text(
+                                        "Something wrong !",
+                                        textAlign: TextAlign.center,
+                                      ),
                                       content: Text(
                                         state.message.toTitleCase(),
                                         textAlign: TextAlign.center,
                                       ),
+                                      actionsAlignment:
+                                          MainAxisAlignment.center,
                                       actions: [
                                         TextButton(
                                             onPressed: () {
                                               Navigator.pushReplacementNamed(
                                                   context, authPageRoutes);
                                             },
-                                            child: const Text("Oke"))
+                                            child: Text(
+                                              "Try Login",
+                                              style: subTitleStyle.copyWith(
+                                                  fontSize: 12),
+                                            ))
                                       ],
                                     );
                                   },
@@ -84,8 +102,7 @@ class MyHomePage extends StatelessWidget {
                             builder: (context, state) {
                               switch (state) {
                                 case UserLoaded():
-                                  String? user =
-                                      state.result.name?.toTitleCase();
+                                  var user = state.result.name?.toTitleCase();
                                   return FadeIn(
                                     duration: const Duration(milliseconds: 500),
                                     child: Text(
@@ -104,34 +121,37 @@ class MyHomePage extends StatelessWidget {
                     ),
                   ],
                 ),
-                title: Container(
-                  height: 25,
-                  width: MediaQuery.of(context).size.width - 120,
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(15),
-                    boxShadow: const [
-                      BoxShadow(
-                        color: Colors.black38,
-                        spreadRadius: 2,
-                        blurRadius: 2,
-                        offset: Offset(1, 2), // changes position of shadow
+                title: GestureDetector(
+                  onTap: () {},
+                  child: Container(
+                    height: 25,
+                    width: MediaQuery.of(context).size.width - 120,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(15),
+                      boxShadow: const [
+                        BoxShadow(
+                          color: Colors.black38,
+                          spreadRadius: 2,
+                          blurRadius: 2,
+                          offset: Offset(1, 2), // changes position of shadow
+                        ),
+                      ],
+                    ),
+                    child: TextField(
+                      style: bodyTextStyle,
+                      enabled: false,
+                      decoration: InputDecoration(
+                        contentPadding: const EdgeInsets.only(bottom: 12.5),
+                        border: InputBorder.none,
+                        hintText: "Search",
+                        hintStyle: bodyTextStyle.copyWith(color: Colors.grey),
+                        prefixIcon: const Icon(
+                          Icons.search,
+                          size: 15,
+                        ),
                       ),
-                    ],
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      const Icon(
-                        Icons.search_rounded,
-                        size: 14,
-                      ),
-                      const SizedBox(width: 10),
-                      Text(
-                        "Search",
-                        style: bodyTextStyle.copyWith(color: Colors.grey),
-                      )
-                    ],
+                    ),
                   ),
                 ),
                 titlePadding:
@@ -159,8 +179,10 @@ class MyHomePage extends StatelessWidget {
           ];
         },
         body: RefreshIndicator(
-          onRefresh: () async =>
-              context.read<ProductBloc>().add(const FetchAllProduct()),
+          onRefresh: () async {
+            context.read<ProductBloc>().add(const FetchAllProduct());
+            context.read<UserBloc>().add(const FetchCurrentUser());
+          },
           child: ListView(
             padding: const EdgeInsets.all(10.0),
             physics: const BouncingScrollPhysics(),
@@ -170,55 +192,14 @@ class MyHomePage extends StatelessWidget {
               const DiscountCard(),
               _headers(title: 'Top Rated', onPressed: () {}),
               const Divider(),
-              _buildListProduct("Top Rated"),
+              const ProductListCardItem(category: "Top Rated"),
               _headers(title: 'All Product', onPressed: () {}),
               const Divider(),
-              _buildListProduct("All Product"),
+              const ProductListCardItem(category: "All Product"),
             ],
           ),
         ),
       ),
-    );
-  }
-
-  Widget _buildListProduct(String category) {
-    return BlocBuilder<ProductBloc, ProductState>(
-      builder: (context, state) {
-        switch (state) {
-          case ProductLoading():
-            return listShimmer();
-          case ProductLoaded():
-            final listProduct = category == "All Product"
-                ? state.result
-                : state.result
-                    .map((e) => e)
-                    .where((element) => element.ratting > 4)
-                    .toList();
-            return listProduct.isEmpty
-                ? const Center(
-                    child: Text('Product is empty'),
-                  )
-                : SizedBox(
-                    height: 250,
-                    child: ListView.builder(
-                        physics: const ClampingScrollPhysics(),
-                        itemCount: listProduct.length,
-                        padding: const EdgeInsets.all(8.0),
-                        scrollDirection: Axis.horizontal,
-                        itemBuilder: (context, index) {
-                          final product = listProduct[index];
-
-                          return ProductCardItem(
-                            product: product,
-                          );
-                        }),
-                  );
-          case ProductError():
-            return Text(state.message);
-          default:
-            return Container();
-        }
-      },
     );
   }
 

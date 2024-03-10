@@ -33,3 +33,11 @@ final class ChangePassEvent extends UserEvent {
   @override
   List<Object> get props => [currentPassword, newPassword];
 }
+
+final class ChangeAddressEvent extends UserEvent {
+  final Address address;
+  const ChangeAddressEvent({required this.address});
+
+  @override
+  List<Object> get props => [address];
+}

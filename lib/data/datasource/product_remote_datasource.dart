@@ -4,8 +4,8 @@ import 'dart:io';
 import 'package:vegan/data/helpers/storage_helper.dart';
 import 'package:vegan/data/model/product_model.dart';
 import 'package:http/http.dart' as http;
-import 'package:vegan/data/utils/constant.dart';
-import 'package:vegan/data/utils/exception.dart';
+import 'package:vegan/core/constant.dart';
+import 'package:vegan/core/exception.dart';
 
 abstract class ProductRemoteDatasource {
   Future<List<ProductModel>> getAllProduct();

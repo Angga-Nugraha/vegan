@@ -1,12 +1,13 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:vegan/data/utils/constant.dart';
-import 'package:vegan/data/utils/routes.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:vegan/core/constant.dart';
+import 'package:vegan/core/routes.dart';
 import 'package:vegan/domain/entities/user.dart';
 import 'package:vegan/presentation/pages/components/components_helper.dart';
 
-import '../../../../data/utils/styles.dart';
+import '../../../../core/styles.dart';
 import '../../../bloc/user_bloc/user_bloc.dart';
 
 class UserInfo extends StatefulWidget {
@@ -147,9 +148,13 @@ class _UserInfoState extends State<UserInfo> {
                       BlocBuilder<UserBloc, UserState>(
                         builder: (context, state) {
                           if (state is UserLoaded) {
-                            if (state.result.address!.provinsi != null) {
+                            if (state.result.address!.provinsi != null ||
+                                state.result.address!.kota != null ||
+                                state.result.address!.kecamatan != null ||
+                                state.result.address!.detailAddress != null ||
+                                state.result.address!.postalCode != null) {
                               address =
-                                  "${state.result.address!.detailAddress}, ${state.result.address!.kecamatan}, ${state.result.address!.kota}, ${state.result.address!.provinsi}";
+                                  "${state.result.address!.detailAddress}, ${state.result.address!.kecamatan}, ${state.result.address!.kota}, ${state.result.address!.provinsi}, ${state.result.address!.postalCode}";
                             } else {
                               address = "Alamat belum ditetapkan";
                             }
@@ -173,17 +178,20 @@ class _UserInfoState extends State<UserInfo> {
       ),
       bottomNavigationBar: BlocListener<UserBloc, UserState>(
         listener: (context, state) {
+          EasyLoading.dismiss();
           switch (state) {
-            case UserLoaded():
-              mySnackbar(context, message: 'User updated');
+            case UserLoading():
+              EasyLoading.show(status: "Saving...");
+            case UserUpdated():
+              EasyLoading.showSuccess(state.message.toTitleCase());
+              Future.delayed(const Duration(seconds: 3),
+                  () => context.read<UserBloc>().add(const FetchCurrentUser()));
             case UserError():
-              mySnackbar(
-                context,
-                message: state.message.toTitleCase(),
-                color: Colors.red,
-              );
+              EasyLoading.showError(state.message.toTitleCase(),
+                  duration: const Duration(seconds: 3));
+              Future.delayed(const Duration(seconds: 3),
+                  () => context.read<UserBloc>().add(const FetchCurrentUser()));
             default:
-              break;
           }
         },
         child: TextButton(

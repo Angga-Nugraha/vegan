@@ -4,12 +4,12 @@ import 'package:vegan/domain/repositories/user_repository.dart';
 
 import '../../entities/user.dart';
 
-class GetCurrentUser {
+class ChangeAddress {
   final UserRepository userRepository;
 
-  const GetCurrentUser({required this.userRepository});
+  const ChangeAddress({required this.userRepository});
 
-  Future<Either<Failure, User>> execute() async {
-    return await userRepository.getCurrentUser();
+  Future<Either<Failure, User>> execute(Address address) async {
+    return await userRepository.changeAddress(address);
   }
 }

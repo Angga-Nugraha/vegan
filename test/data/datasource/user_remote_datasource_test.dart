@@ -6,15 +6,15 @@ import 'package:http/http.dart' as http;
 import 'package:mockito/mockito.dart';
 import 'package:vegan/data/datasource/user_remote_datasource.dart';
 import 'package:vegan/data/helpers/storage_helper.dart';
-import 'package:vegan/data/utils/constant.dart';
-import 'package:vegan/data/utils/exception.dart';
+import 'package:vegan/core/constant.dart';
+import 'package:vegan/core/exception.dart';
 
 import '../../dummy_data/object_dummy.dart';
 import '../../read_json.dart';
 import '../../test_helper.mocks.dart';
 
 void main() {
-  TestWidgetsFlutterBinding.ensureInitialized();
+  // TestWidgetsFlutterBinding.ensureInitialized();
 
   late UserRemoteDatasourceImpl dataSourceImpl;
   late SecureStorageHelper storage;
@@ -102,6 +102,27 @@ void main() {
           http.Response(readJson('dummy_data/response_failed.json'), 404));
 
       final result = dataSourceImpl.changePassword("curentPass", "newPass");
+
+      expect(result, throwsA(isA<ServerException>()));
+    });
+
+    test('Update address user', () async {
+      when(mockHttpClient.patch(Uri.parse('$baseUrl/api/user/address/$userId'),
+              headers: {}, body: json.encode(addressModel.toJson())))
+          .thenAnswer((_) async =>
+              http.Response(readJson('dummy_data/user_update.json'), 200));
+
+      final result = await dataSourceImpl.changeAddress(addressModel);
+
+      expect(result, equals(tUserModel));
+    });
+    test('throw server exception when Update address user failed', () async {
+      when(mockHttpClient.patch(Uri.parse('$baseUrl/api/user/address/$userId'),
+              headers: {}, body: json.encode(addressModel.toJson())))
+          .thenAnswer((_) async =>
+              http.Response(readJson('dummy_data/response_failed.json'), 404));
+
+      final result = dataSourceImpl.changeAddress(addressModel);
 
       expect(result, throwsA(isA<ServerException>()));
     });

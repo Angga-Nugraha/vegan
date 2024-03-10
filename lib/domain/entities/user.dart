@@ -52,7 +52,7 @@ class Address extends Equatable {
   final String? kota;
   final String? kecamatan;
   final int? postalCode;
-  final Geo? geo;
+  final Geo geo;
 
   const Address({
     this.detailAddress,
@@ -60,7 +60,7 @@ class Address extends Equatable {
     this.kota,
     this.kecamatan,
     this.postalCode,
-    this.geo,
+    required this.geo,
   });
 
   @override
@@ -75,8 +75,8 @@ class Address extends Equatable {
 }
 
 class Geo extends Equatable {
-  final String? lat;
-  final String? long;
+  final double? lat;
+  final double? long;
 
   const Geo({
     this.lat,

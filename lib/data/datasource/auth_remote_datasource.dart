@@ -1,15 +1,14 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:vegan/data/datasource/session_manager.dart';
 import 'package:vegan/data/helpers/storage_helper.dart';
 import 'package:vegan/data/model/auth_model.dart';
 import 'package:vegan/data/model/user_model.dart';
-import 'package:vegan/data/utils/exception.dart';
+import 'package:vegan/core/exception.dart';
 
-import '../utils/constant.dart';
+import '../../core/constant.dart';
 
 abstract class AuthRemoteDataSource {
   Future<AuthModel> login(String email, String password);
@@ -59,7 +58,6 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
 
     final Map<String, dynamic> data =
         Map<String, dynamic>.from(json.decode(response.body));
-    debugPrint(response.statusCode.toString());
     await storage.deleteSecureStorage();
     if (response.statusCode == 200) {
       return data['msg'];

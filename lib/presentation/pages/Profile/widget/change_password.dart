@@ -2,8 +2,8 @@ import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lottie/lottie.dart';
-import 'package:vegan/data/utils/constant.dart';
-import 'package:vegan/data/utils/styles.dart';
+import 'package:vegan/core/constant.dart';
+import 'package:vegan/core/styles.dart';
 import 'package:vegan/presentation/pages/components/components_helper.dart';
 
 import '../../../bloc/user_bloc/user_bloc.dart';

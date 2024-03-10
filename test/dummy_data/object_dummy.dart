@@ -5,20 +5,31 @@ import 'package:vegan/domain/entities/auth.dart';
 import 'package:vegan/domain/entities/product.dart';
 import 'package:vegan/domain/entities/user.dart';
 
+const addressModel = AddressModel(
+  geoModel: GeoModel(lat: -7.237265219532578, long: 107.88687005639076),
+  detailAddress: "detail_address",
+  provinsi: "provinsi",
+  kota: "kota",
+  kecamatan: "kecamatan",
+  postalCode: 1234,
+);
+
+const address = Address(
+  geo: Geo(lat: -7.237265219532578, long: 107.88687005639076),
+  detailAddress: "detail_address",
+  provinsi: "provinsi",
+  kota: "kota",
+  kecamatan: "kecamatan",
+  postalCode: 1234,
+);
+
 final tUserModel = UserModel(
   id: "65a615e0ee0e998fa8b32068",
   name: "admin",
   email: "admin@gmail.com",
   phone: "081389042140",
   password: "\$2b\$10\$qKBGlQ6klNZFrikJ/w4psuoyIDz7PO4GUB36kFGmhzDQqNucHWXcm",
-  address: const AddressModel(
-    geoModel: GeoModel(lat: null, long: null),
-    detailAddress: null,
-    provinsi: null,
-    kota: null,
-    kecamatan: null,
-    postalCode: null,
-  ),
+  address: addressModel,
   image: null,
   role: "user",
   token:
@@ -33,14 +44,7 @@ final tUser = User(
   email: "admin@gmail.com",
   phone: "081389042140",
   password: "\$2b\$10\$qKBGlQ6klNZFrikJ/w4psuoyIDz7PO4GUB36kFGmhzDQqNucHWXcm",
-  address: const Address(
-    geo: Geo(lat: null, long: null),
-    detailAddress: null,
-    provinsi: null,
-    kota: null,
-    kecamatan: null,
-    postalCode: null,
-  ),
+  address: address,
   role: "user",
   token:
       "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1YTYxNWUwZWUwZTk5OGZhOGIzMjA2OCIsIm5hbWUiOiJhZG1pbiIsImVtYWlsIjoiYWRtaW5AZ21haWwuY29tIiwiaWF0IjoxNzA1MzkyMDc4LCJleHAiOjE3MDU0Nzg0Nzh9.95zULvaQD3y5FezxyDw6czml0qcWHaeApSDktd6iyhY",

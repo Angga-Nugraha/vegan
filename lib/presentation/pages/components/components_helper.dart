@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
 
-import '../../../data/utils/styles.dart';
+import '../../../core/styles.dart';
 
 part 'my_snackbar.dart';
 part 'custom_textfield.dart';

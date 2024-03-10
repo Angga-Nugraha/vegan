@@ -1,7 +1,7 @@
 import 'package:animated_bottom_navigation_bar/animated_bottom_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:vegan/data/utils/styles.dart';
+import 'package:vegan/core/styles.dart';
 import 'package:vegan/presentation/bloc/user_bloc/user_bloc.dart';
 import 'package:vegan/presentation/pages/Home/home_page.dart';
 import 'package:vegan/presentation/pages/Profile/profile_page.dart';
@@ -18,32 +18,32 @@ class RootScreen extends StatefulWidget {
 class _RootScreenState extends State<RootScreen> {
   int _initialIndex = 0;
 
-  List<Widget> _listPage = [];
+  final List<Widget> _listPage = [
+    const MyHomePage(),
+    const SizedBox(
+      child: Center(
+        child: Icon(Icons.assignment_outlined),
+      ),
+    ),
+    const SizedBox(
+      child: Center(
+        child: Icon(Icons.person),
+      ),
+    ),
+    const ProfilePage(),
+  ];
 
   @override
   void initState() {
+    Future.microtask(() {
+      return [
+        BlocProvider.of<UserBloc>(context, listen: false)
+            .add(const FetchCurrentUser()),
+        BlocProvider.of<ProductBloc>(context, listen: false)
+            .add(const FetchAllProduct()),
+      ];
+    });
     super.initState();
-    _listPage = [
-      const MyHomePage(),
-      const SizedBox(
-        child: Center(
-          child: Icon(Icons.assignment_outlined),
-        ),
-      ),
-      const SizedBox(
-        child: Center(
-          child: Icon(Icons.person),
-        ),
-      ),
-      const ProfilePage(),
-    ];
-
-    Future.microtask(() => [
-          BlocProvider.of<ProductBloc>(context, listen: false)
-              .add(const FetchAllProduct()),
-          BlocProvider.of<UserBloc>(context, listen: false)
-              .add(const FetchCurrentUser()),
-        ]);
   }
 
   @override

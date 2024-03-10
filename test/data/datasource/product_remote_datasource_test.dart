@@ -4,8 +4,8 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:vegan/data/datasource/product_remote_datasource.dart';
 import 'package:vegan/data/helpers/storage_helper.dart';
-import 'package:vegan/data/utils/constant.dart';
-import 'package:vegan/data/utils/exception.dart';
+import 'package:vegan/core/constant.dart';
+import 'package:vegan/core/exception.dart';
 
 import '../../dummy_data/object_dummy.dart';
 import '../../read_json.dart';

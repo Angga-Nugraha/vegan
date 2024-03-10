@@ -1,13 +1,14 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:permission_handler/permission_handler.dart';
-import 'package:vegan/data/utils/constant.dart';
+import 'package:vegan/core/constant.dart';
 import 'package:vegan/domain/entities/user.dart';
 import 'package:vegan/presentation/pages/components/components_helper.dart';
 
-import '../../../../data/utils/styles.dart';
+import '../../../../core/styles.dart';
 import '../../../bloc/user_bloc/user_bloc.dart';
 
 class ShippingAddress extends StatefulWidget {
@@ -65,12 +66,12 @@ class _UserInfoState extends State<ShippingAddress> {
         text: widget.user.address!.kecamatan?.toTitleCase() ?? "");
     _postController = TextEditingController(
         text: widget.user.address!.postalCode?.toString() ?? "");
-    if (widget.user.address!.geo!.lat != null &&
-        widget.user.address!.geo!.long != null) {
+    if (widget.user.address!.geo.lat != null &&
+        widget.user.address!.geo.long != null) {
       _markers[key] = Marker(
         markerId: const MarkerId("1"),
-        position: LatLng(double.parse(widget.user.address!.geo!.lat!),
-            double.parse(widget.user.address!.geo!.long!)),
+        position: LatLng(
+            widget.user.address!.geo.lat!, widget.user.address!.geo.long!),
         infoWindow: InfoWindow(
           title: key,
         ),
@@ -187,7 +188,7 @@ class _UserInfoState extends State<ShippingAddress> {
                           mapType: MapType.normal,
                           compassEnabled: true,
                           initialCameraPosition: CameraPosition(
-                              target: widget.user.address!.geo!.lat == null
+                              target: widget.user.address!.geo.lat == null
                                   ? const LatLng(-6.200000, 106.816666)
                                   : _markers.values
                                       .map((e) => e.position)
@@ -219,33 +220,50 @@ class _UserInfoState extends State<ShippingAddress> {
           ),
         ],
       ),
-      bottomNavigationBar: BlocConsumer<UserBloc, UserState>(
+      bottomNavigationBar: BlocListener<UserBloc, UserState>(
         listener: (context, state) {
           switch (state) {
+            case UserLoading():
+              EasyLoading.show(status: "Saving...");
             case UserLoaded():
-              mySnackbar(context, message: 'User updated');
+              EasyLoading.showSuccess("Saved");
             case UserError():
-              mySnackbar(
-                context,
-                message: state.message.toTitleCase(),
-                color: Colors.red,
-              );
+              EasyLoading.showError(state.message.toTitleCase(),
+                  duration: const Duration(seconds: 3));
+              Future.delayed(const Duration(seconds: 3),
+                  () => context.read<UserBloc>().add(const FetchCurrentUser()));
             default:
-              break;
           }
         },
-        builder: (context, state) {
-          if (state is UserLoading) {
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
-          }
-
-          return TextButton(
-            onPressed: () {},
-            child: const Text("Save"),
-          );
-        },
+        child: TextButton(
+          onPressed: () {
+            if (_provinsiController.text.isNotEmpty ||
+                _kotaController.text.isNotEmpty ||
+                _kecamatanController.text.isNotEmpty ||
+                _detailController.text.isNotEmpty) {
+              context.read<UserBloc>().add(
+                    ChangeAddressEvent(
+                      address: Address(
+                        detailAddress: _detailController.text,
+                        provinsi: _provinsiController.text,
+                        kota: _kotaController.text,
+                        kecamatan: _kecamatanController.text,
+                        postalCode: int.parse(_postController.text),
+                        geo: Geo(
+                          lat: _markers.values
+                              .map((e) => e.position.latitude)
+                              .first,
+                          long: _markers.values
+                              .map((e) => e.position.longitude)
+                              .first,
+                        ),
+                      ),
+                    ),
+                  );
+            }
+          },
+          child: const Text("Save"),
+        ),
       ),
     );
   }

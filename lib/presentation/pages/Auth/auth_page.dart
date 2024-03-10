@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../data/utils/constant.dart';
+import '../../../core/constant.dart';
 
 class AuthPage extends StatefulWidget {
   final List<Widget> listPage;
@@ -22,6 +22,7 @@ class _AuthPageState extends State<AuthPage> {
       child: Scaffold(
         body: PageView(
           controller: controller,
+          physics: const NeverScrollableScrollPhysics(),
           children: [...widget.listPage],
         ),
       ),

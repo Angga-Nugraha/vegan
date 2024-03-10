@@ -7,7 +7,7 @@ import 'dart:async' as _i5;
 
 import 'package:dartz/dartz.dart' as _i3;
 import 'package:mockito/mockito.dart' as _i1;
-import 'package:vegan/data/utils/failure.dart' as _i6;
+import 'package:vegan/core/failure.dart' as _i6;
 import 'package:vegan/domain/entities/auth.dart' as _i7;
 import 'package:vegan/domain/entities/user.dart' as _i10;
 import 'package:vegan/domain/repositories/auth_repositories.dart' as _i2;

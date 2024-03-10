@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:vegan/domain/entities/product.dart';
 import 'package:vegan/presentation/bloc/product_bloc/product_bloc.dart';
 import 'package:vegan/presentation/bloc/upload_bloc/upload_bloc.dart';
 import 'package:vegan/presentation/bloc/user_bloc/user_bloc.dart';
+import 'package:vegan/presentation/pages/Product/detail_product.dart';
 import 'package:vegan/presentation/pages/Profile/widget/change_password.dart';
 import 'package:vegan/presentation/pages/Profile/widget/shipping_address.dart';
 import 'package:vegan/presentation/pages/Profile/widget/user_information.dart';
@@ -11,8 +14,8 @@ import 'package:vegan/presentation/pages/root_screen.dart';
 
 import 'domain/entities/user.dart';
 import 'injection.dart' as di;
-import 'data/utils/routes.dart';
-import 'data/utils/styles.dart';
+import 'core/routes.dart';
+import 'core/styles.dart';
 import 'presentation/bloc/auth_bloc/auth_bloc.dart';
 import 'presentation/pages/Auth/auth_page.dart';
 import 'presentation/pages/Auth/widgets/login_page.dart';
@@ -48,6 +51,7 @@ class MyApp extends StatelessWidget {
         theme: myTheme,
         initialRoute: splashScreenRoute,
         navigatorObservers: [routeObserver],
+        builder: EasyLoading.init(),
         onGenerateRoute: (settings) {
           switch (settings.name) {
             case splashScreenRoute:
@@ -56,25 +60,31 @@ class MyApp extends StatelessWidget {
               );
             case userInfoRoutes:
               User user = settings.arguments as User;
-              return MaterialPageRoute(
-                builder: (_) => UserInfo(user: user),
-              );
+              return customRoute(context, page: UserInfo(user: user));
             case shippingAddressRoutes:
               User user = settings.arguments as User;
-              return MaterialPageRoute(
-                builder: (_) => ShippingAddress(user: user),
+              return customRoute(
+                context,
+                page: ShippingAddress(user: user),
               );
+            case detailProductRoutes:
+              Product product = settings.arguments as Product;
+              return customRoute(context,
+                  page: DetailProduct(product: product));
             case changePassRoutes:
-              return MaterialPageRoute(
-                builder: (_) => const ChangePassword(),
+              return customRoute(
+                context,
+                page: const ChangePassword(),
               );
             case homePageRoute:
-              return MaterialPageRoute(
-                builder: (_) => const RootScreen(),
+              return customRoute(
+                context,
+                page: const RootScreen(),
               );
             case authPageRoutes:
-              return MaterialPageRoute(
-                builder: (_) => const AuthPage(listPage: [
+              return customRoute(
+                context,
+                page: const AuthPage(listPage: [
                   LoginPage(),
                   RegisterPage(),
                 ]),

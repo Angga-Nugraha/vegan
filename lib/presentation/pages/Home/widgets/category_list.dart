@@ -1,8 +1,8 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 
-import '../../../../data/utils/constant.dart';
-import '../../../../data/utils/styles.dart';
+import '../../../../core/constant.dart';
+import '../../../../core/styles.dart';
 
 class ListCategory extends StatelessWidget {
   const ListCategory({

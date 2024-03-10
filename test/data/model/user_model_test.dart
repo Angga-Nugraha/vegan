@@ -19,4 +19,14 @@ void main() {
 
     expect(result, tUserRegisterModel.toJson());
   });
+  test('should be a subclass of Address from entity', () async {
+    final result = AddressModel.fromEntity(address);
+
+    expect(result, addressModel);
+  });
+  test('should be a subclass of Address from entity toJson', () async {
+    final result = AddressModel.fromEntity(address).toJson();
+
+    expect(result, addressModel.toJson());
+  });
 }

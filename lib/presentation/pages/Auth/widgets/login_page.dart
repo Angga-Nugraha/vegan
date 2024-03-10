@@ -1,12 +1,13 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:lottie/lottie.dart';
 import 'package:animate_do/animate_do.dart';
-import 'package:vegan/data/utils/routes.dart';
+import 'package:vegan/core/routes.dart';
 
-import '../../../../data/utils/constant.dart';
-import '../../../../data/utils/styles.dart';
+import '../../../../core/constant.dart';
+import '../../../../core/styles.dart';
 import '../../../bloc/auth_bloc/auth_bloc.dart';
 import '../../components/components_helper.dart';
 
@@ -56,29 +57,6 @@ class _LoginPageState extends State<LoginPage> {
                 Text('Sign in to your account', style: subTitleStyle),
               ],
             ),
-          ),
-          const SizedBox(height: 20),
-          BlocConsumer<AuthBloc, AuthState>(
-            listener: (context, state) {
-              switch (state) {
-                case Authenticated():
-                  Navigator.pushNamedAndRemoveUntil(
-                      context, homePageRoute, (route) => false);
-                default:
-                  break;
-              }
-            },
-            builder: (context, state) {
-              switch (state) {
-                case Unauthenticated():
-                  return Text(
-                    state.message.toTitleCase(),
-                    style: bodyTextStyle.copyWith(color: Colors.red),
-                  );
-                default:
-                  return const SizedBox();
-              }
-            },
           ),
           const SizedBox(height: 10),
           FadeInLeft(
@@ -152,54 +130,37 @@ class _LoginPageState extends State<LoginPage> {
             ]),
           ),
           const SizedBox(height: 30),
-          FadeIn(
-            duration: const Duration(seconds: 1),
-            child: SizedBox(
-              height: 40,
-              child: BlocBuilder<AuthBloc, AuthState>(
-                builder: (context, state) {
-                  switch (state) {
-                    case AuthLoading():
-                      return const Center(
-                        child: CircularProgressIndicator(
-                          color: secondaryColor,
-                        ),
-                      );
-                    default:
-                      return myButton(
-                          onPressed: () {
-                            final email = _emailController.text;
-                            final password = _passwordController.text;
+          BlocListener<AuthBloc, AuthState>(
+            listener: (context, state) {
+              EasyLoading.dismiss();
+              switch (state) {
+                case AuthLoading():
+                  EasyLoading.show(status: "Login in...");
+                case Authenticated():
+                  Navigator.pushNamedAndRemoveUntil(
+                      context, homePageRoute, (route) => false);
+                case Unauthenticated():
+                  EasyLoading.showError(state.message.toTitleCase());
+                default:
+                  break;
+              }
+            },
+            child: FadeIn(
+              duration: const Duration(seconds: 1),
+              child: SizedBox(
+                height: 40,
+                child: myButton(
+                    onPressed: () {
+                      final email = _emailController.text;
+                      final password = _passwordController.text;
 
-                            if (email.isNotEmpty || password.isNotEmpty) {
-                              context.read<AuthBloc>().add(
-                                  LoginEvent(email: email, password: password));
-                            }
-                          },
-                          text: 'Login');
-                    //  ElevatedButton(
-                    //   onPressed: () {
-                    //     final email = _emailController.text;
-                    //     final password = _passwordController.text;
-
-                    //     if (email.isNotEmpty || password.isNotEmpty) {
-                    //       context.read<AuthBloc>().add(
-                    //           LoginEvent(email: email, password: password));
-                    //     }
-                    //   },
-                    //   style: ElevatedButton.styleFrom(
-                    //     backgroundColor: foregroundColor,
-                    //     shape: RoundedRectangleBorder(
-                    //       borderRadius: BorderRadius.circular(15),
-                    //     ),
-                    //   ),
-                    //   child: const Text(
-                    //     'Login',
-                    //     style: TextStyle(color: Colors.white, fontSize: 20),
-                    //   ),
-                    // );
-                  }
-                },
+                      if (email.isNotEmpty || password.isNotEmpty) {
+                        context
+                            .read<AuthBloc>()
+                            .add(LoginEvent(email: email, password: password));
+                      }
+                    },
+                    text: 'Login'),
               ),
             ),
           ),

@@ -3,9 +3,10 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:vegan/data/utils/constant.dart';
+import 'package:permission_handler/permission_handler.dart';
+import 'package:vegan/core/constant.dart';
 
-import '../../../../data/utils/styles.dart';
+import '../../../../core/styles.dart';
 import '../../../../domain/entities/user.dart';
 import '../../../bloc/upload_bloc/upload_bloc.dart';
 
@@ -21,6 +22,11 @@ class _UserHeaderState extends State<UserHeader> {
   static File? _imageFile;
 
   _getOnGalery() async {
+    var permission = await Permission.manageExternalStorage.status;
+
+    if (permission == PermissionStatus.denied) {
+      permission = await Permission.manageExternalStorage.request();
+    }
     var image = await ImagePicker().pickImage(
       source: ImageSource.gallery,
       maxHeight: 1000,
@@ -36,6 +42,10 @@ class _UserHeaderState extends State<UserHeader> {
   }
 
   _getOnCamera() async {
+    var permission = await Permission.camera.status;
+    if (permission == PermissionStatus.denied) {
+      permission = await Permission.camera.request();
+    }
     var image = await ImagePicker().pickImage(
       source: ImageSource.camera,
       maxHeight: 1000,

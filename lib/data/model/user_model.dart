@@ -104,7 +104,7 @@ class AddressModel extends Equatable {
   final String? provinsi;
   final String? kota;
   final String? kecamatan;
-  final GeoModel? geoModel;
+  final GeoModel geoModel;
   final int? postalCode;
 
   const AddressModel({
@@ -112,7 +112,7 @@ class AddressModel extends Equatable {
     this.provinsi,
     this.kota,
     this.kecamatan,
-    this.geoModel,
+    required this.geoModel,
     this.postalCode,
   });
 
@@ -125,21 +125,33 @@ class AddressModel extends Equatable {
         geoModel: GeoModel.fromJson(json["geo"]),
       );
 
+  factory AddressModel.fromEntity(Address address) => AddressModel(
+        detailAddress: address.detailAddress,
+        provinsi: address.provinsi,
+        kota: address.kota,
+        kecamatan: address.kecamatan,
+        postalCode: address.postalCode,
+        geoModel: GeoModel.fromEntity(address.geo),
+      );
+
   Map<String, dynamic> toJson() => {
         "detail_address": detailAddress,
         "provinsi": provinsi,
         "kota": kota,
         "kecamatan": kecamatan,
         "postal_code": postalCode,
-        "geo": geoModel!.toJson()
+        "geo": geoModel.toJson()
       };
+
   Address toEntity() => Address(
-      detailAddress: detailAddress,
-      provinsi: provinsi,
-      kota: kota,
-      kecamatan: kecamatan,
-      postalCode: postalCode,
-      geo: geoModel!.toEntity());
+        detailAddress: detailAddress,
+        provinsi: provinsi,
+        kota: kota,
+        kecamatan: kecamatan,
+        postalCode: postalCode,
+        geo: geoModel.toEntity(),
+      );
+
   @override
   List<Object?> get props => [
         detailAddress,
@@ -152,8 +164,8 @@ class AddressModel extends Equatable {
 }
 
 class GeoModel extends Equatable {
-  final String? lat;
-  final String? long;
+  final double? lat;
+  final double? long;
 
   const GeoModel({
     this.lat,
@@ -163,6 +175,11 @@ class GeoModel extends Equatable {
   factory GeoModel.fromJson(Map<String, dynamic> json) => GeoModel(
         lat: json["lat"],
         long: json["long"],
+      );
+
+  factory GeoModel.fromEntity(Geo geo) => GeoModel(
+        lat: geo.lat,
+        long: geo.long,
       );
 
   Map<String, dynamic> toJson() => {
