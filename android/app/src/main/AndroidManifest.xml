@@ -10,7 +10,12 @@
         android:label="vegan"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
+<<<<<<< HEAD
         
+=======
+        <meta-data android:name="com.google.android.geo.API_KEY"
+            android:value="API-KEY"/>
+>>>>>>> 1c43d72c498b37f2fd2e2816edd1aca037d45bc2
         <activity
             android:name=".MainActivity"
             android:exported="true"
