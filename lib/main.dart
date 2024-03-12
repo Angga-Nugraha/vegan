@@ -48,7 +48,9 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Vegan',
-        theme: myTheme,
+        themeMode: ThemeMode.system,
+        theme: darkTheme,
+        darkTheme: darkTheme,
         initialRoute: splashScreenRoute,
         navigatorObservers: [routeObserver],
         builder: EasyLoading.init(),

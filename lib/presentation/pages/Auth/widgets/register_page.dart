@@ -62,11 +62,10 @@ class _RegisterPageState extends State<RegisterPage> {
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                'Let\'s join with us...',
-                style: titleStyle,
-              ),
-              Text('Create your account', style: subTitleStyle),
+              Text('Let\'s join with us...',
+                  style: Theme.of(context).textTheme.titleMedium),
+              Text('Create your account',
+                  style: Theme.of(context).textTheme.titleSmall),
             ],
           ),
         ),
@@ -74,8 +73,9 @@ class _RegisterPageState extends State<RegisterPage> {
         FadeInRight(
           duration: const Duration(seconds: 1),
           child: myTextfield(
+            context,
             controller: _nameController,
-            hintText: 'Name',
+            label: 'Name',
             icon: Icons.person_2_outlined,
             type: TextInputType.name,
           ),
@@ -84,8 +84,9 @@ class _RegisterPageState extends State<RegisterPage> {
         FadeInLeft(
           duration: const Duration(seconds: 1),
           child: myTextfield(
+            context,
             controller: _emailController,
-            hintText: 'Email',
+            label: 'Email',
             icon: Icons.email_outlined,
             type: TextInputType.emailAddress,
           ),
@@ -94,8 +95,9 @@ class _RegisterPageState extends State<RegisterPage> {
         FadeInRight(
           duration: const Duration(seconds: 1),
           child: myTextfield(
+            context,
             controller: _phoneController,
-            hintText: 'Phone number',
+            label: 'Phone number',
             icon: Icons.phone_android_outlined,
             type: const TextInputType.numberWithOptions(signed: true),
           ),
@@ -104,8 +106,9 @@ class _RegisterPageState extends State<RegisterPage> {
         FadeInLeft(
           duration: const Duration(seconds: 1),
           child: myTextfield(
+            context,
             controller: _passwordController,
-            hintText: 'Password at least 8 character',
+            label: 'Password at least 8 character',
             obscure: vissible,
             icon: Icons.lock_outline,
             type: TextInputType.visiblePassword,
@@ -123,7 +126,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 vissible
                     ? Icons.visibility_off_outlined
                     : Icons.remove_red_eye_outlined,
-                size: 20,
+                size: 15,
               ),
             ),
           ),
@@ -132,8 +135,9 @@ class _RegisterPageState extends State<RegisterPage> {
         FadeInRight(
           duration: const Duration(seconds: 1),
           child: myTextfield(
+            context,
             controller: _confPasswordController,
-            hintText: 'Confirm password',
+            label: 'Confirm password',
             obscure: vissible,
             icon: Icons.lock_outline,
             type: TextInputType.visiblePassword,
@@ -156,12 +160,9 @@ class _RegisterPageState extends State<RegisterPage> {
             RichText(
               textAlign: TextAlign.center,
               text: TextSpan(children: [
-                const TextSpan(
+                TextSpan(
                   text: 'I agree to the ',
-                  style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 12,
-                  ),
+                  style: Theme.of(context).textTheme.bodyMedium,
                 ),
                 TextSpan(
                   text: 'Privacy & Policy',
@@ -191,7 +192,9 @@ class _RegisterPageState extends State<RegisterPage> {
                                       children: [
                                         Text(
                                           snapshot.data!,
-                                          style: bodyTextStyle,
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .bodyMedium,
                                           textAlign: TextAlign.justify,
                                         ),
                                         const SizedBox(height: 20.0),
@@ -246,7 +249,7 @@ class _RegisterPageState extends State<RegisterPage> {
             duration: const Duration(seconds: 1),
             child: SizedBox(
               height: 40,
-              child: myButton(
+              child: myButton(context,
                   onPressed: !selected
                       ? null
                       : () {
@@ -281,12 +284,9 @@ class _RegisterPageState extends State<RegisterPage> {
         RichText(
           textAlign: TextAlign.center,
           text: TextSpan(children: [
-            const TextSpan(
+            TextSpan(
               text: 'Already account?',
-              style: TextStyle(
-                color: Colors.black,
-                fontSize: 12,
-              ),
+              style: Theme.of(context).textTheme.bodyMedium,
             ),
             const WidgetSpan(
               child: SizedBox(

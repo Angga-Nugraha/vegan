@@ -7,7 +7,6 @@ import 'package:animate_do/animate_do.dart';
 import 'package:vegan/core/routes.dart';
 
 import '../../../../core/constant.dart';
-import '../../../../core/styles.dart';
 import '../../../bloc/auth_bloc/auth_bloc.dart';
 import '../../components/components_helper.dart';
 
@@ -50,11 +49,10 @@ class _LoginPageState extends State<LoginPage> {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  'Welcome to Vegan',
-                  style: titleStyle,
-                ),
-                Text('Sign in to your account', style: subTitleStyle),
+                Text('Welcome to Vegan',
+                    style: Theme.of(context).textTheme.titleMedium),
+                Text('Sign in to your account',
+                    style: Theme.of(context).textTheme.titleSmall),
               ],
             ),
           ),
@@ -62,8 +60,9 @@ class _LoginPageState extends State<LoginPage> {
           FadeInLeft(
             duration: const Duration(seconds: 1),
             child: myTextfield(
+              context,
               controller: _emailController,
-              hintText: 'Email/Phone',
+              label: 'Email/Phone',
               icon: Icons.email_outlined,
               type: TextInputType.emailAddress,
             ),
@@ -72,8 +71,9 @@ class _LoginPageState extends State<LoginPage> {
           FadeInRight(
             duration: const Duration(seconds: 1),
             child: myTextfield(
+              context,
               controller: _passwordController,
-              hintText: 'Password',
+              label: 'Password',
               obscure: vissible,
               icon: Icons.lock_outline,
               type: TextInputType.visiblePassword,
@@ -91,7 +91,7 @@ class _LoginPageState extends State<LoginPage> {
                   vissible
                       ? Icons.visibility_off_outlined
                       : Icons.remove_red_eye_outlined,
-                  size: 20,
+                  size: 15,
                 ),
               ),
             ),
@@ -100,12 +100,9 @@ class _LoginPageState extends State<LoginPage> {
           RichText(
             textAlign: TextAlign.center,
             text: TextSpan(children: [
-              const TextSpan(
+              TextSpan(
                 text: 'Need an account?',
-                style: TextStyle(
-                  color: Colors.black,
-                  fontSize: 12,
-                ),
+                style: Theme.of(context).textTheme.bodyMedium,
               ),
               const WidgetSpan(
                 child: SizedBox(
@@ -149,18 +146,16 @@ class _LoginPageState extends State<LoginPage> {
               duration: const Duration(seconds: 1),
               child: SizedBox(
                 height: 40,
-                child: myButton(
-                    onPressed: () {
-                      final email = _emailController.text;
-                      final password = _passwordController.text;
+                child: myButton(context, onPressed: () {
+                  final email = _emailController.text;
+                  final password = _passwordController.text;
 
-                      if (email.isNotEmpty || password.isNotEmpty) {
-                        context
-                            .read<AuthBloc>()
-                            .add(LoginEvent(email: email, password: password));
-                      }
-                    },
-                    text: 'Login'),
+                  if (email.isNotEmpty || password.isNotEmpty) {
+                    context
+                        .read<AuthBloc>()
+                        .add(LoginEvent(email: email, password: password));
+                  }
+                }, text: 'Login'),
               ),
             ),
           ),

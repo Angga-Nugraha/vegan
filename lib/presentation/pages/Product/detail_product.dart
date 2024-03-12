@@ -21,108 +21,114 @@ class DetailProduct extends StatelessWidget {
         child: Stack(
           children: [
             SizedBox(
-              height: MediaQuery.of(context).size.height,
-              child: ListView(
-                children: [
-                  SizedBox(
-                    height: MediaQuery.of(context).size.width / 2,
-                    child: Swiper(
-                      outer: true,
-                      itemCount: product.imageUrl.length,
-                      itemBuilder: (context, index) {
-                        return CachedNetworkImage(
-                          imageUrl: convertUrl(product.imageUrl[index]),
-                          errorWidget: (context, url, error) =>
-                              const Icon(Icons.error),
-                          placeholder: (context, url) => const Center(
-                            child: CircularProgressIndicator(),
-                          ),
-                        );
-                      },
-                      scale: 0.5,
-                      pagination: const SwiperPagination(
-                        alignment: Alignment.bottomCenter,
-                        builder: SwiperPagination.rect,
-                      ),
+              height: MediaQuery.of(context).size.width / 2,
+              child: Swiper(
+                outer: true,
+                itemCount: product.imageUrl.length,
+                itemBuilder: (context, index) {
+                  return CachedNetworkImage(
+                    imageUrl: convertUrl(product.imageUrl[index]),
+                    errorWidget: (context, url, error) =>
+                        const Icon(Icons.error),
+                    placeholder: (context, url) => const Center(
+                      child: CircularProgressIndicator(),
                     ),
+                  );
+                },
+                scale: 0.5,
+                pagination: const SwiperPagination(
+                  alignment: Alignment.bottomCenter,
+                  builder: DotSwiperPaginationBuilder(
+                    color: kDavysGrey,
+                    activeColor: primaryColor,
+                    activeSize: 10,
+                    size: 8,
                   ),
-                  FadeInUp(
+                ),
+              ),
+            ),
+            SizedBox(
+              height: MediaQuery.of(context).size.height,
+              child: DraggableScrollableSheet(
+                snap: true,
+                initialChildSize: 0.69,
+                maxChildSize: 0.96,
+                minChildSize: 0.69,
+                builder: (context, scrollController) {
+                  return FadeInUp(
                     child: Container(
                       padding:
-                          const EdgeInsets.fromLTRB(15.0, 10.0, 15.0, 100.0),
+                          const EdgeInsets.fromLTRB(15.0, 10.0, 15.0, 50.0),
                       width: MediaQuery.of(context).size.width,
-                      decoration: const BoxDecoration(
-                        color: foregroundColor,
-                        borderRadius:
-                            BorderRadius.vertical(top: Radius.circular(30.0)),
+                      decoration: BoxDecoration(
+                        color: Theme.of(context).colorScheme.primary,
+                        borderRadius: const BorderRadius.vertical(
+                            top: Radius.circular(30.0)),
                       ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          ListTile(
-                            contentPadding: EdgeInsets.zero,
-                            title: Text(
-                              product.title.toTitleCase(),
-                              style:
-                                  titleStyle.copyWith(color: backgroundColor),
-                            ),
-                            subtitle: Text(
-                              "Rp. ${product.price.toString().toTitleCase()} / ${product.weight}kg",
-                              style: subTitleStyle.copyWith(
-                                  fontStyle: FontStyle.italic,
-                                  color: backgroundColor),
-                            ),
-                            trailing: RatingBarIndicator(
-                              rating: product.ratting,
-                              itemCount: 5,
-                              itemSize: 15,
-                              itemBuilder: (context, index) => const Icon(
-                                Icons.star,
-                                color: Colors.amber,
+                      child: SingleChildScrollView(
+                        controller: scrollController,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            ListTile(
+                              contentPadding: EdgeInsets.zero,
+                              title: Text(product.title.toTitleCase(),
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .displayMedium),
+                              subtitle: Text(
+                                "Rp. ${product.price.toString().toTitleCase()} / ${product.weight}kg",
+                                style: Theme.of(context).textTheme.displaySmall,
+                              ),
+                              trailing: RatingBarIndicator(
+                                rating: product.ratting,
+                                itemCount: 5,
+                                itemSize: 15,
+                                itemBuilder: (context, index) => const Icon(
+                                  Icons.star,
+                                  color: Colors.amber,
+                                ),
                               ),
                             ),
-                          ),
-                          const Divider(),
-                          const SizedBox(height: 10),
-                          SizedBox(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  "Deskripsi Produk",
-                                  style: subTitleStyle.copyWith(
-                                      color: backgroundColor),
-                                ),
-                                const SizedBox(height: 20),
-                                Text(
-                                  product.description.toCapitalized(),
-                                  style: bodyTextStyle.copyWith(
-                                      color: backgroundColor),
-                                ),
-                                const SizedBox(height: 20),
-                                Text(
-                                  "Ketersedian Produk : ${product.stock} item",
-                                  style: bodyTextStyle.copyWith(
-                                      color: backgroundColor),
-                                ),
-                              ],
+                            const Divider(),
+                            const SizedBox(height: 10),
+                            SizedBox(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text("Deskripsi Produk",
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .bodyLarge),
+                                  const SizedBox(height: 20),
+                                  Text(
+                                    product.description.toCapitalized(),
+                                    style:
+                                        Theme.of(context).textTheme.bodyMedium,
+                                  ),
+                                  const SizedBox(height: 20),
+                                  Text(
+                                      "Ketersedian Produk : ${product.stock} item",
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .bodyMedium),
+                                ],
+                              ),
                             ),
-                          ),
-                          const SizedBox(height: 10),
-                          const Divider(),
-                          const SizedBox(height: 10),
-                          Text(
-                            "Rekomendasi Produk",
-                            style:
-                                subTitleStyle.copyWith(color: backgroundColor),
-                          ),
-                          const SizedBox(height: 10),
-                          const ProductListCardItem(category: "Top Product"),
-                        ],
+                            const SizedBox(height: 10),
+                            const Divider(),
+                            const SizedBox(height: 10),
+                            Text("Rekomendasi Produk",
+                                style:
+                                    Theme.of(context).textTheme.displaySmall),
+                            const SizedBox(height: 10),
+                            const ProductListCardItem(category: "Top Product"),
+                          ],
+                        ),
                       ),
                     ),
-                  ),
-                ],
+                  );
+                },
               ),
             ),
             Container(
@@ -132,8 +138,11 @@ class DetailProduct extends StatelessWidget {
                 children: [
                   IconButton(
                       style: ButtonStyle(
-                          backgroundColor:
-                              MaterialStatePropertyAll(Colors.grey.shade200)),
+                        backgroundColor:
+                            MaterialStatePropertyAll(Colors.grey.shade200),
+                        foregroundColor: MaterialStatePropertyAll(
+                            Theme.of(context).colorScheme.primary),
+                      ),
                       onPressed: () {
                         Navigator.pop(context);
                       },
@@ -153,7 +162,7 @@ class DetailProduct extends StatelessWidget {
             Align(
               alignment: Alignment.bottomCenter,
               child: Container(
-                color: foregroundColor,
+                color: Theme.of(context).colorScheme.primary,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
@@ -172,8 +181,9 @@ class DetailProduct extends StatelessWidget {
                     ),
                     ElevatedButton(
                       style: ElevatedButton.styleFrom(
-                          backgroundColor: secondaryColor,
-                          foregroundColor: backgroundColor),
+                        backgroundColor: backgroundColor,
+                        foregroundColor: primaryColor,
+                      ),
                       onPressed: () {},
                       child: SizedBox(
                         width: MediaQuery.of(context).size.width / 3,

@@ -1,11 +1,11 @@
 part of 'components_helper.dart';
 
-Widget myTextfield(
+Widget myTextfield(BuildContext context,
     {required TextEditingController controller,
-    required String hintText,
     required IconData icon,
     Widget? suffixIcon,
     required TextInputType type,
+    InputBorder? border,
     enabled = true,
     String? label,
     obscure = false}) {
@@ -14,13 +14,10 @@ Widget myTextfield(
     keyboardType: type,
     controller: controller,
     obscureText: obscure,
-    style: bodyTextStyle,
+    style: Theme.of(context).textTheme.bodyMedium,
     decoration: InputDecoration(
       label: label == null ? null : Text(label),
-      hintText: hintText,
-      hintStyle: const TextStyle(
-        fontSize: 10,
-      ),
+      border: border ?? const UnderlineInputBorder(),
       prefixIcon: Icon(
         icon,
         size: 15,

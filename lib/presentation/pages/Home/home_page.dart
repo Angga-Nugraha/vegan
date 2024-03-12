@@ -1,13 +1,15 @@
 import 'package:animate_do/animate_do.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:vegan/core/constant.dart';
 import 'package:vegan/core/routes.dart';
+import 'package:vegan/core/styles.dart';
 import 'package:vegan/presentation/bloc/product_bloc/product_bloc.dart';
+import 'package:vegan/presentation/pages/components/components_helper.dart';
 
-import '../../../core/styles.dart';
 import '../../bloc/user_bloc/user_bloc.dart';
 import 'widgets/category_list.dart';
 import 'widgets/discount_card.dart';
@@ -26,7 +28,7 @@ class MyHomePage extends StatelessWidget {
               pinned: true,
               expandedHeight: 120,
               floating: true,
-              backgroundColor: foregroundColor,
+              backgroundColor: Theme.of(context).colorScheme.primary,
               systemOverlayStyle: SystemUiOverlayStyle.light,
               flexibleSpace: FlexibleSpaceBar(
                 background: Stack(
@@ -54,7 +56,7 @@ class MyHomePage extends StatelessWidget {
                         children: [
                           Text(
                             'Welcome to Vegan,',
-                            style: titleStyle.copyWith(color: Colors.white),
+                            style: Theme.of(context).textTheme.displayMedium,
                           ),
                           BlocConsumer<UserBloc, UserState>(
                             listener: (context, state) {
@@ -64,8 +66,11 @@ class MyHomePage extends StatelessWidget {
                                   context: context,
                                   builder: (context) {
                                     return AlertDialog(
-                                      titleTextStyle: subTitleStyle,
-                                      contentTextStyle: bodyTextStyle,
+                                      titleTextStyle: Theme.of(context)
+                                          .textTheme
+                                          .titleMedium,
+                                      contentTextStyle:
+                                          Theme.of(context).textTheme.bodyLarge,
                                       shape: RoundedRectangleBorder(
                                           borderRadius:
                                               BorderRadius.circular(10.0)),
@@ -90,8 +95,9 @@ class MyHomePage extends StatelessWidget {
                                             },
                                             child: Text(
                                               "Try Login",
-                                              style: subTitleStyle.copyWith(
-                                                  fontSize: 12),
+                                              style: Theme.of(context)
+                                                  .textTheme
+                                                  .titleSmall,
                                             ))
                                       ],
                                     );
@@ -105,11 +111,10 @@ class MyHomePage extends StatelessWidget {
                                   var user = state.result.name?.toTitleCase();
                                   return FadeIn(
                                     duration: const Duration(milliseconds: 500),
-                                    child: Text(
-                                      user ?? '',
-                                      style: subTitleStyle.copyWith(
-                                          color: Colors.white),
-                                    ),
+                                    child: Text(user ?? '',
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .displaySmall),
                                   );
                                 default:
                                   return const SizedBox();
@@ -127,30 +132,26 @@ class MyHomePage extends StatelessWidget {
                     height: 25,
                     width: MediaQuery.of(context).size.width - 120,
                     decoration: BoxDecoration(
-                      color: Colors.white,
+                      color: Theme.of(context).colorScheme.background,
+                      border: Border.all(
+                          color: Theme.of(context).colorScheme.primary),
                       borderRadius: BorderRadius.circular(15),
                       boxShadow: const [
                         BoxShadow(
-                          color: Colors.black38,
-                          spreadRadius: 2,
+                          color: Colors.white,
+                          spreadRadius: 1,
                           blurRadius: 2,
-                          offset: Offset(1, 2), // changes position of shadow
                         ),
                       ],
                     ),
-                    child: TextField(
-                      style: bodyTextStyle,
+                    child: myTextfield(
+                      context,
+                      controller: TextEditingController(),
+                      border: InputBorder.none,
+                      label: "Search",
+                      icon: Icons.search,
                       enabled: false,
-                      decoration: InputDecoration(
-                        contentPadding: const EdgeInsets.only(bottom: 12.5),
-                        border: InputBorder.none,
-                        hintText: "Search",
-                        hintStyle: bodyTextStyle.copyWith(color: Colors.grey),
-                        prefixIcon: const Icon(
-                          Icons.search,
-                          size: 15,
-                        ),
-                      ),
+                      type: TextInputType.none,
                     ),
                   ),
                 ),
@@ -161,18 +162,19 @@ class MyHomePage extends StatelessWidget {
                 GestureDetector(
                   child: const Icon(
                     FontAwesomeIcons.message,
-                    color: backgroundColor,
                     size: 16,
+                    color: backgroundColor,
                   ),
                 ),
                 const SizedBox(width: 15.0),
                 GestureDetector(
-                    onTap: () {},
-                    child: const Icon(
-                      FontAwesomeIcons.bell,
-                      color: backgroundColor,
-                      size: 16,
-                    )),
+                  onTap: () {},
+                  child: const Icon(
+                    FontAwesomeIcons.bell,
+                    color: backgroundColor,
+                    size: 16,
+                  ),
+                ),
                 const SizedBox(width: 20.0),
               ],
             ),
@@ -190,11 +192,9 @@ class MyHomePage extends StatelessWidget {
             children: [
               const ListCategory(),
               const DiscountCard(),
-              _headers(title: 'Top Rated', onPressed: () {}),
-              const Divider(),
+              _headers(context, title: 'Top Rated', onPressed: () {}),
               const ProductListCardItem(category: "Top Rated"),
-              _headers(title: 'All Product', onPressed: () {}),
-              const Divider(),
+              _headers(context, title: 'All Product', onPressed: () {}),
               const ProductListCardItem(category: "All Product"),
             ],
           ),
@@ -203,19 +203,29 @@ class MyHomePage extends StatelessWidget {
     );
   }
 
-  Widget _headers(
-      {String? title, String? trailingTitle, VoidCallback? onPressed}) {
+  Widget _headers(BuildContext context,
+      {String? title, VoidCallback? onPressed}) {
     return ListTile(
-      titleTextStyle: titleStyle.copyWith(fontSize: 18),
-      textColor: primaryColor,
+      titleTextStyle: Theme.of(context).textTheme.titleMedium,
       title: Text(
         title ?? '',
       ),
-      trailing: GestureDetector(
-        onTap: onPressed ?? () {},
-        child: Text(
-          trailingTitle ?? 'View all...',
-          style: subTitleStyle.copyWith(fontSize: 12),
+      trailing: RichText(
+        text: TextSpan(
+          children: [
+            WidgetSpan(
+                child: Text(
+              "View all ",
+              style: Theme.of(context).textTheme.titleSmall,
+            )),
+            const WidgetSpan(
+              child: Icon(
+                Icons.keyboard_arrow_right,
+                size: 20,
+              ),
+            )
+          ],
+          recognizer: TapGestureRecognizer()..onTap = () {},
         ),
       ),
     );

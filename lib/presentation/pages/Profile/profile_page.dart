@@ -4,7 +4,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:vegan/core/constant.dart';
 import 'package:vegan/core/routes.dart';
-import 'package:vegan/core/styles.dart';
 import 'package:vegan/presentation/bloc/auth_bloc/auth_bloc.dart';
 import 'package:vegan/presentation/bloc/user_bloc/user_bloc.dart';
 
@@ -41,23 +40,23 @@ class ProfilePage extends StatelessWidget {
               height: MediaQuery.of(context).size.height,
               width: MediaQuery.of(context).size.width,
               padding: const EdgeInsets.only(top: 30.0),
-              color: foregroundColor,
+              color: Theme.of(context).colorScheme.primary,
               child: Text(
                 'Profile',
                 textAlign: TextAlign.center,
-                style: titleStyle.copyWith(color: backgroundColor),
+                style: Theme.of(context).textTheme.displayMedium,
               ),
             ),
             Positioned(
-              top: 70,
+              top: 80,
               child: Container(
                 height: MediaQuery.of(context).size.height,
                 width: MediaQuery.of(context).size.width,
                 padding: const EdgeInsets.all(10.0),
-                decoration: const BoxDecoration(
-                  color: backgroundColor,
+                decoration: BoxDecoration(
+                  color: Theme.of(context).colorScheme.background,
                   borderRadius:
-                      BorderRadius.vertical(top: Radius.circular(30.0)),
+                      const BorderRadius.vertical(top: Radius.circular(30.0)),
                 ),
                 child: ListView(
                   padding: const EdgeInsets.only(bottom: 50.0),
@@ -122,8 +121,10 @@ class ProfilePage extends StatelessWidget {
                             showDialog(
                               context: context,
                               builder: (context) => AlertDialog(
-                                titleTextStyle: subTitleStyle,
-                                contentTextStyle: bodyTextStyle,
+                                titleTextStyle:
+                                    Theme.of(context).textTheme.titleMedium,
+                                contentTextStyle:
+                                    Theme.of(context).textTheme.bodyLarge,
                                 title: const Text(
                                   'Logout',
                                 ),
@@ -155,8 +156,9 @@ class ProfilePage extends StatelessWidget {
                                     },
                                     child: Text(
                                       'No',
-                                      style:
-                                          subTitleStyle.copyWith(fontSize: 12),
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .titleSmall,
                                     ),
                                   ),
                                   TextButton(
@@ -167,8 +169,9 @@ class ProfilePage extends StatelessWidget {
                                     },
                                     child: Text(
                                       'Yes',
-                                      style:
-                                          subTitleStyle.copyWith(fontSize: 12),
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .titleSmall,
                                     ),
                                   ),
                                 ],
@@ -195,11 +198,15 @@ class ProfilePage extends StatelessWidget {
   }) {
     return ListTile(
       onTap: onTap,
-      iconColor: foregroundColor,
-      titleTextStyle: subTitleStyle.copyWith(color: Colors.black87),
-      leading: Icon(icon),
+      leading: Icon(
+        icon,
+        size: 20,
+      ),
       title: Text(title),
-      trailing: const Icon(Icons.arrow_forward_ios),
+      trailing: const Icon(
+        Icons.keyboard_arrow_right_outlined,
+        size: 20,
+      ),
     );
   }
 }

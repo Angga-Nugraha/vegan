@@ -2,7 +2,6 @@ import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../core/constant.dart';
-import '../../../../core/styles.dart';
 
 class ListCategory extends StatelessWidget {
   const ListCategory({
@@ -41,7 +40,7 @@ class ListCategory extends StatelessWidget {
                     duration: const Duration(seconds: 1),
                     child: Text(
                       category[index],
-                      style: bodyTextStyle,
+                      style: Theme.of(context).textTheme.bodyMedium,
                     ),
                   )
                 ],

@@ -6,7 +6,6 @@ import 'package:image_picker/image_picker.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:vegan/core/constant.dart';
 
-import '../../../../core/styles.dart';
 import '../../../../domain/entities/user.dart';
 import '../../../bloc/upload_bloc/upload_bloc.dart';
 
@@ -169,7 +168,6 @@ class _UserHeaderState extends State<UserHeader> {
               },
               child: const Icon(
                 Icons.add_a_photo_rounded,
-                color: secondaryColor,
                 size: 24,
               ),
             )
@@ -177,11 +175,11 @@ class _UserHeaderState extends State<UserHeader> {
         ),
         Text(
           widget.user.name!.toTitleCase(),
-          style: subTitleStyle.copyWith(color: Colors.black87),
+          style: Theme.of(context).textTheme.bodyLarge,
         ),
         Text(
           widget.user.email!.toTitleCase(),
-          style: bodyTextStyle,
+          style: Theme.of(context).textTheme.bodyMedium,
         ),
       ],
     );

@@ -49,14 +49,19 @@ class ProductListCardItem extends StatelessWidget {
                               Navigator.pushNamed(context, detailProductRoutes,
                                   arguments: product);
                             },
-                            child: Card(
-                              surfaceTintColor: backgroundColor,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(10),
-                              ),
+                            child: Container(
+                              decoration: BoxDecoration(
+                                  color:
+                                      Theme.of(context).colorScheme.background,
+                                  borderRadius: BorderRadius.circular(10.0),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.grey.withOpacity(.5),
+                                      blurRadius: 5.0, // soften the shadow
+                                      spreadRadius: 0.0, //extend the shadow
+                                    )
+                                  ]),
                               margin: const EdgeInsets.only(right: 20.0),
-                              shadowColor: foregroundColor,
-                              elevation: 5,
                               child: Stack(
                                 children: [
                                   SizedBox(
@@ -93,49 +98,44 @@ class ProductListCardItem extends StatelessWidget {
                                         ),
                                         Text(
                                           product.title.toTitleCase(),
-                                          style: subTitleStyle.copyWith(
-                                              color: primaryColor),
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .bodyLarge,
                                           textAlign: TextAlign.center,
                                           maxLines: 2,
                                           overflow: TextOverflow.ellipsis,
                                         ),
-                                        Card(
-                                          shape: RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(5.0),
-                                          ),
-                                          surfaceTintColor: secondaryColor,
-                                          child: Padding(
-                                            padding: const EdgeInsets.symmetric(
-                                                horizontal: 20.0),
-                                            child: Text(
-                                              'Rp. ${product.price}',
-                                              style: subTitleStyle,
-                                              textAlign: TextAlign.center,
-                                            ),
-                                          ),
+                                        Text(
+                                          'Rp. ${product.price}',
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .titleSmall,
+                                          textAlign: TextAlign.center,
                                         ),
                                       ],
                                     ),
                                   ),
                                   Positioned(
-                                    right: 0,
-                                    top: 0,
+                                    right: 3,
+                                    top: 3,
                                     child: Container(
                                       padding: const EdgeInsets.symmetric(
                                           horizontal: 5.0),
                                       height: 20,
-                                      decoration: const BoxDecoration(
-                                          color: primaryColor,
-                                          borderRadius: BorderRadius.horizontal(
-                                              left: Radius.circular(15.0))),
+                                      decoration: BoxDecoration(
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .primary,
+                                          borderRadius:
+                                              const BorderRadius.horizontal(
+                                                  left: Radius.circular(15.0))),
                                       child: Row(
                                         children: [
                                           Text(
                                             product.ratting.toString(),
-                                            style: bodyTextStyle.copyWith(
-                                              color: backgroundColor,
-                                            ),
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .bodySmall,
                                           ),
                                           const Icon(
                                             Icons.star,

@@ -55,7 +55,7 @@ class _SplashState extends State<Splash> {
                       ),
                       Text(
                         '${(value * 100).toInt()}%',
-                        style: subTitleStyle,
+                        style: Theme.of(context).textTheme.titleSmall,
                       )
                     ],
                   );

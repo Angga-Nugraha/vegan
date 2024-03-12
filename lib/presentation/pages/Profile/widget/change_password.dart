@@ -1,6 +1,7 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:lottie/lottie.dart';
 import 'package:vegan/core/constant.dart';
 import 'package:vegan/core/styles.dart';
@@ -31,8 +32,8 @@ class _ChangePasswordState extends State<ChangePassword> {
           Container(
               height: MediaQuery.of(context).size.height,
               width: MediaQuery.of(context).size.width,
-              padding: const EdgeInsets.only(top: 10.0),
-              color: foregroundColor,
+              padding: const EdgeInsets.only(top: 25.0),
+              color: Theme.of(context).colorScheme.primary,
               child: ListTile(
                 minVerticalPadding: 10.0,
                 minLeadingWidth: 0,
@@ -42,24 +43,25 @@ class _ChangePasswordState extends State<ChangePassword> {
                   },
                   child: const Icon(
                     Icons.arrow_back_ios,
-                    color: Colors.white,
+                    color: backgroundColor,
                   ),
                 ),
                 title: Text(
                   'Change Password',
                   textAlign: TextAlign.center,
-                  style: titleStyle.copyWith(color: backgroundColor),
+                  style: Theme.of(context).textTheme.displayMedium,
                 ),
               )),
           Positioned(
-            top: 70,
+            top: 100,
             child: Container(
               height: MediaQuery.of(context).size.height,
               width: MediaQuery.of(context).size.width,
               padding: const EdgeInsets.all(10),
-              decoration: const BoxDecoration(
-                color: backgroundColor,
-                borderRadius: BorderRadius.vertical(top: Radius.circular(30.0)),
+              decoration: BoxDecoration(
+                color: Theme.of(context).colorScheme.background,
+                borderRadius:
+                    const BorderRadius.vertical(top: Radius.circular(30.0)),
               ),
               child: ListView(
                 padding: const EdgeInsets.all(20),
@@ -71,11 +73,22 @@ class _ChangePasswordState extends State<ChangePassword> {
                     ),
                   ),
                   const SizedBox(height: 20),
+                  isMatch == true
+                      ? const SizedBox()
+                      : Text(
+                          'Password & Confirm password doesn\'t match',
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodySmall!
+                              .copyWith(color: Colors.red),
+                        ),
+                  const SizedBox(height: 10),
                   FadeInLeft(
                     duration: const Duration(milliseconds: 500),
                     child: myTextfield(
+                      context,
                       controller: _currentPassController,
-                      hintText: 'Current Password',
+                      label: "Current Password",
                       obscure: vissible,
                       icon: Icons.lock_open_rounded,
                       type: TextInputType.visiblePassword,
@@ -102,77 +115,70 @@ class _ChangePasswordState extends State<ChangePassword> {
                   FadeInRight(
                     duration: const Duration(milliseconds: 500),
                     child: myTextfield(
+                      context,
+                      label: "New Password",
                       controller: _newPassController,
-                      hintText: 'New Password',
                       icon: Icons.lock_reset_rounded,
                       obscure: vissible,
                       type: TextInputType.visiblePassword,
                     ),
                   ),
                   const SizedBox(height: 10),
-                  isMatch == true
-                      ? const SizedBox()
-                      : Text(
-                          'Confirm password doesn\'t match',
-                          style: bodyTextStyle.copyWith(color: Colors.red),
-                        ),
-                  const SizedBox(height: 10),
                   FadeInLeft(
                     duration: const Duration(milliseconds: 500),
                     child: myTextfield(
+                      context,
+                      label: "Confirm Password",
                       controller: _confPassController,
                       obscure: vissible,
-                      hintText: 'Confirm Password',
                       icon: Icons.lock_open_rounded,
                       type: TextInputType.visiblePassword,
                     ),
                   ),
                   const SizedBox(height: 20),
-                  BlocConsumer<UserBloc, UserState>(
+                  BlocListener<UserBloc, UserState>(
                     listener: (context, state) {
+                      EasyLoading.dismiss();
+                      setState(() {
+                        isMatch = true;
+                      });
                       switch (state) {
+                        case UserLoading():
+                          EasyLoading.show(status: "Saving...");
                         case UserUpdated():
-                          mySnackbar(context,
-                              message: state.message.toTitleCase());
-                          context
-                              .read<UserBloc>()
-                              .add(const FetchCurrentUser());
+                          EasyLoading.showSuccess(state.message.toTitleCase());
+                          Future.delayed(
+                              const Duration(seconds: 3),
+                              () => context
+                                  .read<UserBloc>()
+                                  .add(const FetchCurrentUser()));
                         case UserError():
-                          mySnackbar(context,
-                              message: state.message.toTitleCase());
-                          context
-                              .read<UserBloc>()
-                              .add(const FetchCurrentUser());
+                          EasyLoading.showError(state.message.toTitleCase(),
+                              duration: const Duration(seconds: 3));
+                          Future.delayed(
+                              const Duration(seconds: 3),
+                              () => context
+                                  .read<UserBloc>()
+                                  .add(const FetchCurrentUser()));
                         default:
                           break;
                       }
                     },
-                    builder: (context, state) {
-                      if (state is UserLoading) {
-                        isMatch = true;
-                        return const Center(
-                          child: CircularProgressIndicator(),
-                        );
-                      }
-                      return FadeIn(
-                        duration: const Duration(milliseconds: 1000),
-                        child: myButton(
-                            onPressed: () {
-                              if (_newPassController.text ==
-                                  _confPassController.text) {
-                                context.read<UserBloc>().add(ChangePassEvent(
-                                    currentPassword:
-                                        _currentPassController.text,
-                                    newPassword: _newPassController.text));
-                              } else {
-                                setState(() {
-                                  isMatch = false;
-                                });
-                              }
-                            },
-                            text: 'Save'),
-                      );
-                    },
+                    child: FadeIn(
+                      duration: const Duration(milliseconds: 1000),
+                      child: myButton(context, onPressed: () {
+                        if (_newPassController.text ==
+                            _confPassController.text) {
+                          context.read<UserBloc>().add(ChangePassEvent(
+                              currentPassword: _currentPassController.text,
+                              newPassword: _newPassController.text));
+                        } else {
+                          setState(() {
+                            isMatch = false;
+                          });
+                        }
+                      }, text: 'Save'),
+                    ),
                   ),
                 ],
               ),

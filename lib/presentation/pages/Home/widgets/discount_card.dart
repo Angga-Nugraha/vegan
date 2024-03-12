@@ -2,6 +2,8 @@ import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_swiper_view/flutter_swiper_view.dart';
 
+import '../../../../core/styles.dart';
+
 class DiscountCard extends StatelessWidget {
   const DiscountCard({
     super.key,
@@ -29,7 +31,10 @@ class DiscountCard extends StatelessWidget {
           scale: 0.5,
           pagination: const SwiperPagination(
             alignment: Alignment.bottomLeft,
-            builder: SwiperPagination.rect,
+            builder: RectSwiperPaginationBuilder(
+              color: kDavysGrey,
+              activeColor: primaryColor,
+            ),
           ),
         ),
       ),

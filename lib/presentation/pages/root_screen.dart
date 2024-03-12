@@ -51,33 +51,31 @@ class _RootScreenState extends State<RootScreen> {
     return Scaffold(
       body: _listPage[_initialIndex],
       floatingActionButton: FloatingActionButton(
-          shape: const CircleBorder(
-            side: BorderSide(
-              color: foregroundColor,
-              width: 3.0,
-            ),
+        shape: CircleBorder(
+          side: BorderSide(
+            width: 3.0,
+            color: Theme.of(context).colorScheme.secondary,
           ),
-          backgroundColor: backgroundColor,
-          foregroundColor: primaryColor,
-          onPressed: () {},
-          child: const Icon(Icons.shopping_cart_outlined)),
+        ),
+        onPressed: () {},
+        child: const Icon(Icons.shopping_cart_outlined),
+      ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       bottomNavigationBar: AnimatedBottomNavigationBar(
         icons: const [
           Icons.home_outlined,
           Icons.assignment_outlined,
-          Icons.account_circle_outlined,
+          Icons.bookmark_border,
           Icons.account_circle_outlined
         ],
+        blurEffect: true,
         iconSize: 22,
         activeIndex: _initialIndex,
         gapLocation: GapLocation.center,
-        notchSmoothness: NotchSmoothness.softEdge,
-        backgroundColor: foregroundColor,
+        notchSmoothness: NotchSmoothness.smoothEdge,
+        backgroundColor: Theme.of(context).colorScheme.primary,
         activeColor: backgroundColor,
-        inactiveColor: primaryColor,
-        leftCornerRadius: 10.0,
-        rightCornerRadius: 10.0,
+        inactiveColor: kPrussianBlue,
         onTap: (index) => setState(() {
           _initialIndex = index;
         }),

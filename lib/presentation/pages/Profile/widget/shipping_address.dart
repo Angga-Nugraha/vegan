@@ -5,10 +5,10 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:vegan/core/constant.dart';
+import 'package:vegan/core/styles.dart';
 import 'package:vegan/domain/entities/user.dart';
 import 'package:vegan/presentation/pages/components/components_helper.dart';
 
-import '../../../../core/styles.dart';
 import '../../../bloc/user_bloc/user_bloc.dart';
 
 class ShippingAddress extends StatefulWidget {
@@ -55,7 +55,7 @@ class _UserInfoState extends State<ShippingAddress> {
 
   @override
   void initState() {
-    getPermission();
+    Future.microtask(() => getPermission());
     _detailController = TextEditingController(
         text: widget.user.address!.detailAddress?.toTitleCase() ?? "");
     _provinsiController = TextEditingController(
@@ -89,8 +89,8 @@ class _UserInfoState extends State<ShippingAddress> {
           Container(
               height: MediaQuery.of(context).size.height,
               width: MediaQuery.of(context).size.width,
-              padding: const EdgeInsets.only(top: 15.0),
-              color: foregroundColor,
+              padding: const EdgeInsets.only(top: 25.0),
+              color: Theme.of(context).colorScheme.primary,
               child: ListTile(
                 minVerticalPadding: 10.0,
                 minLeadingWidth: 0,
@@ -100,170 +100,168 @@ class _UserInfoState extends State<ShippingAddress> {
                   },
                   child: const Icon(
                     Icons.arrow_back_ios,
-                    color: Colors.white,
+                    color: backgroundColor,
                   ),
                 ),
                 title: Text(
                   'Shipping Address',
                   textAlign: TextAlign.center,
-                  style: titleStyle.copyWith(color: backgroundColor),
+                  style: Theme.of(context).textTheme.displayMedium,
                 ),
               )),
           Positioned(
-            top: 70,
+            top: 100,
             child: Container(
               height: MediaQuery.of(context).size.height - 70,
               width: MediaQuery.of(context).size.width,
               padding: const EdgeInsets.all(10.0),
-              decoration: const BoxDecoration(
-                color: backgroundColor,
-                borderRadius: BorderRadius.vertical(top: Radius.circular(30.0)),
+              decoration: BoxDecoration(
+                color: Theme.of(context).colorScheme.background,
+                borderRadius:
+                    const BorderRadius.vertical(top: Radius.circular(30.0)),
               ),
               child: FadeIn(
                 duration: const Duration(milliseconds: 1000),
-                child: SingleChildScrollView(
-                  padding: const EdgeInsets.all(10.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const SizedBox(height: 10.0),
-                      FadeInLeft(
-                        duration: const Duration(seconds: 1),
-                        child: myTextfield(
-                          controller: _provinsiController,
-                          label: "Provinsi",
-                          hintText: 'Provinsi',
-                          icon: Icons.local_attraction_outlined,
-                          type: TextInputType.text,
-                        ),
+                child: ListView(
+                  padding: const EdgeInsets.fromLTRB(10.0, 0, 10, 10),
+                  children: [
+                    const SizedBox(height: 10.0),
+                    FadeInLeft(
+                      duration: const Duration(seconds: 1),
+                      child: myTextfield(
+                        context,
+                        controller: _provinsiController,
+                        label: "Provinsi",
+                        icon: Icons.local_attraction_outlined,
+                        type: TextInputType.text,
                       ),
-                      FadeInRight(
-                        duration: const Duration(seconds: 1),
-                        child: myTextfield(
-                          controller: _kotaController,
-                          label: "Kota",
-                          hintText: 'Kota',
-                          icon: Icons.location_city_rounded,
-                          type: TextInputType.text,
-                        ),
+                    ),
+                    FadeInRight(
+                      duration: const Duration(seconds: 1),
+                      child: myTextfield(
+                        context,
+                        controller: _kotaController,
+                        label: "Kota",
+                        icon: Icons.location_city_rounded,
+                        type: TextInputType.text,
                       ),
-                      FadeInLeft(
-                        duration: const Duration(seconds: 1),
-                        child: myTextfield(
-                          controller: _kecamatanController,
-                          label: "Kecamatan",
-                          hintText: 'Kecamatan',
-                          icon: Icons.location_on_outlined,
-                          type: TextInputType.text,
-                        ),
+                    ),
+                    FadeInLeft(
+                      duration: const Duration(seconds: 1),
+                      child: myTextfield(
+                        context,
+                        controller: _kecamatanController,
+                        label: "Kecamatan",
+                        icon: Icons.location_on_outlined,
+                        type: TextInputType.text,
                       ),
-                      FadeInRight(
-                        duration: const Duration(seconds: 1),
-                        child: myTextfield(
-                          label: "Kode Pos",
-                          controller: _postController,
-                          hintText: 'Kode Pos',
-                          icon: Icons.code,
-                          type: TextInputType.number,
-                        ),
+                    ),
+                    FadeInRight(
+                      duration: const Duration(seconds: 1),
+                      child: myTextfield(
+                        context,
+                        label: "Kode Pos",
+                        controller: _postController,
+                        icon: Icons.code,
+                        type: TextInputType.number,
                       ),
-                      FadeInLeft(
-                        duration: const Duration(seconds: 1),
-                        child: myTextfield(
-                          label: "Detail Alamat",
-                          controller: _detailController,
-                          hintText: 'Detail Alamat',
-                          icon: Icons.home_work_outlined,
-                          type: TextInputType.streetAddress,
-                        ),
+                    ),
+                    FadeInLeft(
+                      duration: const Duration(seconds: 1),
+                      child: myTextfield(
+                        context,
+                        label: "Detail Alamat",
+                        controller: _detailController,
+                        icon: Icons.home_work_outlined,
+                        type: TextInputType.streetAddress,
                       ),
-                      const SizedBox(height: 20.0),
-                      const Text("Marked on the map"),
-                      const SizedBox(height: 10.0),
-                      SizedBox(
-                        height: 150,
-                        width: MediaQuery.of(context).size.width,
-                        child: GoogleMap(
-                          myLocationEnabled: true,
-                          mapType: MapType.normal,
-                          compassEnabled: true,
-                          initialCameraPosition: CameraPosition(
-                              target: widget.user.address!.geo.lat == null
-                                  ? const LatLng(-6.200000, 106.816666)
-                                  : _markers.values
-                                      .map((e) => e.position)
-                                      .first,
-                              zoom: 14),
-                          onMapCreated: _onMapCreated,
-                          markers: _markers.values.toSet(),
-                          onTap: (argument) {
-                            final marker = Marker(
-                              markerId: const MarkerId("1"),
-                              position: argument,
-                              infoWindow: InfoWindow(
-                                title: key,
-                              ),
-                            );
+                    ),
+                    const SizedBox(height: 20.0),
+                    const Text("Marked on the map"),
+                    const SizedBox(height: 10.0),
+                    SizedBox(
+                      height: 150,
+                      width: MediaQuery.of(context).size.width,
+                      child: GoogleMap(
+                        myLocationEnabled: true,
+                        mapType: MapType.normal,
+                        compassEnabled: true,
+                        initialCameraPosition: CameraPosition(
+                            target: widget.user.address!.geo.lat == null
+                                ? const LatLng(-6.200000, 106.816666)
+                                : _markers.values.map((e) => e.position).first,
+                            zoom: 14),
+                        onMapCreated: _onMapCreated,
+                        markers: _markers.values.toSet(),
+                        onTap: (argument) {
+                          final marker = Marker(
+                            markerId: const MarkerId("1"),
+                            position: argument,
+                            infoWindow: InfoWindow(
+                              title: key,
+                            ),
+                          );
 
-                            setState(() {
-                              _markers[key] = marker;
-                            });
-                          },
-                        ),
+                          setState(() {
+                            _markers[key] = marker;
+                          });
+                        },
                       ),
-                      const SizedBox(height: 20.0),
-                    ],
-                  ),
+                    ),
+                    const SizedBox(height: 10.0),
+                    BlocListener<UserBloc, UserState>(
+                      listener: (context, state) {
+                        EasyLoading.dismiss();
+                        switch (state) {
+                          case UserLoading():
+                            EasyLoading.show(status: "Saving...");
+                          case UserLoaded():
+                            EasyLoading.showSuccess("Saved");
+                          case UserError():
+                            EasyLoading.showError(state.message.toTitleCase(),
+                                duration: const Duration(seconds: 3));
+                            Future.delayed(
+                                const Duration(seconds: 3),
+                                () => context
+                                    .read<UserBloc>()
+                                    .add(const FetchCurrentUser()));
+                          default:
+                        }
+                      },
+                      child: myButton(context, onPressed: () {
+                        if (_provinsiController.text.isNotEmpty ||
+                            _kotaController.text.isNotEmpty ||
+                            _kecamatanController.text.isNotEmpty ||
+                            _detailController.text.isNotEmpty) {
+                          context.read<UserBloc>().add(
+                                ChangeAddressEvent(
+                                  address: Address(
+                                    detailAddress: _detailController.text,
+                                    provinsi: _provinsiController.text,
+                                    kota: _kotaController.text,
+                                    kecamatan: _kecamatanController.text,
+                                    postalCode: int.parse(_postController.text),
+                                    geo: Geo(
+                                      lat: _markers.values
+                                          .map((e) => e.position.latitude)
+                                          .first,
+                                      long: _markers.values
+                                          .map((e) => e.position.longitude)
+                                          .first,
+                                    ),
+                                  ),
+                                ),
+                              );
+                        }
+                      }, text: "Save"),
+                    ),
+                    const SizedBox(height: 10.0),
+                  ],
                 ),
               ),
             ),
           ),
         ],
-      ),
-      bottomNavigationBar: BlocListener<UserBloc, UserState>(
-        listener: (context, state) {
-          switch (state) {
-            case UserLoading():
-              EasyLoading.show(status: "Saving...");
-            case UserLoaded():
-              EasyLoading.showSuccess("Saved");
-            case UserError():
-              EasyLoading.showError(state.message.toTitleCase(),
-                  duration: const Duration(seconds: 3));
-              Future.delayed(const Duration(seconds: 3),
-                  () => context.read<UserBloc>().add(const FetchCurrentUser()));
-            default:
-          }
-        },
-        child: TextButton(
-          onPressed: () {
-            if (_provinsiController.text.isNotEmpty ||
-                _kotaController.text.isNotEmpty ||
-                _kecamatanController.text.isNotEmpty ||
-                _detailController.text.isNotEmpty) {
-              context.read<UserBloc>().add(
-                    ChangeAddressEvent(
-                      address: Address(
-                        detailAddress: _detailController.text,
-                        provinsi: _provinsiController.text,
-                        kota: _kotaController.text,
-                        kecamatan: _kecamatanController.text,
-                        postalCode: int.parse(_postController.text),
-                        geo: Geo(
-                          lat: _markers.values
-                              .map((e) => e.position.latitude)
-                              .first,
-                          long: _markers.values
-                              .map((e) => e.position.longitude)
-                              .first,
-                        ),
-                      ),
-                    ),
-                  );
-            }
-          },
-          child: const Text("Save"),
-        ),
       ),
     );
   }
