@@ -1,6 +1,7 @@
 import 'package:animated_bottom_navigation_bar/animated_bottom_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:vegan/core/styles.dart';
 import 'package:vegan/presentation/bloc/user_bloc/user_bloc.dart';
 import 'package:vegan/presentation/pages/Home/home_page.dart';
@@ -33,6 +34,13 @@ class _RootScreenState extends State<RootScreen> {
     const ProfilePage(),
   ];
 
+  Future<void> getPermission() async {
+    var permission = await Permission.location.status;
+    if (permission == PermissionStatus.denied) {
+      permission = await Permission.location.request();
+    }
+  }
+
   @override
   void initState() {
     Future.microtask(() {
@@ -41,6 +49,7 @@ class _RootScreenState extends State<RootScreen> {
             .add(const FetchCurrentUser()),
         BlocProvider.of<ProductBloc>(context, listen: false)
             .add(const FetchAllProduct()),
+        getPermission(),
       ];
     });
     super.initState();

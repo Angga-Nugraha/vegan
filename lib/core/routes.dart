@@ -7,7 +7,10 @@ PageRouteBuilder customRoute(BuildContext context, {required Widget page}) {
   return PageRouteBuilder(
     pageBuilder: (context, animation, secondaryAnimation) => page,
     transitionsBuilder: (context, animation, secondaryAnimation, child) {
-      return FadeInLeft(child: child);
+      return FadeInLeft(
+        duration: const Duration(milliseconds: 500),
+        child: child,
+      );
     },
   );
 }
@@ -19,3 +22,5 @@ const userInfoRoutes = './user_info';
 const changePassRoutes = './change_pass';
 const shippingAddressRoutes = './address';
 const detailProductRoutes = './detail_product';
+const searchPageRoutes = './search_page';
+const productViewRoutes = './product_view';

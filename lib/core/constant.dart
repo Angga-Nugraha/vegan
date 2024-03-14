@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rxdart/rxdart.dart';
 
 const baseUrl = "http://10.0.2.2:3000";
+// const baseUrl = "http://localhost:3000";
 
 extension StringCasingExtension on String {
   String toCapitalized() =>
@@ -26,6 +27,6 @@ List<String> category = [
   'Kacang',
 ];
 
-EventTransformer<T> delay<T>(Duration duration) {
-  return (events, mapper) => events.interval(duration).flatMap(mapper);
+EventTransformer<T> debounce<T>(Duration duration) {
+  return (events, mapper) => events.debounceTime(duration).flatMap(mapper);
 }

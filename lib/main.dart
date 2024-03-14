@@ -6,7 +6,9 @@ import 'package:vegan/domain/entities/product.dart';
 import 'package:vegan/presentation/bloc/product_bloc/product_bloc.dart';
 import 'package:vegan/presentation/bloc/upload_bloc/upload_bloc.dart';
 import 'package:vegan/presentation/bloc/user_bloc/user_bloc.dart';
+import 'package:vegan/presentation/pages/Product/all_product_view.dart';
 import 'package:vegan/presentation/pages/Product/detail_product.dart';
+import 'package:vegan/presentation/pages/Product/search_product.dart';
 import 'package:vegan/presentation/pages/Profile/widget/change_password.dart';
 import 'package:vegan/presentation/pages/Profile/widget/shipping_address.dart';
 import 'package:vegan/presentation/pages/Profile/widget/user_information.dart';
@@ -22,10 +24,11 @@ import 'presentation/pages/Auth/widgets/login_page.dart';
 import 'presentation/pages/Auth/widgets/register_page.dart';
 import 'presentation/pages/splash_screen.dart';
 
-void main() {
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   di.init();
+
   runApp(const MyApp());
 }
 
@@ -44,12 +47,13 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (context) => di.locator<ProductBloc>()),
         BlocProvider(create: (context) => di.locator<UserBloc>()),
         BlocProvider(create: (context) => di.locator<UploadBloc>()),
+        BlocProvider(create: (context) => di.locator<SearchBloc>()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Vegan',
         themeMode: ThemeMode.system,
-        theme: darkTheme,
+        theme: lightTheme,
         darkTheme: darkTheme,
         initialRoute: splashScreenRoute,
         navigatorObservers: [routeObserver],
@@ -73,10 +77,21 @@ class MyApp extends StatelessWidget {
               Product product = settings.arguments as Product;
               return customRoute(context,
                   page: DetailProduct(product: product));
+            case productViewRoutes:
+              String category = settings.arguments as String;
+              return customRoute(
+                context,
+                page: ProductView(category: category),
+              );
             case changePassRoutes:
               return customRoute(
                 context,
                 page: const ChangePassword(),
+              );
+            case searchPageRoutes:
+              return customRoute(
+                context,
+                page: SearchProductPage(),
               );
             case homePageRoute:
               return customRoute(

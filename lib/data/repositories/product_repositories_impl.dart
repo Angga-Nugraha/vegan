@@ -34,4 +34,17 @@ class ProductRepositoryImpl implements ProductRepository {
       return Left(CommonFailure(e.toString()));
     }
   }
+
+  @override
+  Future<Either<Failure, List<Product>>> search(String query) async {
+    try {
+      final result = await productRemoteDatasource.search(query);
+
+      return Right(result.map((e) => e.toEntity()).toList());
+    } on ServerException catch (e) {
+      return Left(ServerFailure(e.message));
+    } catch (e) {
+      return Left(CommonFailure(e.toString()));
+    }
+  }
 }

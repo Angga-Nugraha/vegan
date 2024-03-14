@@ -39,7 +39,7 @@ class ProfilePage extends StatelessWidget {
             Container(
               height: MediaQuery.of(context).size.height,
               width: MediaQuery.of(context).size.width,
-              padding: const EdgeInsets.only(top: 30.0),
+              padding: const EdgeInsets.only(top: 50.0),
               color: Theme.of(context).colorScheme.primary,
               child: Text(
                 'Profile',
@@ -48,7 +48,7 @@ class ProfilePage extends StatelessWidget {
               ),
             ),
             Positioned(
-              top: 80,
+              top: 100,
               child: Container(
                 height: MediaQuery.of(context).size.height,
                 width: MediaQuery.of(context).size.width,
@@ -59,7 +59,6 @@ class ProfilePage extends StatelessWidget {
                       const BorderRadius.vertical(top: Radius.circular(30.0)),
                 ),
                 child: ListView(
-                  padding: const EdgeInsets.only(bottom: 50.0),
                   physics: const ClampingScrollPhysics(),
                   children: [
                     SizedBox(
@@ -78,6 +77,7 @@ class ProfilePage extends StatelessWidget {
                       ),
                     ),
                     const Divider(),
+                    const SizedBox(height: 20),
                     FadeInLeft(
                       duration: const Duration(milliseconds: 500),
                       child: _buildSubMenu(
@@ -88,6 +88,7 @@ class ProfilePage extends StatelessWidget {
                           icon: Icons.person,
                           title: 'Acount Information'),
                     ),
+                    const SizedBox(height: 10),
                     FadeInRight(
                       duration: const Duration(milliseconds: 500),
                       child: _buildSubMenu(
@@ -98,6 +99,7 @@ class ProfilePage extends StatelessWidget {
                           icon: Icons.location_city_rounded,
                           title: 'Shipping Address'),
                     ),
+                    const SizedBox(height: 10),
                     FadeInLeft(
                       duration: const Duration(milliseconds: 500),
                       child: _buildSubMenu(
@@ -105,6 +107,7 @@ class ProfilePage extends StatelessWidget {
                           icon: Icons.payment_outlined,
                           title: 'Payment Method'),
                     ),
+                    const SizedBox(height: 10),
                     FadeInRight(
                       duration: const Duration(milliseconds: 500),
                       child: _buildSubMenu(
@@ -114,6 +117,7 @@ class ProfilePage extends StatelessWidget {
                           icon: Icons.lock_outlined,
                           title: 'Changed Password'),
                     ),
+                    const SizedBox(height: 10),
                     FadeInLeft(
                       duration: const Duration(milliseconds: 500),
                       child: _buildSubMenu(

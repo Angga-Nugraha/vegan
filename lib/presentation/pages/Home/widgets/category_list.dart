@@ -1,5 +1,6 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
+import 'package:vegan/core/routes.dart';
 
 import '../../../../core/constant.dart';
 
@@ -12,38 +13,40 @@ class ListCategory extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
         alignment: Alignment.center,
-        height: 100,
+        height: 80,
         child: ListView.builder(
           scrollDirection: Axis.horizontal,
           physics: const ClampingScrollPhysics(),
-          padding: EdgeInsets.zero,
+          shrinkWrap: true,
           itemBuilder: (context, index) {
-            return Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8),
-              child: Column(
-                children: [
-                  FadeIn(
-                    duration: const Duration(seconds: 1),
-                    child: Container(
-                      margin: const EdgeInsets.symmetric(horizontal: 10.0),
-                      height: 50,
-                      width: 50,
-                      decoration: BoxDecoration(
-                        image: DecorationImage(
-                          image:
-                              AssetImage('assets/img/${category[index]}.png'),
+            return FadeIn(
+              duration: const Duration(seconds: 1),
+              child: GestureDetector(
+                onTap: () {
+                  Navigator.pushNamed(context, productViewRoutes,
+                      arguments: category[index]);
+                },
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                  child: Column(
+                    children: [
+                      Container(
+                        height: 50,
+                        width: 50,
+                        decoration: BoxDecoration(
+                          image: DecorationImage(
+                            image:
+                                AssetImage('assets/img/${category[index]}.png'),
+                          ),
                         ),
                       ),
-                    ),
+                      Text(
+                        category[index],
+                        style: Theme.of(context).textTheme.bodyMedium,
+                      )
+                    ],
                   ),
-                  FadeIn(
-                    duration: const Duration(seconds: 1),
-                    child: Text(
-                      category[index],
-                      style: Theme.of(context).textTheme.bodyMedium,
-                    ),
-                  )
-                ],
+                ),
               ),
             );
           },

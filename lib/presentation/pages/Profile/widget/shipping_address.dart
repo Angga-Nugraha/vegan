@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:permission_handler/permission_handler.dart';
 import 'package:vegan/core/constant.dart';
 import 'package:vegan/core/styles.dart';
 import 'package:vegan/domain/entities/user.dart';
@@ -35,13 +34,6 @@ class _UserInfoState extends State<ShippingAddress> {
     mapController = controller;
   }
 
-  Future<void> getPermission() async {
-    var permission = await Permission.location.status;
-    if (permission == PermissionStatus.denied) {
-      permission = await Permission.location.request();
-    }
-  }
-
   @override
   void dispose() {
     mapController.dispose();
@@ -55,7 +47,6 @@ class _UserInfoState extends State<ShippingAddress> {
 
   @override
   void initState() {
-    Future.microtask(() => getPermission());
     _detailController = TextEditingController(
         text: widget.user.address!.detailAddress?.toTitleCase() ?? "");
     _provinsiController = TextEditingController(
@@ -89,7 +80,7 @@ class _UserInfoState extends State<ShippingAddress> {
           Container(
               height: MediaQuery.of(context).size.height,
               width: MediaQuery.of(context).size.width,
-              padding: const EdgeInsets.only(top: 25.0),
+              padding: const EdgeInsets.only(top: 30.0),
               color: Theme.of(context).colorScheme.primary,
               child: ListTile(
                 minVerticalPadding: 10.0,
@@ -120,12 +111,11 @@ class _UserInfoState extends State<ShippingAddress> {
                 borderRadius:
                     const BorderRadius.vertical(top: Radius.circular(30.0)),
               ),
-              child: FadeIn(
-                duration: const Duration(milliseconds: 1000),
+              child: Center(
                 child: ListView(
+                  shrinkWrap: true,
                   padding: const EdgeInsets.fromLTRB(10.0, 0, 10, 10),
                   children: [
-                    const SizedBox(height: 10.0),
                     FadeInLeft(
                       duration: const Duration(seconds: 1),
                       child: myTextfield(
@@ -136,6 +126,7 @@ class _UserInfoState extends State<ShippingAddress> {
                         type: TextInputType.text,
                       ),
                     ),
+                    const SizedBox(height: 20),
                     FadeInRight(
                       duration: const Duration(seconds: 1),
                       child: myTextfield(
@@ -146,6 +137,7 @@ class _UserInfoState extends State<ShippingAddress> {
                         type: TextInputType.text,
                       ),
                     ),
+                    const SizedBox(height: 20),
                     FadeInLeft(
                       duration: const Duration(seconds: 1),
                       child: myTextfield(
@@ -156,6 +148,7 @@ class _UserInfoState extends State<ShippingAddress> {
                         type: TextInputType.text,
                       ),
                     ),
+                    const SizedBox(height: 20),
                     FadeInRight(
                       duration: const Duration(seconds: 1),
                       child: myTextfield(
@@ -166,6 +159,7 @@ class _UserInfoState extends State<ShippingAddress> {
                         type: TextInputType.number,
                       ),
                     ),
+                    const SizedBox(height: 20),
                     FadeInLeft(
                       duration: const Duration(seconds: 1),
                       child: myTextfield(
@@ -180,35 +174,39 @@ class _UserInfoState extends State<ShippingAddress> {
                     const Text("Marked on the map"),
                     const SizedBox(height: 10.0),
                     SizedBox(
-                      height: 150,
+                      height: 300,
                       width: MediaQuery.of(context).size.width,
-                      child: GoogleMap(
-                        myLocationEnabled: true,
-                        mapType: MapType.normal,
-                        compassEnabled: true,
-                        initialCameraPosition: CameraPosition(
-                            target: widget.user.address!.geo.lat == null
-                                ? const LatLng(-6.200000, 106.816666)
-                                : _markers.values.map((e) => e.position).first,
-                            zoom: 14),
-                        onMapCreated: _onMapCreated,
-                        markers: _markers.values.toSet(),
-                        onTap: (argument) {
-                          final marker = Marker(
-                            markerId: const MarkerId("1"),
-                            position: argument,
-                            infoWindow: InfoWindow(
-                              title: key,
-                            ),
-                          );
+                      child: FadeIn(
+                        child: GoogleMap(
+                          myLocationEnabled: true,
+                          mapType: MapType.normal,
+                          compassEnabled: true,
+                          initialCameraPosition: CameraPosition(
+                              target: widget.user.address!.geo.lat == null
+                                  ? const LatLng(-6.200000, 106.816666)
+                                  : _markers.values
+                                      .map((e) => e.position)
+                                      .first,
+                              zoom: 14),
+                          onMapCreated: _onMapCreated,
+                          markers: _markers.values.toSet(),
+                          onTap: (argument) {
+                            final marker = Marker(
+                              markerId: const MarkerId("1"),
+                              position: argument,
+                              infoWindow: InfoWindow(
+                                title: key,
+                              ),
+                            );
 
-                          setState(() {
-                            _markers[key] = marker;
-                          });
-                        },
+                            setState(() {
+                              _markers[key] = marker;
+                            });
+                          },
+                        ),
                       ),
                     ),
-                    const SizedBox(height: 10.0),
+                    const SizedBox(height: 30.0),
                     BlocListener<UserBloc, UserState>(
                       listener: (context, state) {
                         EasyLoading.dismiss();
@@ -228,32 +226,38 @@ class _UserInfoState extends State<ShippingAddress> {
                           default:
                         }
                       },
-                      child: myButton(context, onPressed: () {
-                        if (_provinsiController.text.isNotEmpty ||
-                            _kotaController.text.isNotEmpty ||
-                            _kecamatanController.text.isNotEmpty ||
-                            _detailController.text.isNotEmpty) {
-                          context.read<UserBloc>().add(
-                                ChangeAddressEvent(
-                                  address: Address(
-                                    detailAddress: _detailController.text,
-                                    provinsi: _provinsiController.text,
-                                    kota: _kotaController.text,
-                                    kecamatan: _kecamatanController.text,
-                                    postalCode: int.parse(_postController.text),
-                                    geo: Geo(
-                                      lat: _markers.values
-                                          .map((e) => e.position.latitude)
-                                          .first,
-                                      long: _markers.values
-                                          .map((e) => e.position.longitude)
-                                          .first,
+                      child: FadeIn(
+                        duration: const Duration(milliseconds: 500),
+                        child: UnconstrainedBox(
+                          child: myButton(context, onPressed: () {
+                            if (_provinsiController.text.isNotEmpty ||
+                                _kotaController.text.isNotEmpty ||
+                                _kecamatanController.text.isNotEmpty ||
+                                _detailController.text.isNotEmpty) {
+                              context.read<UserBloc>().add(
+                                    ChangeAddressEvent(
+                                      address: Address(
+                                        detailAddress: _detailController.text,
+                                        provinsi: _provinsiController.text,
+                                        kota: _kotaController.text,
+                                        kecamatan: _kecamatanController.text,
+                                        postalCode:
+                                            int.parse(_postController.text),
+                                        geo: Geo(
+                                          lat: _markers.values
+                                              .map((e) => e.position.latitude)
+                                              .first,
+                                          long: _markers.values
+                                              .map((e) => e.position.longitude)
+                                              .first,
+                                        ),
+                                      ),
                                     ),
-                                  ),
-                                ),
-                              );
-                        }
-                      }, text: "Save"),
+                                  );
+                            }
+                          }, text: "Save"),
+                        ),
+                      ),
                     ),
                     const SizedBox(height: 10.0),
                   ],

@@ -1,5 +1,4 @@
 import 'package:animate_do/animate_do.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -13,7 +12,7 @@ import 'package:vegan/presentation/pages/components/components_helper.dart';
 import '../../bloc/user_bloc/user_bloc.dart';
 import 'widgets/category_list.dart';
 import 'widgets/discount_card.dart';
-import '../Product/product_card.dart';
+import '../Product/product_list.dart';
 
 class MyHomePage extends StatelessWidget {
   const MyHomePage({super.key});
@@ -26,7 +25,7 @@ class MyHomePage extends StatelessWidget {
           return [
             SliverAppBar(
               pinned: true,
-              expandedHeight: 120,
+              expandedHeight: 150,
               floating: true,
               backgroundColor: Theme.of(context).colorScheme.primary,
               systemOverlayStyle: SystemUiOverlayStyle.light,
@@ -49,8 +48,8 @@ class MyHomePage extends StatelessWidget {
                       ),
                     ),
                     Positioned(
-                      top: 25,
-                      left: 10,
+                      top: 40,
+                      left: 20,
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -94,7 +93,7 @@ class MyHomePage extends StatelessWidget {
                                                   context, authPageRoutes);
                                             },
                                             child: Text(
-                                              "Try Login",
+                                              "OK",
                                               style: Theme.of(context)
                                                   .textTheme
                                                   .titleSmall,
@@ -127,7 +126,9 @@ class MyHomePage extends StatelessWidget {
                   ],
                 ),
                 title: GestureDetector(
-                  onTap: () {},
+                  onTap: () {
+                    Navigator.pushNamed(context, searchPageRoutes);
+                  },
                   child: Container(
                     height: 25,
                     width: MediaQuery.of(context).size.width - 120,
@@ -188,14 +189,19 @@ class MyHomePage extends StatelessWidget {
           child: ListView(
             padding: const EdgeInsets.all(10.0),
             physics: const BouncingScrollPhysics(),
-            // crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               const ListCategory(),
               const DiscountCard(),
-              _headers(context, title: 'Top Rated', onPressed: () {}),
-              const ProductListCardItem(category: "Top Rated"),
-              _headers(context, title: 'All Product', onPressed: () {}),
-              const ProductListCardItem(category: "All Product"),
+              _headers(context, title: 'Top Rated', onPressed: () {
+                Navigator.pushNamed(context, productViewRoutes,
+                    arguments: "Top Rated");
+              }),
+              const ProductList(category: "Top Rated"),
+              _headers(context, title: 'All Product', onPressed: () {
+                Navigator.pushNamed(context, productViewRoutes,
+                    arguments: "All Product");
+              }),
+              const ProductList(category: "All Product"),
             ],
           ),
         ),
@@ -204,28 +210,30 @@ class MyHomePage extends StatelessWidget {
   }
 
   Widget _headers(BuildContext context,
-      {String? title, VoidCallback? onPressed}) {
+      {String? title, Function()? onPressed}) {
     return ListTile(
       titleTextStyle: Theme.of(context).textTheme.titleMedium,
       title: Text(
         title ?? '',
       ),
-      trailing: RichText(
-        text: TextSpan(
-          children: [
-            WidgetSpan(
-                child: Text(
-              "View all ",
-              style: Theme.of(context).textTheme.titleSmall,
-            )),
-            const WidgetSpan(
-              child: Icon(
-                Icons.keyboard_arrow_right,
-                size: 20,
-              ),
-            )
-          ],
-          recognizer: TapGestureRecognizer()..onTap = () {},
+      trailing: GestureDetector(
+        onTap: onPressed,
+        child: RichText(
+          text: TextSpan(
+            children: [
+              WidgetSpan(
+                  child: Text(
+                "View all ",
+                style: Theme.of(context).textTheme.titleSmall,
+              )),
+              const WidgetSpan(
+                child: Icon(
+                  Icons.keyboard_arrow_right,
+                  size: 20,
+                ),
+              )
+            ],
+          ),
         ),
       ),
     );

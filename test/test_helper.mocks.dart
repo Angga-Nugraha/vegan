@@ -11,13 +11,13 @@ import 'package:dartz/dartz.dart' as _i3;
 import 'package:http/http.dart' as _i6;
 import 'package:mockito/mockito.dart' as _i1;
 import 'package:mockito/src/dummies.dart' as _i9;
+import 'package:vegan/core/failure.dart' as _i11;
 import 'package:vegan/data/datasource/auth_remote_datasource.dart' as _i15;
 import 'package:vegan/data/datasource/product_remote_datasource.dart' as _i18;
 import 'package:vegan/data/datasource/user_remote_datasource.dart' as _i7;
 import 'package:vegan/data/model/auth_model.dart' as _i4;
 import 'package:vegan/data/model/product_model.dart' as _i5;
 import 'package:vegan/data/model/user_model.dart' as _i2;
-import 'package:vegan/core/failure.dart' as _i11;
 import 'package:vegan/domain/entities/auth.dart' as _i14;
 import 'package:vegan/domain/entities/product.dart' as _i17;
 import 'package:vegan/domain/entities/user.dart' as _i12;
@@ -444,6 +444,25 @@ class MockProductRepository extends _i1.Mock implements _i16.ProductRepository {
           ),
         )),
       ) as _i8.Future<_i3.Either<_i11.Failure, _i17.Product>>);
+
+  @override
+  _i8.Future<_i3.Either<_i11.Failure, List<_i17.Product>>> search(
+          String? query) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #search,
+          [query],
+        ),
+        returnValue:
+            _i8.Future<_i3.Either<_i11.Failure, List<_i17.Product>>>.value(
+                _FakeEither_1<_i11.Failure, List<_i17.Product>>(
+          this,
+          Invocation.method(
+            #search,
+            [query],
+          ),
+        )),
+      ) as _i8.Future<_i3.Either<_i11.Failure, List<_i17.Product>>>);
 }
 
 /// A class which mocks [ProductRemoteDatasource].
@@ -480,6 +499,17 @@ class MockProductRemoteDatasource extends _i1.Mock
           ),
         )),
       ) as _i8.Future<_i5.ProductModel>);
+
+  @override
+  _i8.Future<List<_i5.ProductModel>> search(String? query) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #search,
+          [query],
+        ),
+        returnValue:
+            _i8.Future<List<_i5.ProductModel>>.value(<_i5.ProductModel>[]),
+      ) as _i8.Future<List<_i5.ProductModel>>);
 }
 
 /// A class which mocks [Client].

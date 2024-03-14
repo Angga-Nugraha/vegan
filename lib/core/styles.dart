@@ -38,7 +38,7 @@ const lightColorScheme = ColorScheme(
   error: Colors.red,
   onPrimary: kRichBlack,
   onSecondary: Colors.white,
-  onSurface: Colors.grey,
+  onSurface: Colors.white,
   onBackground: Colors.grey,
   onError: Colors.grey,
   brightness: Brightness.light,
@@ -56,9 +56,12 @@ ThemeData lightTheme = ThemeData(
         color: primaryColor,
         fontWeight: FontWeight.bold),
   ),
+  appBarTheme: const AppBarTheme(
+    backgroundColor: primaryColor,
+  ),
   elevatedButtonTheme: ElevatedButtonThemeData(
     style: ElevatedButton.styleFrom(
-      backgroundColor: primaryColor,
+      backgroundColor: secondaryColor,
       foregroundColor: backgroundColor,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(15),
@@ -129,7 +132,6 @@ ThemeData darkTheme = ThemeData(
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(15),
       ),
-      // disabledBackgroundColor: Colors.grey.shade300,
     ),
   ),
   textTheme: const TextTheme(

@@ -30,34 +30,34 @@ class _ChangePasswordState extends State<ChangePassword> {
       body: Stack(
         children: [
           Container(
-              height: MediaQuery.of(context).size.height,
-              width: MediaQuery.of(context).size.width,
-              padding: const EdgeInsets.only(top: 25.0),
-              color: Theme.of(context).colorScheme.primary,
-              child: ListTile(
-                minVerticalPadding: 10.0,
-                minLeadingWidth: 0,
-                leading: GestureDetector(
-                  onTap: () {
-                    Navigator.pop(context);
-                  },
-                  child: const Icon(
-                    Icons.arrow_back_ios,
-                    color: backgroundColor,
-                  ),
+            height: MediaQuery.of(context).size.height,
+            width: MediaQuery.of(context).size.width,
+            padding: const EdgeInsets.only(top: 30.0),
+            color: Theme.of(context).colorScheme.primary,
+            child: ListTile(
+              minVerticalPadding: 10.0,
+              minLeadingWidth: 0,
+              leading: GestureDetector(
+                onTap: () {
+                  Navigator.pop(context);
+                },
+                child: const Icon(
+                  Icons.arrow_back_ios,
+                  color: backgroundColor,
                 ),
-                title: Text(
-                  'Change Password',
-                  textAlign: TextAlign.center,
-                  style: Theme.of(context).textTheme.displayMedium,
-                ),
-              )),
+              ),
+              title: Text(
+                'Change Password',
+                textAlign: TextAlign.center,
+                style: Theme.of(context).textTheme.displayMedium,
+              ),
+            ),
+          ),
           Positioned(
             top: 100,
             child: Container(
               height: MediaQuery.of(context).size.height,
               width: MediaQuery.of(context).size.width,
-              padding: const EdgeInsets.all(10),
               decoration: BoxDecoration(
                 color: Theme.of(context).colorScheme.background,
                 borderRadius:
@@ -66,11 +66,9 @@ class _ChangePasswordState extends State<ChangePassword> {
               child: ListView(
                 padding: const EdgeInsets.all(20),
                 children: [
-                  SizedBox(
-                    height: 180,
-                    child: Lottie.asset(
-                      'assets/lottie/password.json',
-                    ),
+                  Lottie.asset(
+                    height: 200,
+                    'assets/lottie/password.json',
                   ),
                   const SizedBox(height: 20),
                   isMatch == true
@@ -82,7 +80,7 @@ class _ChangePasswordState extends State<ChangePassword> {
                               .bodySmall!
                               .copyWith(color: Colors.red),
                         ),
-                  const SizedBox(height: 10),
+                  const SizedBox(height: 20),
                   FadeInLeft(
                     duration: const Duration(milliseconds: 500),
                     child: myTextfield(
@@ -123,7 +121,7 @@ class _ChangePasswordState extends State<ChangePassword> {
                       type: TextInputType.visiblePassword,
                     ),
                   ),
-                  const SizedBox(height: 10),
+                  const SizedBox(height: 20),
                   FadeInLeft(
                     duration: const Duration(milliseconds: 500),
                     child: myTextfield(
@@ -135,7 +133,7 @@ class _ChangePasswordState extends State<ChangePassword> {
                       type: TextInputType.visiblePassword,
                     ),
                   ),
-                  const SizedBox(height: 20),
+                  const SizedBox(height: 30),
                   BlocListener<UserBloc, UserState>(
                     listener: (context, state) {
                       EasyLoading.dismiss();
@@ -165,19 +163,21 @@ class _ChangePasswordState extends State<ChangePassword> {
                       }
                     },
                     child: FadeIn(
-                      duration: const Duration(milliseconds: 1000),
-                      child: myButton(context, onPressed: () {
-                        if (_newPassController.text ==
-                            _confPassController.text) {
-                          context.read<UserBloc>().add(ChangePassEvent(
-                              currentPassword: _currentPassController.text,
-                              newPassword: _newPassController.text));
-                        } else {
-                          setState(() {
-                            isMatch = false;
-                          });
-                        }
-                      }, text: 'Save'),
+                      duration: const Duration(milliseconds: 500),
+                      child: UnconstrainedBox(
+                        child: myButton(context, onPressed: () {
+                          if (_newPassController.text ==
+                              _confPassController.text) {
+                            context.read<UserBloc>().add(ChangePassEvent(
+                                currentPassword: _currentPassController.text,
+                                newPassword: _newPassController.text));
+                          } else {
+                            setState(() {
+                              isMatch = false;
+                            });
+                          }
+                        }, text: 'Save'),
+                      ),
                     ),
                   ),
                 ],

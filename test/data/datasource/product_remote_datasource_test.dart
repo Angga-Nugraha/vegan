@@ -75,5 +75,29 @@ void main() {
         expect(result, throwsA(isA<ServerException>()));
       });
     });
+
+    group('Search Product', () {
+      String query = "sayur";
+      test('Should be get list product if searching request success', () async {
+        when(mockHttpClient
+            .get(Uri.parse('$baseUrl/api/product/search?query=$query'),
+                headers: {})).thenAnswer((_) async =>
+            http.Response(readJson('dummy_data/product.json'), 200));
+        final result = await productRemoteDatasourceImpl.search(query);
+
+        expect(result, equals([tProductModel]));
+      });
+
+      test('Should be ServerException if searching response status code 500',
+          () async {
+        when(mockHttpClient
+            .get(Uri.parse('$baseUrl/api/product/search?query=$query'),
+                headers: {})).thenAnswer((_) async =>
+            http.Response(readJson('dummy_data/response_failed.json'), 500));
+        final result = productRemoteDatasourceImpl.search(query);
+
+        expect(result, throwsA(isA<ServerException>()));
+      });
+    });
   });
 }

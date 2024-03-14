@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_swiper_view/flutter_swiper_view.dart';
 import 'package:vegan/core/constant.dart';
-import 'package:vegan/presentation/pages/Product/product_card.dart';
+import 'package:vegan/presentation/pages/Product/product_list.dart';
 
 import '../../../core/styles.dart';
 import '../../../domain/entities/product.dart';
@@ -21,7 +21,7 @@ class DetailProduct extends StatelessWidget {
         child: Stack(
           children: [
             SizedBox(
-              height: MediaQuery.of(context).size.width / 2,
+              height: MediaQuery.of(context).size.height / 3,
               child: Swiper(
                 outer: true,
                 itemCount: product.imageUrl.length,
@@ -50,10 +50,9 @@ class DetailProduct extends StatelessWidget {
             SizedBox(
               height: MediaQuery.of(context).size.height,
               child: DraggableScrollableSheet(
-                snap: true,
-                initialChildSize: 0.69,
-                maxChildSize: 0.96,
-                minChildSize: 0.69,
+                initialChildSize: 0.65,
+                maxChildSize: 0.8,
+                minChildSize: 0.65,
                 builder: (context, scrollController) {
                   return FadeInUp(
                     child: Container(
@@ -122,7 +121,7 @@ class DetailProduct extends StatelessWidget {
                                 style:
                                     Theme.of(context).textTheme.displaySmall),
                             const SizedBox(height: 10),
-                            const ProductListCardItem(category: "Top Product"),
+                            const ProductList(category: "Top Product"),
                           ],
                         ),
                       ),
@@ -132,6 +131,7 @@ class DetailProduct extends StatelessWidget {
               ),
             ),
             Container(
+              margin: const EdgeInsets.only(top: 30),
               padding: const EdgeInsets.symmetric(horizontal: 10.0),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -159,45 +159,43 @@ class DetailProduct extends StatelessWidget {
                 ],
               ),
             ),
-            Align(
+            Container(
+              padding: const EdgeInsets.all(10.0),
               alignment: Alignment.bottomCenter,
-              child: Container(
-                color: Theme.of(context).colorScheme.primary,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    ElevatedButton(
-                      onPressed: () {},
-                      child: SizedBox(
-                        width: MediaQuery.of(context).size.width / 3,
-                        child: const Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            Icon(Icons.shopping_cart_outlined),
-                            Text("Add to Cart"),
-                          ],
-                        ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  ElevatedButton(
+                    onPressed: () {},
+                    child: SizedBox(
+                      width: MediaQuery.of(context).size.width / 3,
+                      child: const Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          Icon(Icons.shopping_cart_outlined),
+                          Text("Add to Cart"),
+                        ],
                       ),
                     ),
-                    ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: backgroundColor,
-                        foregroundColor: primaryColor,
-                      ),
-                      onPressed: () {},
-                      child: SizedBox(
-                        width: MediaQuery.of(context).size.width / 3,
-                        child: const Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            Text("Checkout"),
-                            Icon(Icons.arrow_circle_right_outlined),
-                          ],
-                        ),
+                  ),
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: backgroundColor,
+                      foregroundColor: primaryColor,
+                    ),
+                    onPressed: () {},
+                    child: SizedBox(
+                      width: MediaQuery.of(context).size.width / 3,
+                      child: const Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          Text("Checkout"),
+                          Icon(Icons.arrow_circle_right_outlined),
+                        ],
                       ),
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             )
           ],

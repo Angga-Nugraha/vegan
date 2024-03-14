@@ -33,14 +33,13 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     return Center(
       child: ListView(
+        shrinkWrap: true,
         physics: const ClampingScrollPhysics(),
         padding: const EdgeInsets.symmetric(horizontal: 20),
         children: [
-          SizedBox(
-            height: 180,
-            child: Lottie.asset(
-              'assets/lottie/login.json',
-            ),
+          Lottie.asset(
+            height: 200,
+            'assets/lottie/login.json',
           ),
           const SizedBox(height: 50),
           FadeIn(
@@ -56,7 +55,7 @@ class _LoginPageState extends State<LoginPage> {
               ],
             ),
           ),
-          const SizedBox(height: 10),
+          const SizedBox(height: 20),
           FadeInLeft(
             duration: const Duration(seconds: 1),
             child: myTextfield(
@@ -144,8 +143,7 @@ class _LoginPageState extends State<LoginPage> {
             },
             child: FadeIn(
               duration: const Duration(seconds: 1),
-              child: SizedBox(
-                height: 40,
+              child: UnconstrainedBox(
                 child: myButton(context, onPressed: () {
                   final email = _emailController.text;
                   final password = _passwordController.text;

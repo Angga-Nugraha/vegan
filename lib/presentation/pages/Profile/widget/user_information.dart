@@ -50,7 +50,7 @@ class _UserInfoState extends State<UserInfo> {
           Container(
               height: MediaQuery.of(context).size.height,
               width: MediaQuery.of(context).size.width,
-              padding: const EdgeInsets.only(top: 25.0),
+              padding: const EdgeInsets.only(top: 30.0),
               color: Theme.of(context).colorScheme.primary,
               child: ListTile(
                 minVerticalPadding: 10.0,
@@ -81,9 +81,9 @@ class _UserInfoState extends State<UserInfo> {
                 borderRadius:
                     const BorderRadius.vertical(top: Radius.circular(30.0)),
               ),
-              child: FadeIn(
-                duration: const Duration(milliseconds: 1000),
+              child: Center(
                 child: ListView(
+                  shrinkWrap: true,
                   padding: const EdgeInsets.all(10.0),
                   children: [
                     const SizedBox(height: 10.0),
@@ -136,6 +136,7 @@ class _UserInfoState extends State<UserInfo> {
                         ),
                       ],
                     ),
+                    const SizedBox(height: 20),
                     BlocConsumer<UserBloc, UserState>(
                       listener: (context, state) {
                         EasyLoading.dismiss();
@@ -176,6 +177,7 @@ class _UserInfoState extends State<UserInfo> {
                         }
                         return Container(
                           padding: const EdgeInsets.all(8.0),
+                          height: 200,
                           child: Text(
                             address!.toTitleCase(),
                             textAlign: TextAlign.justify,
@@ -183,20 +185,22 @@ class _UserInfoState extends State<UserInfo> {
                         );
                       },
                     ),
-                    const SizedBox(height: 120),
+                    const SizedBox(height: 30),
                     FadeIn(
-                      duration: const Duration(milliseconds: 1000),
-                      child: myButton(context, onPressed: () {
-                        context.read<UserBloc>().add(
-                              UpdateUserEvent(
-                                user: User(
-                                  name: nameC.text,
-                                  email: emailC.text,
-                                  phone: phoneC.text,
+                      duration: const Duration(milliseconds: 500),
+                      child: UnconstrainedBox(
+                        child: myButton(context, onPressed: () {
+                          context.read<UserBloc>().add(
+                                UpdateUserEvent(
+                                  user: User(
+                                    name: nameC.text,
+                                    email: emailC.text,
+                                    phone: phoneC.text,
+                                  ),
                                 ),
-                              ),
-                            );
-                      }, text: 'Save'),
+                              );
+                        }, text: 'Save'),
+                      ),
                     ),
                   ],
                 ),
@@ -205,7 +209,6 @@ class _UserInfoState extends State<UserInfo> {
           ),
         ],
       ),
-      // bottomNavigationBar:
     );
   }
 }

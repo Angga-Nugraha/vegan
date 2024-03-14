@@ -10,6 +10,7 @@ import 'package:vegan/core/exception.dart';
 abstract class ProductRemoteDatasource {
   Future<List<ProductModel>> getAllProduct();
   Future<ProductModel> getProductDetail(String id);
+  Future<List<ProductModel>> search(String query);
 }
 
 class ProductRemoteDatasourceImpl implements ProductRemoteDatasource {
@@ -69,6 +70,24 @@ class ProductRemoteDatasourceImpl implements ProductRemoteDatasource {
       return ProductModel.fromJson(data["data"]);
     } else {
       throw ServerException(data['msg']);
+    }
+  }
+
+  @override
+  Future<List<ProductModel>> search(String query) async {
+    Map<String, String> headers = await getHeader();
+
+    final response = await client.get(
+        Uri.parse("$baseUrl/api/product/search?query=$query"),
+        headers: headers);
+
+    final Map<String, dynamic> data =
+        Map<String, dynamic>.from(json.decode(response.body));
+
+    if (response.statusCode == 200) {
+      return productModelFromJson(response.body);
+    } else {
+      throw ServerException(data["msg"]);
     }
   }
 }

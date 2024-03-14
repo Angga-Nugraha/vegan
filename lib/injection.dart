@@ -11,6 +11,7 @@ import 'package:vegan/domain/entities/upload.dart';
 import 'package:vegan/domain/repositories/product_repositories.dart';
 import 'package:vegan/domain/repositories/user_repository.dart';
 import 'package:vegan/domain/usecase/Product/get_product.dart';
+import 'package:vegan/domain/usecase/Product/search_product.dart';
 import 'package:vegan/domain/usecase/User/change_password.dart';
 import 'package:vegan/domain/usecase/User/get_current_user.dart';
 import 'package:vegan/domain/usecase/User/update_user.dart';
@@ -42,6 +43,9 @@ void init() {
   locator.registerFactory(
     () => ProductBloc(getAllProduct: locator()),
   );
+  locator.registerFactory(
+    () => SearchBloc(searchProduct: locator()),
+  );
 
   locator.registerFactory(
     () => UserBloc(
@@ -65,6 +69,8 @@ void init() {
   // product
   locator
       .registerLazySingleton(() => GetAllProduct(productRepository: locator()));
+  locator
+      .registerLazySingleton(() => SearchProduct(productRepository: locator()));
 
   // user
   locator

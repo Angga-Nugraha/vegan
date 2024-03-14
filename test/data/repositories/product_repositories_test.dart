@@ -38,5 +38,18 @@ void main() {
 
       expect(result, Right(tProduct));
     });
+
+    test("Should be return Right List of search result product", () async {
+      const query = "sayur";
+      when(mockProductRemoteDatasource.search(query))
+          .thenAnswer((_) async => [tProductModel]);
+
+      final result = await productRepositoryImpl.search(query);
+      verify(mockProductRemoteDatasource.search(query));
+
+      /* workaround to test List in Right. Issue: https://github.com/spebbe/dartz/issues/80 */
+      final resultList = result.getOrElse(() => []);
+      expect(resultList, [tProduct]);
+    });
   });
 }
